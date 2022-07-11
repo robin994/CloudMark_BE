@@ -1,14 +1,14 @@
 import mysql.connector
 import json
 
-class DBUtility: 
-    
+class DBUtility:
+
     @staticmethod
     def getLocalConnection():
         print("creo la connessione")
         with open('./back-end/API/DB/DbCredential.json') as f:
-         db = json.load(f) 
-         connessione=None      
+         db = json.load(f)
+         connessione=None
         try:
              # Connessione a MySQL
             connessione = mysql.connector.connect(
