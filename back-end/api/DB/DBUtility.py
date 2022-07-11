@@ -1,11 +1,12 @@
 import mysql.connector
 import json
+import logging
 
 class DBUtility:
 
     @staticmethod
     def getLocalConnection():
-        print("creo la connessione")
+        logging.info("creo la connessione")
         with open('./back-end/API/DB/DbCredential.json') as f:
          db = json.load(f)
          connessione=None
@@ -17,8 +18,8 @@ class DBUtility:
             user = db['user'],
             password = db['password'],
             database = db['database'])
-            print("connessione eseguita correttamente")
+            logging.info("connessione eseguita correttamente")
         except mysql.connector.Error as e:
-            print("Error reading data from MySQL table", e)
+            logging.error("Error reading data from MySQL table", e)
         return connessione
     
