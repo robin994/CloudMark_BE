@@ -1,7 +1,15 @@
 from Model.PresenceModel import PresenceModel
 from DB.DBUtility import DBUtility
 
-def getPresence():
+
+@staticmethod
+def getCPresenceByID(id: int):
+    connection = DBUtility.getLocalConnection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM presenza Where id_dipendente == %s", id)
+    return cursor.fetchone()
+
+def getAllPresence():
     conn = DBUtility.getLocalConnection()
     cursor = conn.cursor()
     cursor.execute("select * from presenza")
@@ -10,7 +18,7 @@ def getPresence():
 def addPresemce(presence: PresenceModel):
     conn = DBUtility.getLocalConnection()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO account(id_dipendente, data, tipo_presenza, id_commessa, ore) VALUES(%s, %s, %s, %s, %s); COMMIT;", (
+    cursor.execute("INSERT INTO presenza(id_dipendente, data, tipo_presenza, id_commessa, ore) VALUES(%s, %s, %s, %s, %s); COMMIT;", (
                                 presence['id'],
                                 presence['data'],
                                 presence['tipo_presenza'],
