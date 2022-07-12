@@ -12,7 +12,7 @@ class TipoPresenzaDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         lista = list() 
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute("select tp.nome_tipo_presenza, tp.percentuale_maggiorazione, tp.paga_oraria from tipo_presenza tp ")
+        cursore.execute("select tp.nome_tipo_presenza, tp.perc_maggiorazione_paga_oraria, tp.paga_oraria from tipo_presenza tp")
         records = cursore.fetchall()
         for row in records:
             tipoPresenza = TipoPresenza(nomeTipoPresenza=row[0], percentualeMaggiorazione=row[1], pagaOraria=row[2])
@@ -26,7 +26,7 @@ class TipoPresenzaDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         tipoPresenza = TipoPresenza()
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute(f"select tp.nome_tipo_presenza, tp.percentuale_maggiorazione, tp.paga_oraria from tipo_presenza tp where tp.nome_tipo_presenza = '{nomeTipoPresenza}'")
+        cursore.execute(f"select tp.nome_tipo_presenza, tp.perc_maggiorazione_paga_oraria, tp.paga_oraria from tipo_presenza tp where tp.nome_tipo_presenza = '{nomeTipoPresenza}'")
         record = cursore.fetchone()
         if(record is None):
             return tipoPresenza
@@ -40,7 +40,7 @@ class TipoPresenzaDao:
     def insertTipoPresenza(tipoPresenza: TipoPresenza):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute(f"Insert into tipo_presenza(nome_tipo_presenza,percentuale_maggiorazione,paga_oraria) values('{tipoPresenza.nomeTipoPresenza}','{tipoPresenza.percentualeMaggiorazione}','{tipoPresenza.pagaOraria}')")
+        cursore.execute(f"Insert into tipo_presenza(nome_tipo_presenza,perc_maggiorazione_paga_oraria,paga_oraria) values('{tipoPresenza.nomeTipoPresenza}','{tipoPresenza.percentualeMaggiorazione}','{tipoPresenza.pagaOraria}')")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -50,7 +50,7 @@ class TipoPresenzaDao:
     def updateTipoPresenza(tipoPresenza: TipoPresenza):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute(f"update tipo_presenza set percentuale_maggiorazione = '{tipoPresenza.percentualeMaggiorazione}',paga_oraria = '{tipoPresenza.pagaOraria}' where nome_tipo_presenza = '{tipoPresenza.nomeTipoPresenza}'")
+        cursore.execute(f"update tipo_presenza set perc_maggiorazione_paga_oraria = '{tipoPresenza.percentualeMaggiorazione}',paga_oraria = '{tipoPresenza.pagaOraria}' where nome_tipo_presenza = '{tipoPresenza.nomeTipoPresenza}'")
         connection.commit()
         if connection.is_connected():
             connection.close()

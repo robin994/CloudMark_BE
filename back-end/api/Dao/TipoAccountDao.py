@@ -2,8 +2,6 @@ from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.TipoAccount import TipoAccount
 from DB.DBUtility import DBUtility
-import mysql.connector
-import logging
 
 
 class TipoAccountDao:
@@ -12,7 +10,7 @@ class TipoAccountDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         lista = list()
         cursore: MySQLCursor = connection.cursor()
-        query = "select ta.nome_tipo_account, ta.funzione_profilo from tipo_account ta "
+        query = "select ta.nome_tipo_account, ta.lista_funzioni_del_profilo from tipo_account ta "
         cursore.execute(query)
         records = cursore.fetchall()
         for row in records:
@@ -28,7 +26,7 @@ class TipoAccountDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"select ta.nome_tipo_account, ta.funzione_profilo from tipo_account ta where ta.nome_tipo_account = '{nomeTipoAccount}'")
+            f"select ta.nome_tipo_account, ta.lista_funzioni_del_profilo from tipo_account ta where ta.nome_tipo_account = '{nomeTipoAccount}'")
         record = cursore.fetchone()
         if(record is None):
             tipoAccount = TipoAccount()
@@ -45,7 +43,7 @@ class TipoAccountDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"Insert into tipo_account(nome_tipo_account,funzione_profilo) values('{tipoAccount.nomeTipoAccount}','{tipoAccount.funzioneProfilo}')")
+            f"Insert into tipo_account(nome_tipo_account,lista_funzioni_del_profilo) values('{tipoAccount.nomeTipoAccount}','{tipoAccount.funzioneProfilo}')")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -56,7 +54,7 @@ class TipoAccountDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"update tipo_account set funzione_profilo = '{tipoAccount.funzioneProfilo}' where nome_tipo_account = '{tipoAccount.nomeTipoAccount}'")
+            f"update tipo_account set lista_funzioni_del_profilo = '{tipoAccount.funzioneProfilo}' where nome_tipo_account = '{tipoAccount.nomeTipoAccount}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
