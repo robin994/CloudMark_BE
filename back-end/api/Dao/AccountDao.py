@@ -21,7 +21,7 @@ class AccountDao:
     def createAccount(account:AccountModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO cliente(id_cliente, nome, p_iva, iban, indirizzo, telefono, email, pec, fax) VALUES(%s, %s, %s, %s, %s); COMMIT;", (
+        cursor.execute("INSERT INTO cliente(id_account, user, password, abilitato, tipo_acount) VALUES(%s, %s, %s, %s, %s); COMMIT;", (
                                 account['id'],
                                 account['user'],
                                 account['password'],
