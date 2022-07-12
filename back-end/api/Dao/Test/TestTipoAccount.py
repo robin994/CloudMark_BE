@@ -1,4 +1,3 @@
-import logging
 import sys,os
 sys.path.append(os.getcwd()+"/CLOUDMARK/back-end/api/Dao")
 sys.path.append(os.getcwd()+"/CLOUDMARK/back-end/api")
@@ -9,8 +8,9 @@ class TestTipoAccount:
    def main():
     print(TipoAccountDao.getAllTipoAccount())
     # print(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
-    # ta = TipoAccount(nomeTipoAccount = "prova", funzioneProfilo = "scacco")
+    # ta = TipoAccount(nomeTipoAccount = "prova", funzioneProfilo = "scaccomatto")
     # TipoAccountDao.insertTipoAccount(ta)
+    # TipoAccountDao.updateTipoAccount(ta)
     # TipoAccountDao.deleteTipoAccount("prova")
     
     print
