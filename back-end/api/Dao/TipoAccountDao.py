@@ -40,7 +40,7 @@ class TipoAccountDao:
             else:
                 tipoAccount = TipoAccount( nomeTipoAccount=record[0], funzioneProfilo=record[1])
             return tipoAccount
-        except mysql.connector.Error as e:
+        except mysql.connector.errors as e:
             logging.error("\nError reading data from MySQL table", e)
         finally:
             if connection.is_connected():
