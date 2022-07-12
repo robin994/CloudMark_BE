@@ -14,7 +14,7 @@ class CustomerDao:
     def getAllCustomers():
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM cliente""")
+        cursor.execute("SELECT * FROM cliente")
         return cursor.fetchall()
 
     @staticmethod  
