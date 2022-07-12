@@ -11,7 +11,7 @@
       "module": "test",
       "justMyCode": true,
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/back-end/api/dao;${workspaceFolder}/back-end/api;${workspaceFolder}/back-end/api/DB"
+        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
       }
     }
   ]
