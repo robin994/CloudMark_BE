@@ -24,16 +24,37 @@ class EmployeeDAO:
         return cursor.fetchone()
 
     @staticmethod
-    def createAccount(dipendente:EmployeeModel):
+    def createEmployee(employee:EmployeeModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
         cursor.execute("INSERT INTO dipendente(id_dipendente, nome, cognome, cf, iban, email, telefono,) VALUES(%s, %s, %s, %s, %s, %s, %s); COMMIT;", (
-                                dipendente['id'],
-                                dipendente['nome'],
-                                dipendente['cognome'],
-                                dipendente['cf'],
-                                dipendente['iban'],
-                                dipendente['email'],
-                                dipendente['telefono']
+                                employee['id'],
+                                employee['nome'],
+                                employee['cognome'],
+                                employee['cf'],
+                                employee['iban'],
+                                employee['email'],
+                                employee['telefono']
                         ))
         return cursor.fetchall()
+
+    @staticmethod
+    def updateEmployeeByID(employee:EmployeeModel):
+        connection = DBUtility.getLocalConnection()
+        cursor = connection.cursor()
+        cursor.execute("UPDATE dipendente SET nome = '%s', cognome ='%s', cf = '%s', iban ='%s' , email ='%s' , telefono ='%s' where id_dipendente = '%s'; COMMIT;", (
+                                employee['nome'],
+                                employee['cognome'],
+                                employee['cf'],
+                                employee['iban'],
+                                employee['email'],
+                                employee['telefono'],
+                        ))
+        return cursor.fetchall()    
+
+    @staticmethod
+    def deleteEmployeeByID(id):
+        connection = DBUtility.getLocalConnection()
+        cursor = connection.cursor()
+        cursor.execute("DELETE FROM dipendente WHERE id_dipendente =" + id)
+        return cursor.commit()
