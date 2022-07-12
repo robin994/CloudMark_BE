@@ -70,4 +70,4 @@ class TipoAccountDao:
             f"delete from tipo_account where nome_tipo_account = '{nomeTipoAccount}'")
         connection.commit()
         if connection.is_connected():
-            connection.close()
+           connection.close()
