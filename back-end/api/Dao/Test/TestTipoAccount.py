@@ -7,7 +7,7 @@ from TipoAccountDao import TipoAccountDao
 from Model.TipoAccount import TipoAccount
 class TestTipoAccount:
    def main():
-    # print(TipoAccountDao.getAllTipoAccount())
+    print(TipoAccountDao.getAllTipoAccount())
     # print(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
     # ta = TipoAccount(nomeTipoAccount = "prova", funzioneProfilo = "scacco")
     # TipoAccountDao.insertTipoAccount(ta)

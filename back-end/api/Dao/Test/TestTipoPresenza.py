@@ -7,7 +7,7 @@ from Model.TipoPresenza import TipoPresenza
 class TestTipoPresenza:
   def main():
     print(TipoPresenzaDao.getAllTipoPresenza())
-    # print(TipoPresenzaDao.getTipoPresenzabyNomeTipoPresenza("festivo"))
+    print(TipoPresenzaDao.getTipoPresenzabyNomeTipoPresenza("festivo"))
     # tipoPresenza = TipoPresenza(nomeTipoPresenza="aa", percentualeMaggiorazione= 30, pagaOraria= 10)
     # TipoPresenzaDao.insertTipoPresenza(tipoPresenza)
     # TipoPresenzaDao.updateTipoAccount(tipoPresenza)
