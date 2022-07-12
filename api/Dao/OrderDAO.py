@@ -1,11 +1,5 @@
-import logging
-import mysql.connector
-from mysql.connector.connection import MySQLConnection
-from mysql.connector.cursor import MySQLCursor
 from Model.OrderModel import OrderModel
-import sys
-sys.path.insert(0, 'back-end/api/DB')
-from DBUtility import DBUtility
+from DB.DBUtility import DBUtility
 
 class CommessaDAO:
 
