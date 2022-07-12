@@ -43,6 +43,7 @@ class EmployeeDAO:
                                 employee['iban'],
                                 employee['email'],
                                 employee['telefono'],
+                                employee['id']
                         ))
         return cursor.fetchall()    
 

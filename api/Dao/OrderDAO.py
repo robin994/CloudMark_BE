@@ -41,6 +41,7 @@ class CommessaDAO:
                                 order['id_azienda'],
                                 order['data_inzio'],
                                 order['data_fine'],
+                                order['id']
                         ))
         return cursor.fetchall()    
 
