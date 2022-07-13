@@ -1,0 +1,32 @@
+{
+    "getAllPresenza": {
+        "id_dipendente": "int",
+        "data": "date",
+        "tipo_presenza": "str",
+        "id_commessa": "int",
+        "ore": "int"
+    },
+    "getPresenzaByPrimaryKey": {
+        "id_dipendente": "int",
+        "data": "date",
+        "tipo_presenza": "str",
+        "id_commessa": "int",
+        "ore": "int"
+    },
+    "createPresenza": {
+        "data": "date",
+        "tipo_presenza": "str",
+        "id_commessa": "int",
+        "ore": "int"
+    },
+    "updatePresenza": {
+        "id_dipendente": "int",
+        "data": "date",
+        "tipo_presenza": "str",
+        "id_commessa": "int",
+        "ore": "int"
+    },
+    "deletePresenza": {
+        "id_presenza": "int"
+    }
+}

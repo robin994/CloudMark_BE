@@ -1,0 +1,20 @@
+{
+    "getAllTipoAccount": {
+        "nome_tipo_account": "str",
+        "lista_funzioni_del_profilo": "str"
+    },
+    "getTipoAccountByPrimaryKey": {
+        "nome_tipo_account": "str",
+        "lista_funzioni_del_profilo": "str"
+    },
+    "insertTipoAccount": {
+        "lista_funzioni_del_profilo": "str"
+    },
+    "updateTipoAccount": {
+        "nome_tipo_account": "str",
+        "lista_funzioni_del_profilo": "str"
+    },
+    "deleteTipoAccount": {
+        "nome_tipo_account": "str"
+    }
+}

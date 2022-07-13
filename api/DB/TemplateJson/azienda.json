@@ -1,0 +1,52 @@
+{
+    "getAllAzienda": {
+        "id_azienda": "int",
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "getAziendaByPrimaryKey": {
+        "id_azienda": "int",
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "insertAzienda": {
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "updateAziendaById": {
+        "id_azienda": "int",
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "deleteAzienda": {
+        "id_azienda": "int"
+    }
+}

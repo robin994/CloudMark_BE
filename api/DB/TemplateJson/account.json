@@ -1,0 +1,32 @@
+{
+    "getAllAccount": {
+        "id_account": "int",
+        "user": "str",
+        "password": "str",
+        "abilitato": "bool",
+        "tipo_account": "str"
+    },
+    "getAccountByPrimaryKey": {
+        "id_account": "int",
+        "user": "str",
+        "password": "str",
+        "abilitato": "bool",
+        "tipo_account": "str"
+    },
+    "createAccount": {
+        "user": "str",
+        "password": "str",
+        "abilitato": "bool",
+        "tipo_account": "str"
+    },
+    "updateAccount": {
+        "id_account": "int",
+        "user": "str",
+        "password": "str",
+        "abilitato": "bool",
+        "tipo_account": "str"
+    },
+    "deleteAccount": {
+        "id_account": "int"
+    }
+}
