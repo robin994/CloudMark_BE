@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: cloudmark
+-- Host: localhost    Database: cloudmark
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,13 +24,15 @@ DROP TABLE IF EXISTS `cliente`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cliente` (
   `id_cliente` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(90) NOT NULL,
-  `p.iva` varchar(11) NOT NULL,
+  `nome` varchar(90) DEFAULT NULL,
+  `p_iva` char(11) DEFAULT NULL,
   `indirizzo` varchar(90) DEFAULT NULL,
-  `cap` varchar(5) DEFAULT NULL,
-  `iban` varchar(27) DEFAULT NULL,
-  `telefono` varchar(20) DEFAULT NULL,
+  `cap` char(5) DEFAULT NULL,
+  `iban` char(27) DEFAULT NULL,
+  `telefono` varchar(15) DEFAULT NULL,
   `email` varchar(90) DEFAULT NULL,
+  `pec` varchar(90) DEFAULT NULL,
+  `fax` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`id_cliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-12 12:34:47
+-- Dump completed on 2022-07-13 11:08:38
