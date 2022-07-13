@@ -1,0 +1,36 @@
+{
+    "getAllCommessa": {
+        "id_commessa": "int",
+        "descrizione": "str",
+        "data_inizio": "date",
+        "data_fine": "date",
+        "id_azienda": "int",
+        "id_cliente": "int"
+    },
+    "getCommessaByPrimaryKey": {
+        "id_commessa": "int",
+        "descrizione": "str",
+        "data_inizio": "date",
+        "data_fine": "date",
+        "id_azienda": "int",
+        "id_cliente": "int"
+    },
+    "insertCommessa": {
+        "descrizione": "str",
+        "data_inizio": "date",
+        "data_fine": "date",
+        "id_azienda": "int",
+        "id_cliente": "int"
+    },
+    "updateCommessa": {
+        "id_commessa": "int",
+        "descrizione": "str",
+        "data_inizio": "date",
+        "data_fine": "date",
+        "id_azienda": "int",
+        "id_cliente": "int"
+    },
+    "deleteCommessa": {
+        "id_commessa": "int"
+    }
+}

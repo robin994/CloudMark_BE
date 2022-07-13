@@ -1,0 +1,24 @@
+{
+    "getAllTipoPresenza": {
+        "nome_tipo_presenza": "str",
+        "perc_maggiorazione_paga_oraria": "int",
+        "paga_oraria": "int"
+    },
+    "getTipoPresenzaByPrimaryKey": {
+        "nome_tipo_presenza": "str",
+        "perc_maggiorazione_paga_oraria": "int",
+        "paga_oraria": "int"
+    },
+    "insertTipoPresenza": {
+        "perc_maggiorazione_paga_oraria": "int",
+        "paga_oraria": "int"
+    },
+    "updateTipoPresenza": {
+        "nome_tipo_presenza": "str",
+        "perc_maggiorazione_paga_oraria": "int",
+        "paga_oraria": "int"
+    },
+    "deleteTipoPresenza": {
+        "nome_tipo_presenza": "str"
+    }
+}

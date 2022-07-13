@@ -1,0 +1,36 @@
+{
+    "getAllDipendente": {
+        "id_dipendente": "int",
+        "nome": "str",
+        "cognome": "str",
+        "cf": "str",
+        "email": "str",
+        "telefono": "str"
+    },
+    "getDipendenteByPrimaryKey": {
+        "id_dipendente": "int",
+        "nome": "str",
+        "cognome": "str",
+        "cf": "str",
+        "email": "str",
+        "telefono": "str"
+    },
+    "insertDipendente": {
+        "nome": "str",
+        "cognome": "str",
+        "cf": "str",
+        "email": "str",
+        "telefono": "str"
+    },
+    "updateDipendente": {
+        "id_dipendente": "int",
+        "nome": "str",
+        "cognome": "str",
+        "cf": "str",
+        "email": "str",
+        "telefono": "str"
+    },
+    "deleteDipendente": {
+        "id_dipendente": "int"
+    }
+}

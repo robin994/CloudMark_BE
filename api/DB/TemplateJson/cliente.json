@@ -1,0 +1,52 @@
+{
+    "getAllCliente": {
+        "id_cliente": "int",
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "getClienteByPrimaryKey": {
+        "id_cliente": "int",
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "insertCliente": {
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "updateClienteById": {
+        "id_cliente": "int",
+        "nome": "str",
+        "p_iva": "str",
+        "iban": "str",
+        "indirizzo": "str",
+        "telefono": "int",
+        "email": "str",
+        "cap": "str",
+        "pec": "str",
+        "fax": "str"
+    },
+    "deleteCliente": {
+        "id_cliente": "int"
+    }
+}
