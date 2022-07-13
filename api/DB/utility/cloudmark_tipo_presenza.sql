@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: cloudmark
+-- Host: localhost    Database: cloudmark
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,6 +25,7 @@ DROP TABLE IF EXISTS `tipo_presenza`;
 CREATE TABLE `tipo_presenza` (
   `nome_tipo_presenza` varchar(45) NOT NULL,
   `perc_maggiorazione_paga_oraria` int DEFAULT NULL,
+  `paga_oraria` int DEFAULT NULL,
   PRIMARY KEY (`nome_tipo_presenza`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -35,7 +36,7 @@ CREATE TABLE `tipo_presenza` (
 
 LOCK TABLES `tipo_presenza` WRITE;
 /*!40000 ALTER TABLE `tipo_presenza` DISABLE KEYS */;
-INSERT INTO `tipo_presenza` VALUES ('ASSENZA',0),('FESTIVO',30),('MALATTIA',0),('ORARIO STANDARD',0),('PERMESSO NON RETRIBUITO',0),('PERMESSO RETRIBUITO',0),('PRE FESTIVO',20),('STRAORDINARIO',15);
+INSERT INTO `tipo_presenza` VALUES ('aa',40,10),('ASSENZA',0,NULL),('FESTIVO',30,NULL),('MALATTIA',0,NULL),('ORARIO STANDARD',0,NULL),('PERMESSO NON RETRIBUITO',0,NULL),('PERMESSO RETRIBUITO',0,NULL),('PRE FESTIVO',20,NULL),('STRAORDINARIO',15,NULL);
 /*!40000 ALTER TABLE `tipo_presenza` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +49,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-12 12:34:49
+-- Dump completed on 2022-07-13 11:08:39
