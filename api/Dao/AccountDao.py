@@ -47,6 +47,5 @@ class AccountDao:
                                 account['abilitato'],
                                 account['tipo_acount'],
                                 account['id']
-
                         ))
         return cursor.fetchall()
