@@ -24,14 +24,16 @@ class BusinessDao:
     def addBusiness(business: BusinessModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO azienda(id_azienda, nome, p_iva, iban, indirizzo, telefono, email) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s); COMMIT;", (
-            business['id'],
+        cursor.execute("INSERT INTO azienda(nome, p_iva, iban, indirizzo, telefono, email,cap,pec,fax) VALUES(%s, %s, %s, %s, %s, %s, %s, %s,%s,%s,%s); COMMIT;", (
             business['name'],
             business['p_iva'],
             business['iban'],
             business['address'],
             business['phone'],
-            business['email']
+            business['email'],
+            business['cap'],
+            business['pec'],
+            business['fax']
         ))
         return cursor.fetchall()
 
@@ -40,7 +42,7 @@ class BusinessDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"update account set nome = '{business.name}',p.iva='{business.p_iva}',indirizzo='{business.address}',telefono='{business.phone}',email='{business.email}' where nome_tipo_account = '{business.id}'")
+            f"update account set nome = '{business.name}',p.iva='{business.p_iva}',indirizzo='{business.address}',cap='{business.cap}',iban='{business.iban}',telefono='{business.phone}',email='{business.email}',pec='{business.pec}',fax='{business.fax}' where nome_tipo_account = '{business.id}'")
         connection.commit()
         if connection.is_connected():
             connection.close()

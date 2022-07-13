@@ -8,3 +8,6 @@ class BusinessModel(BaseModel):
     address: str
     phone: str
     email: str
+    cap:str
+    pec:str
+    fax:str

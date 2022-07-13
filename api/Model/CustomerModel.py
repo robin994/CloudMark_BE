@@ -5,6 +5,7 @@ class CustomerModel(BaseModel):
     name = str
     p_iva: str
     iban: str
+    cap:str
     address: str
     phone: str
     email: str
