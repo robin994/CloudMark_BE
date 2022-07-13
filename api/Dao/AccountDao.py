@@ -34,7 +34,7 @@ class AccountDao:
     def deleteAccountByID(id):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("DELETE FROM account WHERE id_account =" + id)
+        cursor.execute("DELETE FROM account WHERE id_account =%s", id)
         return cursor.commit()
 
     @staticmethod
