@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: cloudmark
+-- Host: localhost    Database: cloudmark
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,7 +35,7 @@ CREATE TABLE `tipo_account` (
 
 LOCK TABLES `tipo_account` WRITE;
 /*!40000 ALTER TABLE `tipo_account` DISABLE KEYS */;
-INSERT INTO `tipo_account` VALUES ('administrator',''),('dipendente','');
+INSERT INTO `tipo_account` VALUES ('administrator','admin'),('dipendente','user'),('provaa2','ciaoo'),('provupdate','provaupdate');
 /*!40000 ALTER TABLE `tipo_account` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -48,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-12 12:34:48
+-- Dump completed on 2022-07-13 11:08:38
