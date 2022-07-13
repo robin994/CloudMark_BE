@@ -14,7 +14,7 @@ class EmployeeDAO:
     def getEmployeesByID(AccountID):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM dipendente Where id_dipendente == %s", id)
+        cursor.execute("SELECT * FROM dipendente Where id_dipendente = ", AccountID)
         return cursor.fetchone()
 
     @staticmethod
@@ -51,5 +51,33 @@ class EmployeeDAO:
     def deleteEmployeeByID(id):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("DELETE FROM dipendente WHERE id_dipendente =" + id)
+        cursor.execute("DELETE FROM dipendente WHERE id_dipendente =", id)
         return cursor.commit()
+
+    @staticmethod
+    def getEmployeeByNameSurname(nome:str, cognome:str):
+        connection = DBUtility.getLocalConnection()
+        cursor = connection.cursor()
+        cursor.execute("""SELECT * FROM dipendente D WHERE D.nome = %s and D.cognome = %s;""", (nome, cognome))
+        return cursor.fetchall()
+
+    @staticmethod
+    def getEmployeeBySurname(cognome:str):
+        connection = DBUtility.getLocalConnection()
+        cursor = connection.cursor()
+        cursor.execute("""SELECT * FROM dipendente D WHERE D.cognome = %s;""", (cognome, ))
+        return cursor.fetchall()
+
+    @staticmethod
+    def getEmployeeByCF(cf:str):
+        connection = DBUtility.getLocalConnection()
+        cursor = connection.cursor()
+        cursor.execute("""SELECT * FROM dipendente D WHERE D.cf = %s""", (cf, ))
+        return cursor.fetchone()
+
+    @staticmethod
+    def getEmployeeByMatricola(matricola:str):
+        connection = DBUtility.getLocalConnection()
+        cursor = connection.cursor()
+        cursor.execute("""SELECT * FROM dipendente D WHERE D.telefono = %s;""", (matricola, ))
+        return cursor.fetchone()
