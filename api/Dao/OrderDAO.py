@@ -62,7 +62,7 @@ class CommessaDAO:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"update commessa set descrizione = '{order.descrizione}',id_cliente = '{order.id_cliente}',id_azienda='{order.id_azienda}',data_inizio='{order.data_inizio}', data_fine='{order.data_fine}'where id_commessa = {order.id_order}")
+            f"update commessa set descrizione = '{order.descrizione}',id_cliente = '{order.id_cliente}',id_azienda='{order.id_azienda}',data_inizio='{order.data_inizio}', data_fine='{order.data_fine}' where id_commessa = {order.id_order}")
         connection.commit()
         if connection.is_connected():
             connection.close()

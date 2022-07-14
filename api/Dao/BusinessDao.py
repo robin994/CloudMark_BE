@@ -73,7 +73,7 @@ class BusinessDao:
     def updateBusinessById(business: BusinessModel):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE azienda SET nome = '{business.name}', p_iva ='{business.p_iva}', iban = '{business.iban}', indirizzo ='{business.address}' , cap ='{business.cap}', telefono ='{business.phone}', email ='{business.email}', pec ='{business.pec}' , fax ='{business.fax}' where id_azienda = '{business.id_business}';")
+        cursor.execute(f"UPDATE azienda SET nome = '{business.name}', p_iva ='{business.p_iva}', iban = '{business.iban}', indirizzo ='{business.address}' , cap ='{business.cap}', telefono ='{business.phone}', email ='{business.email}', pec ='{business.pec}' , fax ='{business.fax}' WHERE id_azienda = '{business.id_business}';")
         connection.commit()
         if connection.is_connected():
             connection.close()

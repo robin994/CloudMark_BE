@@ -69,7 +69,6 @@ class CustomerDao:
             connection.close()
         return customer
         
-
     @staticmethod
     def deleteCustomerByID(id_customer: int):
         connection : MySQLConnection = DBUtility.getLocalConnection()
@@ -83,7 +82,7 @@ class CustomerDao:
     def updateCustomerByID(customer:CustomerModel):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE cliente SET nome = '{customer.name}', p_iva ='{customer.p_iva}', iban = '{customer.iban}', indirizzo ='{customer.address}' , cap ='{customer.cap}', telefono ='{customer.phone}', email ='{customer.email}', pec ='{customer.pec}' , fax ='{customer.fax}' where id_cliente = '{customer.id_customer}';")
+        cursor.execute(f"UPDATE cliente SET nome = '{customer.name}', p_iva ='{customer.p_iva}', iban = '{customer.iban}', indirizzo ='{customer.address}' , cap ='{customer.cap}', telefono ='{customer.phone}', email ='{customer.email}', pec ='{customer.pec}' , fax ='{customer.fax}' WHERE id_cliente = '{customer.id_customer}';")
         connection.commit()
         if connection.is_connected():
             connection.close()

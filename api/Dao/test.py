@@ -8,6 +8,8 @@ from EmployeeDAO import EmployeeDAO
 from Model.EmployeeModel import EmployeeModel
 from OrderDAO import CommessaDAO
 from Model.OrderModel import OrderModel
+from PresenceDao import PresenceDao
+from Model.PresenceModel import PresenceModel
 # from TipoAccountDao import TipoAccountDao
 # from TipoPresenzaDao import TipoPresenzaDao
 # from Model.TipoAccount import TipoAccount
@@ -46,15 +48,23 @@ class test:
     # logging.warning(EmployeeDAO.deleteEmployeeByID(2))
     
     ###### TEST OrderDAO ######
-    logging.warning(CommessaDAO.getAllOrders())
-    logging.warning(CommessaDAO.getOrderByID(1))
-    orderCreate = OrderModel(descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2022-01-03")
-    logging.warning(CommessaDAO.createOrder(orderCreate))
-    orderUpdate = OrderModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
-    logging.warning(CommessaDAO.updateOrderById(orderUpdate))
-    logging.warning(CommessaDAO.deleteOrderByID(2))
+    # logging.warning(CommessaDAO.getAllOrders())
+    # logging.warning(CommessaDAO.getOrderByID(1))
+    # orderCreate = OrderModel(descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2022-01-03")
+    # logging.warning(CommessaDAO.createOrder(orderCreate))
+    # orderUpdate = OrderModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
+    # logging.warning(CommessaDAO.updateOrderById(orderUpdate))
+    # logging.warning(CommessaDAO.deleteOrderByID(2))
 
-    
+    ###### TEST PresenceDAO ######     
+    logging.warning(PresenceDao.getAllPresence())
+    logging.warning(PresenceDao.getPresenceByPrimaryKey(1, '2022-01-01', 'festivo'))
+    presenceCreate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='assenza', id_order=1, hours=8)
+    logging.warning(PresenceDao.createPresence(presenceCreate))
+    presenceUpdate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='malattia', id_order=1, hours=8)
+    logging.warning(PresenceDao.updatePresenceByIDandDate(presenceUpdate))
+    logging.warning(PresenceDao.deletePresenceByPK(1, '2022-01-02', 'malattia'))
+
     # ######  TESTING tipo_account  ######
     
     # logging.warning(TipoAccountDao.getAllTipoAccount())
