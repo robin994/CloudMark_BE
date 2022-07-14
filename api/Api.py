@@ -1,16 +1,16 @@
 from fastapi.middleware.cors import CORSMiddleware
 # from Dao.TipoPresenzaDao import TipoPresenzaDao
 from Dao.TipoAccountDao import TipoAccountDao
-from Dao.BusinessDao import BusinessDao
-from Dao.AccountDao import AccountDao
-from Dao.PresenceDao import PresenceDao
-from Dao.BusinessDao import BusinessDao
-from Dao.CustomerDao import CustomerDao
+# from Dao.BusinessDao import BusinessDao
+# from Dao.AccountDao import AccountDao
+# from Dao.PresenceDao import PresenceDao
+# from Dao.BusinessDao import BusinessDao
+# from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
 # from Dao.OrderDAO import OrderDao
 from fastapi import FastAPI
-from Dao.CustomerDao import CustomerDao
+# from Dao.CustomerDao import CustomerDao
 
 app = FastAPI()
 
@@ -32,7 +32,7 @@ app.add_middleware(
     #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
     allow_headers=["*"],
 )
- 
+
 # Endpoint - Employee
 @app.get("/employee")
 async def get_all_employees():
@@ -50,22 +50,18 @@ async def get_employee_by_surname(lastname):
 async def get_employee_by_cf(cf):
     return EmployeeDAO.getEmployeeByCF(cf)
 
-@app.get('/matricola/{matricola}')
-async def get_employee_by_matricola(matricola):
-    return EmployeeDAO.getEmployeeByMatricola(matricola)
 
 
 
 
 
- 
-@app.get("/customer")
-async def getAllCustomer():
-    return CustomerDao.getAllCustomers()
+# @app.get("/customer")
+# async def getAllCustomer():
+#     return CustomerDao.getAllCustomers()
 
-@app.get("/business")
-async def getAllBusiness():
-    return BusinessDao.getAllBusiness()
+# @app.get("/business")
+# async def getAllBusiness():
+#     return BusinessDao.getAllBusiness()
 
 @app.get("/account")
 async def getAllAccounts():
@@ -75,17 +71,17 @@ async def getAllAccounts():
 # async def getAllOrders():
 #     return OrderDao.getAllOrders()
     
-@app.get("/presence")
-async def getAllPresence():
-    return PresenceDao.getAllPresence()
+# @app.get("/presence")
+# async def getAllPresence():
+#     return PresenceDao.getAllPresence()
 
 
 
 # Endpoint - TipoAccount
-@app.get("/tipo-account")
+@app.get("/tipo/account")
 async def get_all_tipo_account():
     return TipoAccountDao.getAllTipoAccount()
 
-@app.get("/tipo-account/{id_account}")
+@app.get("/tipo/account/{id_account}")
 async def get_tipo_account_by_id(id_account):
     return TipoAccountDao.getTipoAccountByNomeTipoAccount(id_account)
