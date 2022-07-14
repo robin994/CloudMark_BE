@@ -11,10 +11,10 @@ class CommessaDAO:
         return cursor.fetchall()
     
     @staticmethod
-    def getOrderByID(id: int):
+    def getOrderByID(id_order: int):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM commessa WHERE id_commessa == %s""", (id, ))
+        cursor.execute("""SELECT * FROM commessa WHERE id_commessa = %s""", (id_order, ))
         return cursor.fetchone()
 
     @staticmethod
@@ -46,10 +46,10 @@ class CommessaDAO:
         return cursor.fetchall()    
 
     @staticmethod
-    def deleteOrderByID(id):
+    def deleteOrderByID(id_order: int):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("""DELETE FROM commessa WHERE id_commessa =%s""", (id, ))
+        cursor.execute("""DELETE FROM commessa WHERE id_commessa =%s""", (id_order, ))
         return cursor.commit()    
 
     @staticmethod
@@ -58,5 +58,6 @@ class CommessaDAO:
         cursor = connection.cursor()
         cursor.execute("""SELECT CL.nome, C.data_inizio
                         FROM cliente CL, commessa C, dipendente D, commessa_dipendente CD
-                        WHERE D.id_dipendente = %s AND D.id_dipendente = CD.id_dipendente AND CD.id_commessa = C.id_commessa AND C.id_cliente = CL.id_cliente""", (id_dipendente, ))
+                        WHERE D.id_dipendente = %s AND D.id_dipendente = CD.id_dipendente AND 
+                        CD.id_commessa = C.id_commessa AND C.id_cliente = CL.id_cliente""", (id_dipendente, ))
         return cursor.fetchone()
