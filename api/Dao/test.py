@@ -3,6 +3,8 @@ from AccountDao import AccountDao
 from Model.AccountModel import AccountModel
 from CustomerDao import CustomerDao
 from Model.CustomerModel import CustomerModel
+from EmployeeDAO import EmployeeDAO
+from Model.EmployeeModel import EmployeeModel
 # from TipoAccountDao import TipoAccountDao
 # from TipoPresenzaDao import TipoPresenzaDao
 # from Model.TipoAccount import TipoAccount
@@ -20,14 +22,25 @@ class test:
     # logging.warning(AccountDao.deleteAccountByID(3))
 
     ###### TEST CustomerDAO ######
-    logging.warning(CustomerDao.getAllCustomers())
-    customer = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    logging.warning(CustomerDao.getCustomerByID(1))
-    logging.warning(CustomerDao.createCustomer(customer))
-    logging.warning(CustomerDao.updateCustomerByID(customer))
-    logging.warning(CustomerDao.deleteCustomerByID(2))
+    # logging.warning(CustomerDao.getAllCustomers())
+    # customerCreate = CustomerModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    # customerUpdate = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    # logging.warning(CustomerDao.getCustomerByID(1))
+    # logging.warning(CustomerDao.createCustomer(customerCreate))
+    # logging.warning(CustomerDao.updateCustomerByID(customerUpdate))
+    # logging.warning(CustomerDao.deleteCustomerByID(2))
     
-
+    ###### TEST EmployeeDAO ######
+    logging.warning(EmployeeDAO.getAllEmployees())
+    logging.warning(EmployeeDAO.getEmployeesByID(1))
+    logging.warning(EmployeeDAO.getEmployeeBySurname('rossi'))
+    logging.warning(EmployeeDAO.getEmployeeByNameSurname('mario','rossi'))
+    logging.warning(EmployeeDAO.getEmployeeByCF('123'))
+    employeeCreate = EmployeeModel(nome="Franco", cognome="Baresi", cf="1234", iban="0001", tipo_contratto="indeterminato", email="francobaresimilan@gmail.com", telefono='123456789')
+    employeeUpdate = EmployeeModel(id_employee="2", nome="Franco", cognome="Baresi", cf="1234", iban="0001", tipo_contratto="indeterminato", email="francobaresi6@gmail.com", telefono='123456789')
+    logging.warning(EmployeeDAO.createEmployee(employeeCreate))
+    logging.warning(EmployeeDAO.updateEmployeeByID(employeeUpdate))
+    logging.warning(EmployeeDAO.deleteEmployeeByID(2))
     # ######  TESTING tipo_account  ######
     
     # logging.warning(TipoAccountDao.getAllTipoAccount())
