@@ -41,6 +41,7 @@ CREATE TABLE `dipendente_azienda` (
 
 LOCK TABLES `dipendente_azienda` WRITE;
 /*!40000 ALTER TABLE `dipendente_azienda` DISABLE KEYS */;
+INSERT INTO `dipendente_azienda` VALUES (1, 1, '2022-01-01', '000', '2022-05-05');
 /*!40000 ALTER TABLE `dipendente_azienda` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
