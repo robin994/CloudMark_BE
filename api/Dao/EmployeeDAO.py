@@ -11,10 +11,10 @@ class EmployeeDAO:
         return cursor.fetchall()
     
     @staticmethod
-    def getEmployeesByID(AccountID):
+    def getEmployeeByID(id):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM dipendente Where id_dipendente = ", AccountID)
+        cursor.execute("""SELECT * FROM dipendente WHERE id_dipendente =%s """, (id, ))
         return cursor.fetchone()
 
     @staticmethod
