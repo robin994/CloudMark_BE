@@ -11,24 +11,25 @@ class EmployeeDAO:
         return cursor.fetchall()
     
     @staticmethod
-    def getEmployeesByID(AccountID):
+    def getEmployeeByID(id):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM dipendente Where id_dipendente = ", AccountID)
+        cursor.execute("""SELECT * FROM dipendente WHERE id_dipendente =%s """, (id, ))
         return cursor.fetchone()
 
     @staticmethod
     def createEmployee(employee:EmployeeModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO dipendente(id_dipendente, nome, cognome, cf, iban, email, telefono,) VALUES(%s, %s, %s, %s, %s, %s, %s); COMMIT;", (
+        cursor.execute("INSERT INTO dipendente(id_dipendente, nome, cognome, cf, iban, email, telefono, matricola) VALUES(%s, %s, %s, %s, %s, %s, %s, %s); COMMIT;", (
                                 employee['id'],
                                 employee['nome'],
                                 employee['cognome'],
                                 employee['cf'],
                                 employee['iban'],
                                 employee['email'],
-                                employee['telefono']
+                                employee['telefono'],
+                                employee['matricola']
                         ))
         return cursor.fetchall()
 
@@ -36,14 +37,15 @@ class EmployeeDAO:
     def updateEmployeeByID(employee:EmployeeModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("UPDATE dipendente SET nome = '%s', cognome ='%s', cf = '%s', iban ='%s' , email ='%s' , telefono ='%s' where id_dipendente = '%s'; COMMIT;", (
+        cursor.execute("UPDATE dipendente SET nome = '%s', cognome ='%s', cf = '%s', iban ='%s' , email ='%s' , telefono ='%s', matricola='%s' where id_dipendente = '%s'; COMMIT;", (
                                 employee['nome'],
                                 employee['cognome'],
                                 employee['cf'],
                                 employee['iban'],
                                 employee['email'],
                                 employee['telefono'],
-                                employee['id']
+                                employee['id'],
+                                employee['matricola']
                         ))
         return cursor.fetchall()    
 
