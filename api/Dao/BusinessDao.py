@@ -17,7 +17,7 @@ class BusinessDao:
     def getBusinessByID(AccountID):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM azienda Where id_azienda == %s", id)
+        cursor.execute("""SELECT * FROM azienda Where id_azienda == %s""", (id, ))
         return cursor.fetchone()
 
     @staticmethod
@@ -57,3 +57,10 @@ class BusinessDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
+
+    @staticmethod
+    def getBusinessbyName(nome:str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursore: MySQLCursor = connection.cursor()
+        cursore.execute("""SELECT * FROM azienda A WHERE A.nome = %s;""", (nome, ))
+        return cursore.fetchall() # fetchall o fetchone è possibile avere due aziende con lo stesso nome??
