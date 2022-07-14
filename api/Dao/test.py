@@ -20,11 +20,11 @@ class test:
     # logging.warning(AccountDao.deleteAccountByID(3))
 
     ###### TEST CustomerDAO ######
-    # logging.warning(CustomerDao.getAllCustomers())
+    logging.warning(CustomerDao.getAllCustomers())
     customer = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    # logging.warning(CustomerDao.getCustomerByID(1))
-    # logging.warning(CustomerDao.createCustomer(customer))
-    # logging.warning(CustomerDao.updateCustomerByID(customer))
+    logging.warning(CustomerDao.getCustomerByID(1))
+    logging.warning(CustomerDao.createCustomer(customer))
+    logging.warning(CustomerDao.updateCustomerByID(customer))
     logging.warning(CustomerDao.deleteCustomerByID(2))
     
 
