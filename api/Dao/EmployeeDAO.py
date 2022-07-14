@@ -1,3 +1,5 @@
+from mysql.connector.connection import MySQLConnection
+from mysql.connector.cursor import MySQLCursor
 from Model.EmployeeModel import EmployeeModel
 from DB.DBUtility import DBUtility
 
@@ -11,11 +13,27 @@ class EmployeeDAO:
         return cursor.fetchall()
     
     @staticmethod
-    def getEmployeeByID(id):
-        connection = DBUtility.getLocalConnection()
+    def getEmployeesByID(AccountID: int):
+        employee = EmployeeModel()
+        connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM dipendente WHERE id_dipendente =%s """, (id, ))
-        return cursor.fetchone()
+        cursor.execute("""SELECT * FROM dipendente Where id_dipendente = %s""", (AccountID, ))
+        record = cursor.fetchone()
+        if record is None:
+            return employee
+        else:
+            employee = EmployeeModel(
+                id=record[0],
+                # nome=record[1],
+                # cognome=[2],
+                # cf=record[3],
+                # iban=record[4],
+                # email=record[5],
+                # telefono=record[6]
+            )
+        if connection.is_connected():
+            connection.close()
+            return employee
 
     @staticmethod
     def createEmployee(employee:EmployeeModel):

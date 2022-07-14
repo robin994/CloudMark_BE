@@ -24,12 +24,12 @@ class TipoAccountDao:
     @staticmethod
     def getTipoAccountByNomeTipoAccount(nomeTipoAccount: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
+        tipoAccount = TipoAccount()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
             f"select ta.nome_tipo_account, ta.lista_funzioni_del_profilo from tipo_account ta where ta.nome_tipo_account = '{nomeTipoAccount}'")
         record = cursore.fetchone()
         if(record is None):
-            tipoAccount = TipoAccount()
             return tipoAccount
         else:
             tipoAccount = TipoAccount(

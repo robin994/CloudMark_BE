@@ -34,7 +34,7 @@ class test:
     # logging.warning(TipoPresenzaDao.updateTipoPresenza(tipoPresenzaDaAggiornare))
 
     ######## TESTING dipendente #############
-    logging.info("TEST DIPENDENTE DAO")
+    # logging.info("TEST DIPENDENTE DAO")
 
     logging.warning(EmployeeDAO.getEmployeeByID(1))
     logging.warning(EmployeeDAO.getEmployeeByNameSurname('Bruno', 'Rossi'))
