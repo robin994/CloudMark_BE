@@ -8,7 +8,7 @@ class CustomerDao:
     
     @staticmethod
     def getCustomerByID(id_customer: int):
-        connection = DBUtility.getLocalConnection()
+        connection : MySQLConnection = DBUtility.getLocalConnection()
         customer = CustomerModel()
         cursor : MySQLCursor = connection.cursor()
         cursor.execute(f"SELECT id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM cliente WHERE id_cliente ='{id_customer}'")
@@ -61,7 +61,7 @@ class CustomerDao:
 
     @staticmethod  
     def createCustomer(customer: CustomerModel):
-        connection = DBUtility.getLocalConnection()
+        connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
         cursor.execute(f"INSERT INTO cliente(nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{customer.name}','{customer.p_iva}','{customer.address}','{customer.cap}','{customer.iban}','{customer.phone}','{customer.email}','{customer.pec}','{customer.fax}');")
         connection.commit()
@@ -81,7 +81,7 @@ class CustomerDao:
 
     @staticmethod
     def updateCustomerByID(customer:CustomerModel):
-        connection = DBUtility.getLocalConnection()
+        connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
         cursor.execute(f"UPDATE cliente SET nome = '{customer.name}', p_iva ='{customer.p_iva}', iban = '{customer.iban}', indirizzo ='{customer.address}' , cap ='{customer.cap}', telefono ='{customer.phone}', email ='{customer.email}', pec ='{customer.pec}' , fax ='{customer.fax}' where id_cliente = '{customer.id_customer}';")
         connection.commit()
