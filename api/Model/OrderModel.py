@@ -1,4 +1,5 @@
-from datetime import datetime
+
+from datetime import date, datetime
 from typing import Optional
 from pydantic import BaseModel
 
@@ -7,5 +8,5 @@ class OrderModel(BaseModel):
     descrizione : Optional[str]
     id_cliente : Optional[int]
     id_azienda : Optional[int]
-    data_inizio : Optional[datetime]
-    data_fine : Optional[datetime]
+    data_inizio : Optional[date]
+    data_fine : Optional[date]
