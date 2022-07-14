@@ -63,4 +63,4 @@ class BusinessDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute("""SELECT * FROM azienda A WHERE A.nome = %s;""", (nome, ))
-        return cursore.fetchall() # fetchall o fetchone è possibile avere due aziende con lo stesso nome??
+        return cursore.fetchone()

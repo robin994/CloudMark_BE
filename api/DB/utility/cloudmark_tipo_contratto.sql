@@ -16,38 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `dipendente`
+-- Table structure for table `tipo_contratto`
 --
 
-DROP TABLE IF EXISTS `dipendente`;
+DROP TABLE IF EXISTS `tipo_contratto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `dipendente` (
-  `id_dipendente` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) DEFAULT NULL,
-  `cognome` varchar(45) DEFAULT NULL,
-  `cf` varchar(16) NOT NULL,
-  `iban` varchar(45) NOT NULL,
-  `tipo_contratto` varchar(45) NOT NULL,
-  `email` varchar(90) DEFAULT NULL,
-  `telefono` varchar(45) DEFAULT NULL,
-  `matricola` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id_dipendente`),
-  UNIQUE KEY `cf_UNIQUE` (`cf`),
-  KEY `tipo_contratto_idx` (`tipo_contratto`),
-  KEY `fk_dipendente_tipo_contratto_idx` (`tipo_contratto`),
-  CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`tipo_contratto`) REFERENCES `tipo_contratto` (`nome_tipocontratto`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `tipo_contratto` (
+  `nome_tipocontratto` varchar(45) NOT NULL,
+  `descrizione` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nome_tipocontratto`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `dipendente`
+-- Dumping data for table `tipo_contratto`
 --
 
-LOCK TABLES `dipendente` WRITE;
-/*!40000 ALTER TABLE `dipendente` DISABLE KEYS */;
-INSERT INTO `dipendente` VALUES (1,'bruno','rossi','123','696','','brunorossi@gmail.com','1234');
-/*!40000 ALTER TABLE `dipendente` ENABLE KEYS */;
+LOCK TABLES `tipo_contratto` WRITE;
+/*!40000 ALTER TABLE `tipo_contratto` DISABLE KEYS */;
+INSERT INTO `tipo_contratto` VALUES ('indeterminato',NULL);
+/*!40000 ALTER TABLE `tipo_contratto` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
