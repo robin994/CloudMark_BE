@@ -79,5 +79,6 @@ class EmployeeDAO:
     def getEmployeeByMatricola(matricola:str):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM dipendente D WHERE D.telefono = %s;""", (matricola, ))
+        cursor.execute("""SELECT * FROM dipendente D WHERE D.matricola = %s;""", (matricola, ))
+        # testato il funzionamento ricercando nel campo telefono, colonna matricola da aggiungere nel DB
         return cursor.fetchone()
