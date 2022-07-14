@@ -38,6 +38,7 @@ CREATE TABLE `azienda_cliente` (
 
 LOCK TABLES `azienda_cliente` WRITE;
 /*!40000 ALTER TABLE `azienda_cliente` DISABLE KEYS */;
+INSERT INTO `azienda_cliente` VALUES (1, 1);
 /*!40000 ALTER TABLE `azienda_cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
