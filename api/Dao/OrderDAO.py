@@ -32,7 +32,7 @@ class CommessaDAO:
         return cursor.fetchall()  
 
     @staticmethod
-    def updateEmployeeByID(order:OrderModel):
+    def updateOrderByID(order:OrderModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
         cursor.execute("""UPDATE commessa SET descrizione = '%s', id_cliente ='%s', id_azienda = '%s', data_inizio ='%s' , data_fine ='%s' where id_commessa = '%s'; COMMIT;""", (
