@@ -4,6 +4,7 @@ from DB.DBUtility import DBUtility
 from mysql.connector.cursor import MySQLCursor
 from mysql.connector.connection import MySQLConnection
 
+# testati e funzionanti
 class PresenceDao: 
     @staticmethod
     def getPresenceByPrimaryKey(id_employee: int, datePresence: date, typeofPresence: str):

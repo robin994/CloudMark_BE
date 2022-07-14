@@ -10,9 +10,11 @@ from OrderDAO import CommessaDAO
 from Model.OrderModel import OrderModel
 from PresenceDao import PresenceDao
 from Model.PresenceModel import PresenceModel
-# from TipoAccountDao import TipoAccountDao
+from TipoAccountDao import TipoAccountDao
+from Model.TipoAccount import TipoAccount
+from TipoContrattoDAO import TipoContrattoDAO
+from Model.TipoContratto import TipoContratto
 # from TipoPresenzaDao import TipoPresenzaDao
-# from Model.TipoAccount import TipoAccount
 # from Model.TipoPresenza import TipoPresenza
 import logging
 
@@ -57,24 +59,32 @@ class test:
     # logging.warning(CommessaDAO.deleteOrderByID(2))
 
     ###### TEST PresenceDAO ######     
-    logging.warning(PresenceDao.getAllPresence())
-    logging.warning(PresenceDao.getPresenceByPrimaryKey(1, '2022-01-01', 'festivo'))
-    presenceCreate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='assenza', id_order=1, hours=8)
-    logging.warning(PresenceDao.createPresence(presenceCreate))
-    presenceUpdate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='malattia', id_order=1, hours=8)
-    logging.warning(PresenceDao.updatePresenceByIDandDate(presenceUpdate))
-    logging.warning(PresenceDao.deletePresenceByPK(1, '2022-01-02', 'malattia'))
+    # logging.warning(PresenceDao.getAllPresence())
+    # logging.warning(PresenceDao.getPresenceByPrimaryKey(1, '2022-01-01', 'festivo'))
+    # presenceCreate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='assenza', id_order=1, hours=8)
+    # logging.warning(PresenceDao.createPresence(presenceCreate))
+    # presenceUpdate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='malattia', id_order=1, hours=8)
+    # logging.warning(PresenceDao.updatePresenceByIDandDate(presenceUpdate))
+    # logging.warning(PresenceDao.deletePresenceByPK(1, '2022-01-02', 'malattia'))
 
-    # ######  TESTING tipo_account  ######
-    
+    # ######  TEST tipo_accountDao  ######
     # logging.warning(TipoAccountDao.getAllTipoAccount())
     # logging.warning(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
-    # tipoAccount = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
-    # tipoAccountDaAggiornare = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
-    # logging.warning(TipoAccountDao.insertTipoAccount(tipoAccount))
-    # logging.warning(TipoAccountDao.deleteTipoAccount("prova"))
-    # logging.warning(TipoAccountDao.updateTipoAccount(tipoAccountDaAggiornare))
+    # tipoAccountCreate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
+    # tipoAccountUpdate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
+    # logging.warning(TipoAccountDao.createTipoAccount(tipoAccountCreate))
+    # logging.warning(TipoAccountDao.updateTipoAccount(tipoAccountUpdate))
+    # logging.warning(TipoAccountDao.deleteTipoAccount("provupdate"))
     
+    ###### TEST TipoContrattoDAO ######
+    logging.warning(TipoContrattoDAO.getAllTipoContratto())
+    logging.warning(TipoContrattoDAO.getTipoContrattoByID('indeterminato'))
+    contrattoCreate = TipoContratto(name='determinato', info='txt')
+    contrattoUpdate = TipoContratto(name='determinato', info='text')
+    logging.warning(TipoContrattoDAO.createTipoContratto(contrattoCreate))
+    logging.warning(TipoContrattoDAO.updateTipoContrattoById(contrattoUpdate))
+    logging.warning(TipoContrattoDAO.deleteTipoContrattoById('determinato'))
+
     # ########  TESTING tipo_presenza  ##########
     
     # logging.info("TEST TIPO PRESENZA DAO")
