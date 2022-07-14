@@ -24,9 +24,6 @@
                         "editor.findMatchBorder": "#84FFFF",
                         "selection.background": "#84FFFF40",
                         "statusBarItem.remoteBackground": "#84FFFF"
-                },
-                "activityBar.background": "#50085F",
-                "titleBar.activeBackground": "#6F0B85",
-                "titleBar.activeForeground": "#FEFBFF"
+                }
         }
 }

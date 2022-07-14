@@ -1,53 +1,77 @@
+import logging
+from mysql.connector.connection import MySQLConnection
+from mysql.connector.cursor import MySQLCursor
 from Model.OrderModel import OrderModel
 from DB.DBUtility import DBUtility
+
 
 class CommessaDAO:
 
     @staticmethod
     def getAllOrders():
-        connection = DBUtility.getLocalConnection()
-        cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM commessa""")
-        return cursor.fetchall()
-    
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        lista = list()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(
+            "SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine FROM commessa c")
+        records = cursor.fetchall()
+        for row in records:
+            commessa = OrderModel(
+                id=row[0],
+                descrizione=row[1],
+                id_cliente=row[2],
+                id_azienda=row[3],
+                data_inizio=row[4],
+                data_fine=row[5]
+            )
+            lista.append(commessa)
+        if connection.is_connected():
+            connection.close()
+            return lista
+
     @staticmethod
     def getOrderByID(id: int):
-        connection = DBUtility.getLocalConnection()
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM commessa Where id_commessa == %s", id)
-        return cursor.fetchone()
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        commessa = OrderModel()
+        cursor.execute(
+            f"SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine from commessa c Where id_commessa ='{id}'")
+        record = cursor.fetchone()
+        if(record is None):
+            return commessa
+        else:
+            commessa = OrderModel(id=record[0], descrizione=record[1], id_cliente=record[2],
+                                  id_azienda=record[3], data_inizio=record[4], data_fine=record[5])
+        if connection.is_connected():
+            connection.close()
+            return commessa
 
     @staticmethod
-    def createOrder(order:OrderModel):
-        connection = DBUtility.getLocalConnection()
-        cursor = connection.cursor()
-        cursor.execute("INSERT INTO commessa(id_dipendente, descrizione, id_cliente, id_azienda, data_inizio, data_fine) VALUES(%s, %s, %s, %s, %s, %s); COMMIT;", (
-                                order['id'],
-                                order['descrizione'],
-                                order['id_cliente'],
-                                order['id_azienda'],
-                                order['data_inizio'],
-                                order['data_fine']    
-                        ))
-        return cursor.fetchall()  
+    def createOrder(order: OrderModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(
+            f"INSERT INTO commessa (descrizione, id_cliente, id_azienda, data_inizio, data_fine) VALUES('{order.descrizione}','{order.id_cliente}','{order.id_azienda}',TO_DATE({order.data_inizio},'YYYY-MM-DD'),TO_DATE({order.data_fine},'YYYY-MM-DD')")
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+            return order
 
     @staticmethod
-    def updateEmployeeByID(order:OrderModel):
-        connection = DBUtility.getLocalConnection()
-        cursor = connection.cursor()
-        cursor.execute("UPDATE commessa SET descrizione = '%s', id_cliente ='%s', id_azienda = '%s', data_inizio ='%s' , data_fine ='%s' where id_commessa = '%s'; COMMIT;", (
-                                order['descrizione'],
-                                order['id_cliente'],
-                                order['id_azienda'],
-                                order['data_inzio'],
-                                order['data_fine'],
-                                order['id']
-                        ))
-        return cursor.fetchall()    
+    def updateTipoPresenza(order: OrderModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursore: MySQLCursor = connection.cursor()
+        cursore.execute(
+            f"update commessa set descrizione = '{order.descrizione}',id_cliente = '{order.id_cliente}',id_azienda='{order.id_azienda}',data_inizio='{order.data_inizio}', data_fine='{order.data_fine}'where nome_tipo_presenza = '{order.id}'")
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+            return logging.warning("commessa aggiornata")
 
     @staticmethod
     def deleteOrderByID(id):
-        connection = DBUtility.getLocalConnection()
-        cursor = connection.cursor()
-        cursor.execute("DELETE FROM commessa WHERE id_commessa =" + id)
-        return cursor.commit()    
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(f"DELETE FROM commessa WHERE id_commessa ='{id}'")
+        logging.warning(f"commessa con id {id} cancellata")
+        return cursor.commit()
