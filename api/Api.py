@@ -34,13 +34,37 @@ app.add_middleware(
     allow_headers=["*"],
 )
  
+# Endpoint - Employee
 @app.get("/employee")
-async def getAllEmployees():
+async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
-@app.get("/employee/{id}")
-async def get_Employees_By_ID(id):
-    return EmployeeDAO.getEmployeesByID(id)
+# Non funzionanate
+# @app.get("/employee/{id}")
+# async def get_Employees_By_ID(id):
+#     return EmployeeDAO.getEmployeesByID(id)
+
+@app.get('/employee/{firstname}/{lastname}')
+async def get_employee_by_name_surname(firstname, lastname):
+    return EmployeeDAO.getEmployeeByNameSurname(firstname, lastname)
+
+@app.get('/employee/{lastname}')
+async def get_employee_by_surname(lastname):
+    return EmployeeDAO.getEmployeeBySurname(lastname)
+
+# In lavorazione
+@app.get('/employee/cf/{cf}')
+async def get_employee_by_cf(cf):
+    return EmployeeDAO.getEmployeeByCF(cf)
+
+# In lavorazione
+@app.get('/employee/matricola/{matricola}')
+async def get_employee_by_matricola(matricola):
+    return EmployeeDAO.getEmployeeByMatricola(matricola)
+
+
+
+
 
  
 @app.get("/customer")
@@ -73,31 +97,3 @@ async def get_all_tipo_account():
 @app.get("/nome/account/{id_account}")
 async def get_tipo_account_by_id(id_account):
     return TipoAccountDao.getTipoAccountByNomeTipoAccount(id_account)
-
-
-
-
-
-# @app.get("/random")
-# async def get_random_question():
-#     return QuestionDao.getRandomQuestion()
-
-# @app.get("/answer/{question_id}")
-# async def get_answer_by_question_id(question_id ):
-#    return AnswerDao.getAnswerByQuestionId(question_id)
-
-# @app.get("/score")
-# async def get_all_score():
-#    return TestResultDao.getAllScores()
-
-# @app.get("/highscore")
-# async def get_highest_score():
-#    return TestResultDao.getHighScore()
-
-# @app.get("/user")
-# async def get_all_users():
-#     return UserDao.getAllUsers()
-    
-# @app.get("/user/{username}/{password}")
-# async def get_user(username,password):
-#     return UserDao.getUserByIdAndPassword(username,password)
