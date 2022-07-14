@@ -39,11 +39,6 @@ app.add_middleware(
 async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
-# Non funzionanate
-# @app.get("/employee/{id}")
-# async def get_Employees_By_ID(id):
-#     return EmployeeDAO.getEmployeesByID(id)
-
 @app.get('/employee/{firstname}/{lastname}')
 async def get_employee_by_name_surname(firstname, lastname):
     return EmployeeDAO.getEmployeeByNameSurname(firstname, lastname)
@@ -52,13 +47,11 @@ async def get_employee_by_name_surname(firstname, lastname):
 async def get_employee_by_surname(lastname):
     return EmployeeDAO.getEmployeeBySurname(lastname)
 
-# In lavorazione
-@app.get('/employee/cf/{cf}')
+@app.get('/codicefiscale/{cf}')
 async def get_employee_by_cf(cf):
     return EmployeeDAO.getEmployeeByCF(cf)
 
-# In lavorazione
-@app.get('/employee/matricola/{matricola}')
+@app.get('/matricola/{matricola}')
 async def get_employee_by_matricola(matricola):
     return EmployeeDAO.getEmployeeByMatricola(matricola)
 
