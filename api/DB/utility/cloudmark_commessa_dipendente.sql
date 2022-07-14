@@ -39,7 +39,6 @@ CREATE TABLE `commessa_dipendente` (
 
 LOCK TABLES `commessa_dipendente` WRITE;
 /*!40000 ALTER TABLE `commessa_dipendente` DISABLE KEYS */;
-INSERT into `commessa_dipendente` VALUES (1, 1, 200)
 /*!40000 ALTER TABLE `commessa_dipendente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

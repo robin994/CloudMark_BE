@@ -1,8 +1,9 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class AccountModel(BaseModel):
-    id: int
-    user = str
-    password: str
-    abilitato: bool
-    tipo_acount: str
+    id_account : Optional[int]
+    user : Optional[str]
+    password: Optional[str]
+    abilitato: Optional[int]
+    tipo_account: Optional[str]

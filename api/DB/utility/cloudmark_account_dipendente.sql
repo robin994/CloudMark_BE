@@ -38,7 +38,6 @@ CREATE TABLE `account_dipendente` (
 
 LOCK TABLES `account_dipendente` WRITE;
 /*!40000 ALTER TABLE `account_dipendente` DISABLE KEYS */;
-INSERT INTO `account_dipendente` VALUES (1, 1);
 /*!40000 ALTER TABLE `account_dipendente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
