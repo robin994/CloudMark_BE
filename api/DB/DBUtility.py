@@ -23,4 +23,4 @@ class DBUtility:
         except mysql.connector.Error as e:
             logging.error("Error reading data from MySQL table", e)
         return connessione
-    
+

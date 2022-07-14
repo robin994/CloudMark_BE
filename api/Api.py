@@ -8,6 +8,10 @@ from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
 from Dao.OrderDAO import OrderDao
 from fastapi import FastAPI
+from api.Dao.AccountDao import AccountDao
+from api.Dao.BusinessDao import BusinessDao
+
+from api.Dao.CustomerDao import CustomerDao
 
 app = FastAPI()
 
@@ -30,34 +34,50 @@ app.add_middleware(
     allow_headers=["*"],
 )
  
-@app.get("/question")
-async def get_all_questions():
-    return QuestionDao.getAllQuestion()
+@app.get("/employee")
+async def getAllEmployees():
+    return EmployeeDAO.getAllEmployees()
  
-@app.get("/question/{id_questions}")
-async def get_question_by_question_id(id_questions):
-    return QuestionDao.getQuestionById(id_questions)
+@app.get("/customer")
+async def getAllCustomer():
+    return CustomerDao.getAllCustomers()
+
+@app.get("/business")
+async def getAllBusiness():
+    return BusinessDao.getAllBusiness()
+
+@app.get("/account")
+async def getAllAccounts():
+    return AccountDao.getAllAccounts()
+
+@app.get("/order")
+async def getAllOrders():
+    return OrderDao.getAllOrders()
     
-@app.get("/random")
-async def get_random_question():
-    return QuestionDao.getRandomQuestion()
-
-@app.get("/answer/{question_id}")
-async def get_answer_by_question_id(question_id ):
-   return AnswerDao.getAnswerByQuestionId(question_id)
-
-@app.get("/score")
-async def get_all_score():
-   return TestResultDao.getAllScores()
-
-@app.get("/highscore")
-async def get_highest_score():
-   return TestResultDao.getHighScore()
-
-@app.get("/user")
-async def get_all_users():
-    return UserDao.getAllUsers()
+@app.get("/presence")
+async def getAllPresence():
+    return PresenceDao.getAllPresence()
     
-@app.get("/user/{username}/{password}")
-async def get_user(username,password):
-    return UserDao.getUserByIdAndPassword(username,password)
+# @app.get("/random")
+# async def get_random_question():
+#     return QuestionDao.getRandomQuestion()
+
+# @app.get("/answer/{question_id}")
+# async def get_answer_by_question_id(question_id ):
+#    return AnswerDao.getAnswerByQuestionId(question_id)
+
+# @app.get("/score")
+# async def get_all_score():
+#    return TestResultDao.getAllScores()
+
+# @app.get("/highscore")
+# async def get_highest_score():
+#    return TestResultDao.getHighScore()
+
+# @app.get("/user")
+# async def get_all_users():
+#     return UserDao.getAllUsers()
+    
+# @app.get("/user/{username}/{password}")
+# async def get_user(username,password):
+#     return UserDao.getUserByIdAndPassword(username,password)
