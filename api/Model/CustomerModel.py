@@ -1,13 +1,14 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class CustomerModel(BaseModel):
-    id: int
-    name = str
-    p_iva: str
-    iban: str
-    cap:str
-    address: str
-    phone: str
-    email: str
-    pec: str
-    fax: str
+    id: Optional[int]
+    name = Optional[str]
+    p_iva: Optional[str]
+    iban: Optional[str]
+    cap: Optional[str]
+    address: Optional[str]
+    phone: Optional[str]
+    email: Optional[str]
+    pec: Optional[str]
+    fax: Optional[str]

@@ -14,10 +14,10 @@ class BusinessDao:
         return cursor.fetchall()
 
     @staticmethod
-    def getBusinessByID(AccountID):
+    def getBusinessByID(id_azienda):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM azienda Where id_azienda == %s""", (id, ))
+        cursor.execute("""SELECT * FROM azienda Where id_azienda == %s""", (id_azienda, ))
         return cursor.fetchone()
 
     @staticmethod
@@ -41,19 +41,18 @@ class BusinessDao:
     def updateBusinessById(business: BusinessModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute(
-            f"update account set nome = '{business.name}',p.iva='{business.p_iva}',indirizzo='{business.address}',cap='{business.cap}',iban='{business.iban}',telefono='{business.phone}',email='{business.email}',pec='{business.pec}',fax='{business.fax}' where nome_tipo_account = '{business.id}'")
+        cursore.execute(f"update account set nome = '{business.name}',p.iva='{business.p_iva}',indirizzo='{business.address}',cap='{business.cap}',iban='{business.iban}',telefono='{business.phone}',email='{business.email}',pec='{business.pec}',fax='{business.fax}' where nome_tipo_account = '{business.id}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
             return business
 
     @staticmethod
-    def deleteBusinessById(id: int):
+    def deleteBusinessById(id_business: int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"delete from azienda where id_azienda = '{id}'")
+            f"delete from azienda where id_azienda = '{id_business}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
