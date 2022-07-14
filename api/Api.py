@@ -1,15 +1,15 @@
 from fastapi.middleware.cors import CORSMiddleware
-from Dao.TipoPresenzaDao import TipoPresenzaDao
+# from Dao.TipoPresenzaDao import TipoPresenzaDao
 from Dao.TipoAccountDao import TipoAccountDao
+from api.Dao.BusinessDao import BusinessDao
+from api.Dao.AccountDao import AccountDao
 from Dao.PresenceDao import PresenceDao
 from Dao.BusinessDao import BusinessDao
 from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
-from Dao.OrderDAO import OrderDao
+# from Dao.OrderDAO import OrderDao
 from fastapi import FastAPI
-from api.Dao.AccountDao import AccountDao
-from api.Dao.BusinessDao import BusinessDao
 
 from api.Dao.CustomerDao import CustomerDao
 
@@ -34,9 +34,38 @@ app.add_middleware(
     allow_headers=["*"],
 )
  
+# Endpoint - Employee
 @app.get("/employee")
-async def getAllEmployees():
+async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
+
+# Non funzionanate
+# @app.get("/employee/{id}")
+# async def get_Employees_By_ID(id):
+#     return EmployeeDAO.getEmployeesByID(id)
+
+@app.get('/employee/{firstname}/{lastname}')
+async def get_employee_by_name_surname(firstname, lastname):
+    return EmployeeDAO.getEmployeeByNameSurname(firstname, lastname)
+
+@app.get('/employee/{lastname}')
+async def get_employee_by_surname(lastname):
+    return EmployeeDAO.getEmployeeBySurname(lastname)
+
+# In lavorazione
+@app.get('/employee/cf/{cf}')
+async def get_employee_by_cf(cf):
+    return EmployeeDAO.getEmployeeByCF(cf)
+
+# In lavorazione
+@app.get('/employee/matricola/{matricola}')
+async def get_employee_by_matricola(matricola):
+    return EmployeeDAO.getEmployeeByMatricola(matricola)
+
+
+
+
+
  
 @app.get("/customer")
 async def getAllCustomer():
@@ -50,34 +79,21 @@ async def getAllBusiness():
 async def getAllAccounts():
     return AccountDao.getAllAccounts()
 
-@app.get("/order")
-async def getAllOrders():
-    return OrderDao.getAllOrders()
+# @app.get("/order")
+# async def getAllOrders():
+#     return OrderDao.getAllOrders()
     
 @app.get("/presence")
 async def getAllPresence():
     return PresenceDao.getAllPresence()
-    
-# @app.get("/random")
-# async def get_random_question():
-#     return QuestionDao.getRandomQuestion()
 
-# @app.get("/answer/{question_id}")
-# async def get_answer_by_question_id(question_id ):
-#    return AnswerDao.getAnswerByQuestionId(question_id)
 
-# @app.get("/score")
-# async def get_all_score():
-#    return TestResultDao.getAllScores()
 
-# @app.get("/highscore")
-# async def get_highest_score():
-#    return TestResultDao.getHighScore()
+# Endpoint - TipoAccount
+@app.get("/tipo/account")
+async def get_all_tipo_account():
+    return TipoAccountDao.getAllTipoAccount()
 
-# @app.get("/user")
-# async def get_all_users():
-#     return UserDao.getAllUsers()
-    
-# @app.get("/user/{username}/{password}")
-# async def get_user(username,password):
-#     return UserDao.getUserByIdAndPassword(username,password)
+@app.get("/nome/account/{id_account}")
+async def get_tipo_account_by_id(id_account):
+    return TipoAccountDao.getTipoAccountByNomeTipoAccount(id_account)

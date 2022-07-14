@@ -34,12 +34,13 @@ class test:
     # logging.warning(TipoPresenzaDao.updateTipoPresenza(tipoPresenzaDaAggiornare))
 
     ######## TESTING dipendente #############
-    logging.info("TEST DIPENDENTE DAO")
+    # logging.info("TEST DIPENDENTE DAO")
 
+    logging.warning(EmployeeDAO.getEmployeeByID(1))
     logging.warning(EmployeeDAO.getEmployeeByNameSurname('Bruno', 'Rossi'))
     logging.warning(EmployeeDAO.getEmployeeByCF('123'))
     logging.warning(EmployeeDAO.getEmployeeBySurname('Rossi'))
-    logging.warning(EmployeeDAO.getEmployeeByMatricola('1234'))
+    logging.warning(EmployeeDAO.getEmployeeByMatricola('0000'))
 
 if __name__ == "__main__":
    test.main()

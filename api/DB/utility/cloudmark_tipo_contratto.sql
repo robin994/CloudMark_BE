@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: cloudmark
 -- ------------------------------------------------------
--- Server version	8.0.25
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,30 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `account_dipendente`
+-- Table structure for table `tipo_contratto`
 --
 
-DROP TABLE IF EXISTS `account_dipendente`;
+DROP TABLE IF EXISTS `tipo_contratto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `account_dipendente` (
-  `id_dipendente` int NOT NULL,
-  `id_account` int NOT NULL,
-  PRIMARY KEY (`id_dipendente`,`id_account`),
-  KEY `id_account` (`id_account`),
-  CONSTRAINT `account_dipendente_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendente` (`id_dipendente`),
-  CONSTRAINT `account_dipendente_ibfk_2` FOREIGN KEY (`id_account`) REFERENCES `account` (`id_account`)
+CREATE TABLE `tipo_contratto` (
+  `nome_tipocontratto` varchar(45) NOT NULL,
+  `descrizione` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nome_tipocontratto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `account_dipendente`
+-- Dumping data for table `tipo_contratto`
 --
 
-LOCK TABLES `account_dipendente` WRITE;
-/*!40000 ALTER TABLE `account_dipendente` DISABLE KEYS */;
-INSERT INTO `account_dipendente` VALUES (1, 1);
-/*!40000 ALTER TABLE `account_dipendente` ENABLE KEYS */;
+LOCK TABLES `tipo_contratto` WRITE;
+/*!40000 ALTER TABLE `tipo_contratto` DISABLE KEYS */;
+INSERT INTO `tipo_contratto` VALUES ('indeterminato',NULL);
+/*!40000 ALTER TABLE `tipo_contratto` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -51,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-13 11:08:39
+-- Dump completed on 2022-07-14 11:32:26

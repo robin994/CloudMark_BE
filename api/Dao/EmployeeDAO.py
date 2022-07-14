@@ -1,3 +1,5 @@
+from mysql.connector.connection import MySQLConnection
+from mysql.connector.cursor import MySQLCursor
 from Model.EmployeeModel import EmployeeModel
 from DB.DBUtility import DBUtility
 
@@ -11,24 +13,41 @@ class EmployeeDAO:
         return cursor.fetchall()
     
     @staticmethod
-    def getEmployeesByID(AccountID):
-        connection = DBUtility.getLocalConnection()
+    def getEmployeesByID(AccountID: int):
+        employee = EmployeeModel()
+        connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM dipendente Where id_dipendente = ", AccountID)
-        return cursor.fetchone()
+        cursor.execute("""SELECT * FROM dipendente Where id_dipendente = %s""", (AccountID, ))
+        record = cursor.fetchone()
+        if record is None:
+            return employee
+        else:
+            employee = EmployeeModel(
+                id=record[0],
+                # nome=record[1],
+                # cognome=[2],
+                # cf=record[3],
+                # iban=record[4],
+                # email=record[5],
+                # telefono=record[6]
+            )
+        if connection.is_connected():
+            connection.close()
+            return employee
 
     @staticmethod
     def createEmployee(employee:EmployeeModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("INSERT INTO dipendente(id_dipendente, nome, cognome, cf, iban, email, telefono,) VALUES(%s, %s, %s, %s, %s, %s, %s); COMMIT;", (
+        cursor.execute("INSERT INTO dipendente(id_dipendente, nome, cognome, cf, iban, email, telefono, matricola) VALUES(%s, %s, %s, %s, %s, %s, %s, %s); COMMIT;", (
                                 employee['id'],
                                 employee['nome'],
                                 employee['cognome'],
                                 employee['cf'],
                                 employee['iban'],
                                 employee['email'],
-                                employee['telefono']
+                                employee['telefono'],
+                                employee['matricola']
                         ))
         return cursor.fetchall()
 
@@ -36,14 +55,15 @@ class EmployeeDAO:
     def updateEmployeeByID(employee:EmployeeModel):
         connection = DBUtility.getLocalConnection()
         cursor = connection.cursor()
-        cursor.execute("UPDATE dipendente SET nome = '%s', cognome ='%s', cf = '%s', iban ='%s' , email ='%s' , telefono ='%s' where id_dipendente = '%s'; COMMIT;", (
+        cursor.execute("UPDATE dipendente SET nome = '%s', cognome ='%s', cf = '%s', iban ='%s' , email ='%s' , telefono ='%s', matricola='%s' where id_dipendente = '%s'; COMMIT;", (
                                 employee['nome'],
                                 employee['cognome'],
                                 employee['cf'],
                                 employee['iban'],
                                 employee['email'],
                                 employee['telefono'],
-                                employee['id']
+                                employee['id'],
+                                employee['matricola']
                         ))
         return cursor.fetchall()    
 
