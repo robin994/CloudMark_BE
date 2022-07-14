@@ -1,18 +1,25 @@
+from API.Model.AccountModel import AccountModel
 from EmployeeDAO import EmployeeDAO
 from AccountDao import AccountDao
-from TipoAccountDao import TipoAccountDao
-from TipoPresenzaDao import TipoPresenzaDao
-from Model.TipoAccount import TipoAccount
-from Model.TipoPresenza import TipoPresenza
+from Model.AccountModel import AccountModel
+# from TipoAccountDao import TipoAccountDao
+# from TipoPresenzaDao import TipoPresenzaDao
+# from Model.TipoAccount import TipoAccount
+# from Model.TipoPresenza import TipoPresenza
 import logging
 
 class test:
   def main():
-    # logging.info("TEST ACCOUNT DAO")
-    # logging.warning(AccountDao.getAllAccounts())
-    # #######  TESTING tipo_account  ##########
+    ###### TEST AccountDAO ######
+    logging.warning(AccountDao.getAllAccounts())
+    account = AccountModel(id_account=3, user="Franco", password='aaaa', abilitato='1', tipo_account='Administrator')
+    logging.warning(AccountDao.getAccountByID(1))
+    logging.warning(AccountDao.createAccount(account))
+    logging.warning(AccountDao.updateAccountByID(account))
+    logging.warning(AccountDao.deleteAccountByID(3))
+
+    # ######  TESTING tipo_account  ######
     
-    # logging.info("TEST TIPO ACCOUNT DAO")
     # logging.warning(TipoAccountDao.getAllTipoAccount())
     # logging.warning(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
     # tipoAccount = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
@@ -34,13 +41,11 @@ class test:
     # logging.warning(TipoPresenzaDao.updateTipoPresenza(tipoPresenzaDaAggiornare))
 
     ######## TESTING dipendente #############
-    logging.info("TEST DIPENDENTE DAO")
-
-    logging.warning(EmployeeDAO.getEmployeeByID(1))
-    logging.warning(EmployeeDAO.getEmployeeByNameSurname('Bruno', 'Rossi'))
-    logging.warning(EmployeeDAO.getEmployeeByCF('123'))
-    logging.warning(EmployeeDAO.getEmployeeBySurname('Rossi'))
-    logging.warning(EmployeeDAO.getEmployeeByMatricola('0000'))
+    # logging.warning(EmployeeDAO.getEmployeeByID(1))
+    # logging.warning(EmployeeDAO.getEmployeeByNameSurname('Bruno', 'Rossi'))
+    # logging.warning(EmployeeDAO.getEmployeeByCF('123'))
+    # logging.warning(EmployeeDAO.getEmployeeBySurname('Rossi'))
+    # logging.warning(EmployeeDAO.getEmployeeByMatricola('0000'))
 
 if __name__ == "__main__":
    test.main()
