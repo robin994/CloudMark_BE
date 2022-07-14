@@ -1,7 +1,8 @@
 from API.Model.AccountModel import AccountModel
-from EmployeeDAO import EmployeeDAO
 from AccountDao import AccountDao
 from Model.AccountModel import AccountModel
+from CustomerDao import CustomerDao
+from Model.CustomerModel import CustomerModel
 # from TipoAccountDao import TipoAccountDao
 # from TipoPresenzaDao import TipoPresenzaDao
 # from Model.TipoAccount import TipoAccount
@@ -11,12 +12,21 @@ import logging
 class test:
   def main():
     ###### TEST AccountDAO ######
-    logging.warning(AccountDao.getAllAccounts())
-    account = AccountModel(id_account=3, user="Franco", password='aaaa', abilitato='1', tipo_account='Administrator')
-    logging.warning(AccountDao.getAccountByID(1))
-    logging.warning(AccountDao.createAccount(account))
-    logging.warning(AccountDao.updateAccountByID(account))
-    logging.warning(AccountDao.deleteAccountByID(3))
+    # logging.warning(AccountDao.getAllAccounts())
+    # account = AccountModel(id_account=3, user="Franco", password='aaaa', abilitato='1', tipo_account='Administrator')
+    # logging.warning(AccountDao.getAccountByID(1))
+    # logging.warning(AccountDao.createAccount(account))
+    # logging.warning(AccountDao.updateAccountByID(account))
+    # logging.warning(AccountDao.deleteAccountByID(3))
+
+    ###### TEST CustomerDAO ######
+    # logging.warning(CustomerDao.getAllCustomers())
+    customer = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    # logging.warning(CustomerDao.getCustomerByID(1))
+    # logging.warning(CustomerDao.createCustomer(customer))
+    # logging.warning(CustomerDao.updateCustomerByID(customer))
+    logging.warning(CustomerDao.deleteCustomerByID(2))
+    
 
     # ######  TESTING tipo_account  ######
     

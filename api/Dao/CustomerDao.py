@@ -3,62 +3,88 @@ from Model.CustomerModel import CustomerModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
+# testati e funzionanti
 class CustomerDao:
     
     @staticmethod
-    def getCustomerByID(id: int):
+    def getCustomerByID(id_customer: int):
         connection = DBUtility.getLocalConnection()
+        customer = CustomerModel()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute("SELECT * FROM cliente Where id_cliente == %s", id)
-        return cursor.fetchone()
+        cursor.execute(f"SELECT id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM cliente WHERE id_cliente ='{id_customer}'")
+        record = cursor.fetchone()
+        if(record is None):
+            return customer
+        else:
+            customer = CustomerModel(
+                id_customer= record[0],
+                name= record[1],
+                p_iva= record[2],
+                address= record[3],
+                cap= record[4],
+                iban= record[5],
+                phone= record[6],
+                email= record[7],
+                pec= record[8],
+                fax= record[9]
+            )
+        if connection.is_connected():
+            connection.close()
+
+        return record
 
     @staticmethod    
     def getAllCustomers():
         connection = DBUtility.getLocalConnection()
+        lista_customer = list()
         cursor : MySQLCursor= connection.cursor()
-        cursor.execute("SELECT * FROM cliente")
-        return cursor.fetchall()
+        cursor.execute("SELECT id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM cliente")
+        records = cursor.fetchall()
+        for row in records:
+            customer = CustomerModel(
+                id_customer= row[0],
+                name= row[1],
+                p_iva= row[2],
+                address= row[3],
+                cap= row[4],
+                iban= row[5],
+                phone= row[6],
+                email= row[7],
+                pec= row[8],
+                fax= row[9]
+            )
+            lista_customer.append(customer)
+        if connection.is_connected():
+            connection.close()
+        
+        return lista_customer
 
     @staticmethod  
-    def addCustomer(customer: CustomerModel):
+    def createCustomer(customer: CustomerModel):
         connection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute("INSERT INTO cliente(nome, p_iva, iban,cap,indirizzo, telefono, email, pec, fax) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s); COMMIT;", (
-                                customer['name'],
-                                customer['p_iva'],
-                                customer['cap'],
-                                customer['iban'],
-                                customer['address'],
-                                customer['phone'],
-                                customer['email'],
-                                customer['pec'],
-                                customer['fax'],
-                        ))
-        return cursor.fetchall()
+        cursor.execute(f"INSERT INTO cliente(nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{customer.name}','{customer.p_iva}','{customer.address}','{customer.cap}','{customer.iban}','{customer.phone}','{customer.email}','{customer.pec}','{customer.fax}');")
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+        return customer
+        
 
     @staticmethod
-    def deleteCustomerByID(id):
+    def deleteCustomerByID(id_customer: int):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute("DELETE FROM cliente WHERE id_cliente =" + id)
-        return cursor.commit()
+        cursor.execute(f"DELETE FROM cliente WHERE id_cliente = {id_customer}")
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
 
     @staticmethod
-    def updateAccountByID(customer:CustomerModel):
+    def updateCustomerByID(customer:CustomerModel):
         connection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute("UPDATE cliente SET nome = '%s', p_iva ='%s', iban = '%s', indirizzo ='%s' , cap ='%s' telefono ='%s' , email ='%s' , pec ='%s' , fax ='%s' where id_cliente = '%s'; COMMIT;", (
-                                customer['name'],
-                                customer['p_iva'],
-                                customer['iban'],
-                                customer['address'],
-                                customer['cap'],
-                                customer['phone'],
-                                customer['email'],
-                                customer['pec'],
-                                customer['fax'],
-                                customer['id']
-                                
-
-                        ))
-        return cursor.fetchall()
+        cursor.execute(f"UPDATE cliente SET nome = '{customer.name}', p_iva ='{customer.p_iva}', iban = '{customer.iban}', indirizzo ='{customer.address}' , cap ='{customer.cap}', telefono ='{customer.phone}', email ='{customer.email}', pec ='{customer.pec}' , fax ='{customer.fax}' where id_cliente = '{customer.id_customer}';")
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+        return customer

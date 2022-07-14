@@ -31,7 +31,7 @@ class AccountDao:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         account = AccountModel()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"SELECT id_account, user, password, abilitato, tipo_account FROM account    WHERE id_account = {id_account};")
+        cursor.execute(f"SELECT id_account, user, password, abilitato, tipo_account FROM account WHERE id_account = {id_account};")
         record = cursor.fetchone()
         if(record is None):
             return account
