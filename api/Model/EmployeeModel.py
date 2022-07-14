@@ -9,3 +9,4 @@ class EmployeeModel(BaseModel):
     iban : Optional[str]
     email : Optional[str]
     telefono : Optional[str]
+    matricola: Optional[str]
