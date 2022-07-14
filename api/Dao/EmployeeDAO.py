@@ -7,10 +7,26 @@ class EmployeeDAO:
 
     @staticmethod
     def getAllEmployees():
-        connection = DBUtility.getLocalConnection()
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        lista = list()
         cursor = connection.cursor()
         cursor.execute("""SELECT * FROM dipendente""")
-        return cursor.fetchall()
+        records = cursor.fetchall()
+        for row in records:
+            employee = EmployeeModel(
+                id=row[0],
+                nome=row[1],
+                cognome=row[2],
+                cf=row[3],
+                iban=row[4],
+                tipo_contratto=row[5],
+                email=row[6],
+                telefono=row[7],
+            )
+            lista.append(employee)
+        if connection.is_connected():
+            connection.close()
+            return lista
     
     @staticmethod
     def getEmployeesByID(AccountID: int):
@@ -90,15 +106,47 @@ class EmployeeDAO:
 
     @staticmethod
     def getEmployeeByCF(cf:str):
-        connection = DBUtility.getLocalConnection()
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        lista = list()
         cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM dipendente D WHERE D.cf = %s""", (cf, ))
-        return cursor.fetchone()
+        cursor.execute(f"select * from dipendente d where d.cf = '{cf}'")
+        record = cursor.fetchone()
+        for row in record:
+            employee = EmployeeModel(
+                id=row[0],
+                nome=row[1],
+                cognome=row[2],
+                cf=row[3],
+                iban=row[4],
+                tipo_contratto=row[5],
+                email=row[6],
+                telefono=row[7],
+            )
+            lista.append(employee)
+        if connection.is_connected():
+            connection.close()
+            return lista
 
-    @staticmethod
-    def getEmployeeByMatricola(matricola:str):
-        connection = DBUtility.getLocalConnection()
-        cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM dipendente D WHERE D.matricola = %s;""", (matricola, ))
-        # testato il funzionamento ricercando nel campo telefono, colonna matricola da aggiungere nel DB
-        return cursor.fetchone()
+    # @staticmethod
+    # def getEmployeeByMatricola(matricola:str):
+    #     connection: MySQLConnection = DBUtility.getLocalConnection()
+    #     lista = list()
+    #     cursor = connection.cursor()
+    #     cursor.execute("""SELECT * FROM dipendente D WHERE D.matricola = %s;""", (matricola, ))
+    #     # testato il funzionamento ricercando nel campo telefono, colonna matricola da aggiungere nel DB
+    #     record = cursor.fetchone()
+    #     for row in record:
+    #         employee = EmployeeModel(
+    #             id=row[0],
+    #             nome=row[1],
+    #             cognome=row[2],
+    #             cf=row[3],
+    #             iban=row[4],
+    #             tipo_contratto=row[5],
+    #             email=row[6],
+    #             telefono=row[7],
+    #         )
+    #         lista.append(employee)
+    #     if connection.is_connected():
+    #         connection.close()
+    #         return lista

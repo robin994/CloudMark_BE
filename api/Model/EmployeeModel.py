@@ -10,4 +10,3 @@ class EmployeeModel(BaseModel):
     tipo_contratto: Optional[str]
     email : Optional[str]
     telefono : Optional[str]
-    matricola: Optional[str]
