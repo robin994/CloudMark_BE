@@ -2,6 +2,8 @@ from distutils.errors import CompileError
 from API.Model.AccountModel import AccountModel
 from AccountDao import AccountDao
 from Model.AccountModel import AccountModel
+from BusinessDao import BusinessDao
+from Model.BusinessModel import BusinessModel
 from CustomerDao import CustomerDao
 from Model.CustomerModel import CustomerModel
 from EmployeeDAO import EmployeeDAO
@@ -14,8 +16,8 @@ from TipoAccountDao import TipoAccountDao
 from Model.TipoAccount import TipoAccount
 from TipoContrattoDAO import TipoContrattoDAO
 from Model.TipoContratto import TipoContratto
-# from TipoPresenzaDao import TipoPresenzaDao
-# from Model.TipoPresenza import TipoPresenza
+from TipoPresenzaDao import TipoPresenzaDao
+from Model.TipoPresenza import TipoPresenza
 import logging
 
 class test:
@@ -27,6 +29,15 @@ class test:
     # logging.warning(AccountDao.createAccount(account))
     # logging.warning(AccountDao.updateAccountByID(account))
     # logging.warning(AccountDao.deleteAccountByID(3))
+
+    ###### TEST BusinessDao ######
+    logging.warning(BusinessDao.getAllBusiness())
+    businessCreate = BusinessModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    businessUpdate = BusinessModel(id_business=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    logging.warning(BusinessDao.getBusinessByID(1))
+    logging.warning(BusinessDao.createBusiness(businessCreate))
+    logging.warning(BusinessDao.updateBusinessById(businessUpdate))
+    logging.warning(BusinessDao.deleteBusinessById(2))
 
     ###### TEST CustomerDAO ######
     # logging.warning(CustomerDao.getAllCustomers())
@@ -77,32 +88,22 @@ class test:
     # logging.warning(TipoAccountDao.deleteTipoAccount("provupdate"))
     
     ###### TEST TipoContrattoDAO ######
-    logging.warning(TipoContrattoDAO.getAllTipoContratto())
-    logging.warning(TipoContrattoDAO.getTipoContrattoByID('indeterminato'))
-    contrattoCreate = TipoContratto(name='determinato', info='txt')
-    contrattoUpdate = TipoContratto(name='determinato', info='text')
-    logging.warning(TipoContrattoDAO.createTipoContratto(contrattoCreate))
-    logging.warning(TipoContrattoDAO.updateTipoContrattoById(contrattoUpdate))
-    logging.warning(TipoContrattoDAO.deleteTipoContrattoById('determinato'))
+    # logging.warning(TipoContrattoDAO.getAllTipoContratto())
+    # logging.warning(TipoContrattoDAO.getTipoContrattoByID('indeterminato'))
+    # contrattoCreate = TipoContratto(name='determinato', info='txt')
+    # contrattoUpdate = TipoContratto(name='determinato', info='text')
+    # logging.warning(TipoContrattoDAO.createTipoContratto(contrattoCreate))
+    # logging.warning(TipoContrattoDAO.updateTipoContrattoById(contrattoUpdate))
+    # logging.warning(TipoContrattoDAO.deleteTipoContrattoById('determinato'))
 
-    # ########  TESTING tipo_presenza  ##########
-    
-    # logging.info("TEST TIPO PRESENZA DAO")
-    
+    # ########  TESTING tipo_presenza  ##########    
     # logging.warning(TipoPresenzaDao.getAllTipoPresenza())
     # logging.warning(TipoPresenzaDao.getTipoPresenzabyNomeTipoPresenza("ASSENZA"))
     # tipoPresenza = TipoPresenza(nomeTipoPresenza="provapresenza",percentualeMaggiorazione= 20,pagaOraria=10)
-    # tipoPresenzaDaAggiornare = TipoPresenza(nomeTipoPresenza="aa",percentualeMaggiorazione= 40,pagaOraria=10)
     # logging.warning(TipoPresenzaDao.insertTipoPresenza(tipoPresenza))
-    # logging.warning(TipoPresenzaDao.deleteTipoPresenza("provapresenza"))
+    # tipoPresenzaDaAggiornare = TipoPresenza(nomeTipoPresenza="provapresenza",percentualeMaggiorazione= 40,pagaOraria=10)
     # logging.warning(TipoPresenzaDao.updateTipoPresenza(tipoPresenzaDaAggiornare))
-
-    ######## TESTING dipendente #############
-    # logging.warning(EmployeeDAO.getEmployeeByID(1))
-    # logging.warning(EmployeeDAO.getEmployeeByNameSurname('Bruno', 'Rossi'))
-    # logging.warning(EmployeeDAO.getEmployeeByCF('123'))
-    # logging.warning(EmployeeDAO.getEmployeeBySurname('Rossi'))
-    # logging.warning(EmployeeDAO.getEmployeeByMatricola('0000'))
+    # logging.warning(TipoPresenzaDao.deleteTipoPresenza("provapresenza"))
 
 if __name__ == "__main__":
    test.main()
