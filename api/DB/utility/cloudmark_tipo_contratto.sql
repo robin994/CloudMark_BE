@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.25, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: localhost    Database: cloudmark
 -- ------------------------------------------------------
--- Server version	8.0.25
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,36 +16,27 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `azienda`
+-- Table structure for table `tipo_contratto`
 --
 
-DROP TABLE IF EXISTS `azienda`;
+DROP TABLE IF EXISTS `tipo_contratto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `azienda` (
-  `id_azienda` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(90) DEFAULT NULL,
-  `p_iva` char(11) DEFAULT NULL,
-  `indirizzo` varchar(90) DEFAULT NULL,
-  `cap` char(5) DEFAULT NULL,
-  `iban` char(27) DEFAULT NULL,
-  `telefono` varchar(15) DEFAULT NULL,
-  `email` varchar(90) DEFAULT NULL,
-  `pec` varchar(45) DEFAULT NULL,
-  `fax` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`id_azienda`),
-  UNIQUE KEY `nome_UNIQUE` (`nome`)
+CREATE TABLE `tipo_contratto` (
+  `nome_tipocontratto` varchar(45) NOT NULL,
+  `descrizione` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`nome_tipocontratto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `azienda`
+-- Dumping data for table `tipo_contratto`
 --
 
-LOCK TABLES `azienda` WRITE;
-/*!40000 ALTER TABLE `azienda` DISABLE KEYS */;
-INSERT INTO `azienda` VALUES (1,'markup','32355660906','via lombardia 15','00180','IT94L0300203280726346848321','0612345678','markup@gmail.com','mionome@pecazienda.it', '0612345678');
-/*!40000 ALTER TABLE `azienda` ENABLE KEYS */;
+LOCK TABLES `tipo_contratto` WRITE;
+/*!40000 ALTER TABLE `tipo_contratto` DISABLE KEYS */;
+INSERT INTO `tipo_contratto` VALUES ('indeterminato',NULL);
+/*!40000 ALTER TABLE `tipo_contratto` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -57,4 +48,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-07-13 11:08:39
+-- Dump completed on 2022-07-14 11:32:26
