@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-from EmployeeDAO import EmployeeDAO
-=======
-from distutils.errors import CompileError
-from API.Model.AccountModel import AccountModel
->>>>>>> d02ba4441ced44d4b180405b48e48192f55eeadb
 from AccountDao import AccountDao
 from Model.AccountModel import AccountModel
 from BusinessDao import BusinessDao
