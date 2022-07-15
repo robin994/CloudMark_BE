@@ -1,4 +1,4 @@
-from urllib import response
+from hashlib import new
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.EmployeeModel import EmployeeModel
@@ -157,8 +157,7 @@ class EmployeeDAO:
             f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE cf ='{cf}';")
         record = cursor.fetchone()
         if record is None:
-            response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error="Codice Fiscale Non Presente")
+            response = CallBackResponse()
             lista['response'] = response
         else:
             employee = EmployeeModel(
@@ -171,7 +170,7 @@ class EmployeeDAO:
                 email=record[6],
                 telefono=record[7]
             )
-            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1).dict(exclude_none=True)
             lista[record[0]] = employee
             lista['response'] = response
         if connection.is_connected():
@@ -187,11 +186,10 @@ class EmployeeDAO:
         cursor.execute(
             f"SELECT d.id_dipendente, d.nome,d.cognome,d.cf,d.iban,d.tipo_contratto,d.email,d.telefono from dipendente d join dipendente_azienda da on d.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda where matricola = '{matricola}'")
         record = cursor.fetchone()
-        if record is None:
-            response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error="Codice Fiscale Non Presente")
+        if record is None :       
+            response = CallBackResponse(esitoChiamata="OK", numeroRisultati=0, error=f"La matricola ({matricola}) non è presente")
             lista['response'] = response
-        else:
+        else :
             employee = EmployeeModel(
                 id_employee=record[0],
                 nome=record[1],
@@ -202,10 +200,12 @@ class EmployeeDAO:
                 email=record[6],
                 telefono=record[7]
             )
-            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1).dict(exclude_none=True)
             lista[record[0]] = employee
             lista['response'] = response
-
+        if connection.is_connected():
+             connection.close()
+        return lista
     def getEmployeesByLastWork():
         connection: MySQLConnection = DBUtility.getLocalConnection()
         employee = EmployeeModel()
