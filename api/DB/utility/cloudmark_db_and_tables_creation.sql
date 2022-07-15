@@ -33,7 +33,7 @@ CREATE TABLE `cliente` (
   PRIMARY KEY (`id_cliente`)
 );
 
-DROP TABLE IF EXISTS `tipo_contratto`;
+DROP TABLE IF EXISTS `tipoContratto`;
 CREATE TABLE `tipo_contratto` (
   `id_tipoContratto` int NOT NULL AUTO_INCREMENT,
   `nome_tipocontratto` varchar(45) NOT NULL,
@@ -174,17 +174,17 @@ CREATE TABLE `saltini` (
 );
 
 
-INSERT INTO `tipo_contratto`(nome_tipocontratto, descrizione) VALUES ('indeterminato',NULL);
+INSERT INTO `tipoContratto`(nome_tipocontratto, descrizione) VALUES ('indeterminato',NULL);
 
 INSERT INTO `dipendente` VALUES (1,'bruno','rossi','123','696', 1,'brunorossi@gmail.com','1234');
 
-INSERT INTO `id_tipoAccount`(nome_id_tipoAccount, lista_funzioni_del_profilo) VALUES ('administrator','admin'),('dipendente','user');
+INSERT INTO `tipoAccount`(nome_id_tipoAccount, lista_funzioni_del_profilo) VALUES ('administrator','admin'),('dipendente','user');
 
 INSERT INTO `account` VALUES (1,'bruno','pop',0, 1),(2,'mario','mem',1, 2);
 
 INSERT INTO `commessa` VALUES (1, null, 1, 1, '2022-01-01', '2022-03-30');
 
-INSERT INTO `id_tipoPresenza`(nome_id_tipoPresenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES ('orario standard',0,NULL),('assenza',0,NULL),('festivo',30,NULL),('malattia',0,NULL);
+INSERT INTO `tipoPresenza`(nome_id_tipoPresenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES ('orario standard',0,NULL),('assenza',0,NULL),('festivo',30,NULL),('malattia',0,NULL);
 
 INSERT INTO `presenza` VALUES (1,'2022-01-01', 3,1,50);
 
