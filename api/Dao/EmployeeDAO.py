@@ -9,34 +9,6 @@ class EmployeeDAO:
     @staticmethod
     def getAllEmployees():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-<<<<<<< HEAD
-        # lista = ['id_dipendente', 'nome', 'cognome', 'cf', 'iban', 'tipo_contratto', 'email', 'telefono']
-        lista = list()
-        cursor = connection.cursor()
-        cursor.execute("""SELECT * FROM dipendente""")
-        records = cursor.fetchall()
-        
-        # for count in range(8):
-        #     # dizionario[lista[count]] = list(records)[count]
-        #     print(count)
-        
-        # if connection.is_connected():
-        #     connection.close()
-        #     return list(records)
-        
-        for row in records:
-            employee = EmployeeModel(
-                id=row[0],
-                nome=row[1],
-                cognome=row[2],
-                cf=row[3],
-                iban=row[4],
-                tipo_contratto=row[5],
-                email=row[6],
-                telefono=row[7]
-            )
-        lista.append(employee)
-=======
         lista_employee = list()
         cursor : MySQLCursor = connection.cursor()
         cursor.execute("SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente")
@@ -53,7 +25,6 @@ class EmployeeDAO:
                 telefono=record[7]
             )
             lista_employee.append(employee)
->>>>>>> d02ba4441ced44d4b180405b48e48192f55eeadb
         if connection.is_connected():
             connection.close()
         
