@@ -1,5 +1,9 @@
 from operator import truediv
 import dotenv
+<<<<<<< HEAD
+=======
+# from sqlalchemy import true
+>>>>>>> a26f3967272e6b1163b77a5eab74db852a6b60ef
 from DB.DBUtility import DBUtility 
 from Model.AccountModel import AccountModel
 from Model.UserModel import UserModel, SessionModel

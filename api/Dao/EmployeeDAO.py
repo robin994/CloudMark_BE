@@ -191,7 +191,7 @@ class EmployeeDAO:
             response = CallBackResponse(esitoChiamata="OK", numeroRisultati=0, error=f"La matricola ({matricola}) non è presente")
         if record is None:
             response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error="Matricola Non Presente")
+                esitoChiamata="OK", numeroRisultati=0, error=f"La Matricola ({matricola}) non è presente")
             lista['response'] = response
         else :
             employee = EmployeeModel(
