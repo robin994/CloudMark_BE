@@ -63,15 +63,21 @@ class AccountDao:
         password_hashed = hashPassword(account.password)
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
-        cursor.execute(f"INSERT INTO account(user, password, abilitato, tipo_account) VALUES('{account.user}', '{key_from_password_hashed}', '{account.abilitato}', '{account.tipo_account}');")
+        #cursor.execute(f"INSERT INTO account(user, abilitato, tipo_account, password) VALUES('{account.user}', '{account.abilitato}', '{account.tipo_account}','{key_from_password_hashed}');")
+        sql = "INSERT INTO account(user, abilitato, tipo_account, password) VALUES( %s, %s, %s, %s)"
+        val = (account.user, account.abilitato, account.tipo_account, key_from_password_hashed)
+        cursor.execute(sql, val)
         connection.commit()
         cursor.execute(f"SELECT id_account from account where user = '{account.user}'")
         id_account = cursor.fetchone()
-        cursor.execute(f"INSERT INTO saltino(id_account, salt) VALUES('{id_account[0]}', '{salt_from_password_hashed}');")
+        sql ="INSERT INTO saltini(id_account, salt) VALUES(%s, %s);"
+        val2 = (id_account[0], salt_from_password_hashed)
+        cursor.execute(sql, val2)
+        #cursor.execute(f"INSERT INTO saltino(id_account, salt) VALUES('{id_account[0]}', '{salt_from_password_hashed}');")
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return account
+        return 1
 
     @staticmethod
     def deleteAccountByID(id_account: int):
@@ -128,7 +134,7 @@ def checkPassword(User: UserModel):
     password_to_check = User.password
     connection : MySQLConnection = DBUtility.getLocalConnection()
     cursor : MySQLCursor = connection.cursor()
-    cursor.execute(f"SELECT password, salt FROM account INNER JOIN  saltino WHERE  saltino.id_account = account.id_account AND user = '{User.user}';")
+    cursor.execute(f"SELECT password, salt FROM account INNER JOIN  saltini WHERE  saltini.id_account = account.id_account AND user = '{User.user}';")
     record = cursor.fetchone()
     if(record is None):
         return False
@@ -140,6 +146,9 @@ def checkPassword(User: UserModel):
         record[1], 
         100000
     )
+    print(new_key)
+    print(key)
+
     if new_key == key:
         return True
     else:
