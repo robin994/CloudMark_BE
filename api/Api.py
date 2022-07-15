@@ -11,6 +11,7 @@ from Dao.AccountDao import AccountDao
 from Dao.CommessaDAO import CommessaDAO
 from fastapi import FastAPI
 from Dao.CustomerDao import CustomerDao
+from api.Model.UserModel import UserModel
 
 app = FastAPI()
 
@@ -67,9 +68,13 @@ async def getAllCustomer():
 async def getAllBusiness():
     return BusinessDao.getAllBusiness()
 
-@app.get("/account")
-async def getAllAccounts():
-    return AccountDao.getAllAccounts()
+@app.get("/business")
+async def getAllBusiness():
+    return BusinessDao.getAllBusiness()
+
+@app.post("/account/")
+async def getSession(user : UserModel):
+    return AccountDao.getSession(user)
 
 @app.get("/commessa")
 async def getAllOrders():

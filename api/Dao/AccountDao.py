@@ -1,7 +1,14 @@
+import dotenv
 from DB.DBUtility import DBUtility 
 from Model.AccountModel import AccountModel
+from Model.UserModel import UserModel, SessionModel
 from mysql.connector.cursor import MySQLCursor
 from mysql.connector.connection import MySQLConnection
+import os
+from dotenv import load_dotenv
+import jwt
+import json
+
 
 # testati e funzionanti
 class AccountDao:
@@ -78,3 +85,29 @@ class AccountDao:
         if connection.is_connected():
             connection.close()
         return account
+    
+    @staticmethod
+    def getSession(User: UserModel):
+        
+        load_dotenv()
+        JWTPSW = os.getenv("JWTPSW")
+        
+        connection : MySQLConnection = DBUtility.getLocalConnection()
+        session = ''
+        cursor : MySQLCursor = connection.cursor()
+        cursor.execute(f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE user = '{User.user}' AND password = '{User.password}';")
+        record = cursor.fetchone()
+        if(record is None):
+            return ''
+        else:
+            session = SessionModel(
+                id_account=record[0],
+                user=record[1],
+                abilitato=record[2],
+                tipo_account=record[3]
+            )
+        if connection.is_connected():
+            connection.close()
+      
+        session_encoded = jwt.encode( session.dict(), JWTPSW, algorithm="HS256")
+        return session_encoded
