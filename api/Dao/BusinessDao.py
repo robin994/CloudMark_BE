@@ -2,6 +2,7 @@ from DB.DBUtility import DBUtility
 from Model.BusinessModel import BusinessModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
+import json
 
 # testati e funzionanti
 class BusinessDao:
@@ -26,7 +27,8 @@ class BusinessDao:
                 pec= row[8],
                 fax= row[9]
             )
-            lista_business[row[0]] = business
+            lista_business[row[0]] =  business
+            
         if connection.is_connected():
             connection.close()
         
@@ -87,6 +89,8 @@ class BusinessDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
+        
+        return f"Azienda con id = {id_business} eliminata"
 
     @staticmethod
     def getBusinessbyName(nome:str):

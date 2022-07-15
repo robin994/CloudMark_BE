@@ -5,31 +5,26 @@
   "version": "0.2.0",
   "configurations": [
     {
-        "name": "Python: FastAPI",
-        "type": "python",
-        "request": "launch",
-        "module": "uvicorn",
-        "args": [
-            "Api:app",
-            "--reload"
-        ],
-        "env" : {
-            "PYTHONPATH":"${workspaceFolder}/api"
-        
-        },
-        "jinja": true,
-        "justMyCode": true
+      "name": "Python: FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["Api:app", "--reload"],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/api"
+      },
+      "jinja": true,
+      "justMyCode": true
+    },
+    {
+      "name": "Test Dao",
+      "type": "python",
+      "request": "launch",
+      "module": "test",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+      }
     }
-
-    // {
-    //   "name": "Test Dao",
-    //   "type": "python",
-    //   "request": "launch",
-    //   "module": "test",
-    //   "justMyCode": true,
-    //   "env": {
-    //     "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
-    //   }
-    // }
   ]
 }
