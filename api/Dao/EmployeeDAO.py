@@ -1,4 +1,4 @@
-from urllib import response
+from hashlib import new
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.EmployeeModel import EmployeeModel
@@ -157,8 +157,7 @@ class EmployeeDAO:
             f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE cf ='{cf}';")
         record = cursor.fetchone()
         if record is None:
-            response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error="Codice Fiscale Non Presente")
+            response = CallBackResponse()
             lista['response'] = response
         else:
             employee = EmployeeModel(
@@ -171,7 +170,7 @@ class EmployeeDAO:
                 email=record[6],
                 telefono=record[7]
             )
-            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1).dict(exclude_none=True)
             lista[record[0]] = employee
             lista['response'] = response
         if connection.is_connected():
@@ -187,11 +186,13 @@ class EmployeeDAO:
         cursor.execute(
             f"SELECT d.id_dipendente, d.nome,d.cognome,d.cf,d.iban,d.tipo_contratto,d.email,d.telefono from dipendente d join dipendente_azienda da on d.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda where matricola = '{matricola}'")
         record = cursor.fetchone()
+        if record is None :       
+            response = CallBackResponse(esitoChiamata="OK", numeroRisultati=0, error=f"La matricola ({matricola}) non è presente")
         if record is None:
             response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error="Matricola Non Presente")
+                esitoChiamata="OK", numeroRisultati=0, error=f"La Matricola ({matricola}) non è presente")
             lista['response'] = response
-        else:
+        else :
             employee = EmployeeModel(
                 id_employee=record[0],
                 nome=record[1],
@@ -202,33 +203,40 @@ class EmployeeDAO:
                 email=record[6],
                 telefono=record[7]
             )
-            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1).dict(exclude_none=True)
             lista[record[0]] = employee
             lista['response'] = response
-
+        if connection.is_connected():
+             connection.close()
+        return lista
     def getEmployeesByLastWork():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        employee = EmployeeModel()
-        lista = dict()
+        first_dict = dict()
+        dictionary = dict()
+        lista_key = ["nome", "cognome", "matricola", "codice_fiscale", "data_inizio_rapporto"]
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-        """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
-        FROM dipendente 
-        INNER JOIN dipendente_azienda 
-        ON dipendente_azienda.data_fine_rapporto IS NOT NULL""")
-        records = cursor.fetchall()
-        for record in records:
-            employee = EmployeeModel(
-            id_employee=record[0],
-            nome=record[1],
-            cognome=record[2],
-            cf=record[3],
-            iban=record[4],
-            tipo_contratto=record[5],
-            email=record[6],
-            telefono=record[7]
-        )
-        lista[record[0]] = employee
+            """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
+            FROM dipendente 
+            INNER JOIN dipendente_azienda 
+            ON dipendente_azienda.data_fine_rapporto IS NOT NULL""")
+        records = cursor.fetchone()
+        
+        if records is None:
+            response = CallBackResponse(
+                esitoChiamata="KO", numeroRisultati=0, error="Non sono presenti date di fine rapporto tra i dipendenti")
+            first_dict['response'] = response
+        else:    
+            dictionary = {
+                lista_key[0] : records[1],
+                lista_key[1] : records[0],
+                lista_key[2] : records[2],
+                lista_key[3] : records[3],
+                lista_key[4] : records[4]
+            }      
+            first_dict[f"{records[1]}_{records[0]}"] = dictionary
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            first_dict['response'] = response      
         if connection.is_connected():
             connection.close()
-        return lista
+        return first_dict

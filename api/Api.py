@@ -51,9 +51,10 @@ async def get_employee_by_surname(lastname):
 async def get_employee_by_cf(cf):
     return EmployeeDAO.getEmployeeByCF(cf)
 
-@app.get('/employee_matricola/{matricola}')
+@app.get('/matricola/{matricola}')
 async def get_employee_by_employee(matricola:str):
     return EmployeeDAO.getEmployeeByMatricola(matricola)
+
 @app.get("/employee/fine/rapporto")
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
