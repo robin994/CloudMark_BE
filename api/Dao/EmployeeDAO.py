@@ -8,7 +8,7 @@ from Model.CallBackResponse import CallBackResponse
 
 
 class EmployeeDAO:
-
+    
     @staticmethod
     def getAllEmployees():
         connection: MySQLConnection = DBUtility.getLocalConnection()
