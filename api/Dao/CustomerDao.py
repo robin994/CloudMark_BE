@@ -1,3 +1,4 @@
+from Model.CallBackResponse import CallBackResponse
 from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
 from mysql.connector.connection import MySQLConnection
@@ -77,6 +78,8 @@ class CustomerDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
+        
+        return f"Cliente con id = {id_customer} eliminato"
 
     @staticmethod
     def updateCustomerByID(customer:CustomerModel):
@@ -87,3 +90,37 @@ class CustomerDao:
         if connection.is_connected():
             connection.close()
         return customer
+
+    @staticmethod
+    def getCustomerByBusinessID(id_business: str):
+        connection : MySQLConnection = DBUtility.getLocalConnection()
+        cursor : MySQLCursor = connection.cursor()
+        lista_customer = dict()
+        cursor.execute(f"SELECT C.id_cliente, C.nome, C.p_iva, C.indirizzo, C.cap, C.iban, C.telefono, C.email, C.pec, C.fax FROM cliente C, azienda A, azienda_cliente AC WHERE C.id_cliente = AC.id_cliente and AC.id_azienda = A.id_azienda and A.id_azienda = {id_business};")
+        records = cursor.fetchall()
+        if records is None:
+            response = CallBackResponse(
+                esitoChiamata="OK", numeroRisultati=0, error="Id Azienda non presente")
+            lista_customer['response'] = response
+            if connection.is_connected():
+                connection.close()
+
+        else:
+            for row in records:
+                customer = CustomerModel(
+                    id_customer= row[0],
+                    name= row[1],
+                    p_iva= row[2],
+                    address= row[3],
+                    cap= row[4],
+                    iban= row[5],
+                    phone= row[6],
+                    email= row[7],
+                    pec= row[8],
+                    fax= row[9]
+            )
+            lista_customer[row[0]] = customer
+        if connection.is_connected():
+            connection.close()
+        
+        return lista_customer

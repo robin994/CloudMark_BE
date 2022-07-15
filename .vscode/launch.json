@@ -5,20 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-        "name": "Python: FastAPI",
-        "type": "python",
-        "request": "launch",
-        "module": "uvicorn",
-        "args": [
-            "Api:app",
-            "--reload"
-        ],
-        "env" : {
-            "PYTHONPATH":"${workspaceFolder}/api"
-        
-        },
-        "jinja": true,
-        "justMyCode": true
+      "name": "Python: FastAPI",
+      "type": "python",
+      "request": "launch",
+      "module": "uvicorn",
+      "args": ["Api:app", "--reload"],
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/api"
+      },
+      "jinja": true,
+      "justMyCode": true
     },
     {
       "name": "Test Dao",

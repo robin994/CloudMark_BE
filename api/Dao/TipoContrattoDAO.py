@@ -69,3 +69,5 @@ class TipoContrattoDAO:
         connection.commit()
         if connection.is_connected():
            connection.close()
+        
+        return f"TipoContratto con nome = {nometipo} eliminato"

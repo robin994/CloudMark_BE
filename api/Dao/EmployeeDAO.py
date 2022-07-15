@@ -8,7 +8,7 @@ from Model.CallBackResponse import CallBackResponse
 
 
 class EmployeeDAO:
-    
+
     @staticmethod
     def getAllEmployees():
         connection: MySQLConnection = DBUtility.getLocalConnection()
@@ -158,10 +158,8 @@ class EmployeeDAO:
         record = cursor.fetchone()
         if record is None:
             response = CallBackResponse(
-                esitoChiamata="KO", numeroRisultati=0, error="Codice Fiscale Non Presente")
-            lista.append(employee)
-            lista.append(response)
-
+                esitoChiamata="OK", numeroRisultati=0, error="Codice Fiscale Non Presente")
+            lista['response'] = response
         else:
             employee = EmployeeModel(
                 id_employee=record[0],
@@ -173,15 +171,41 @@ class EmployeeDAO:
                 email=record[6],
                 telefono=record[7]
             )
-            lista[record[0]] = employee
             response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
-            lista.append(response)
+            lista[record[0]] = employee
+            lista['response'] = response
         if connection.is_connected():
             connection.close()
         return lista
-        
 
     @staticmethod
+    def getEmployeeByMatricola(matricola: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        employee = EmployeeModel()
+        lista = dict()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(
+            f"SELECT d.id_dipendente, d.nome,d.cognome,d.cf,d.iban,d.tipo_contratto,d.email,d.telefono from dipendente d join dipendente_azienda da on d.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda where matricola = '{matricola}'")
+        record = cursor.fetchone()
+        if record is None:
+            response = CallBackResponse(
+                esitoChiamata="OK", numeroRisultati=0, error="Matricola Non Presente")
+            lista['response'] = response
+        else:
+            employee = EmployeeModel(
+                id_employee=record[0],
+                nome=record[1],
+                cognome=record[2],
+                cf=record[3],
+                iban=record[4],
+                tipo_contratto=record[5],
+                email=record[6],
+                telefono=record[7]
+            )
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            lista[record[0]] = employee
+            lista['response'] = response
+
     def getEmployeesByLastWork():
         connection: MySQLConnection = DBUtility.getLocalConnection()
         first_dict = dict()

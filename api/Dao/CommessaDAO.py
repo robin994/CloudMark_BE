@@ -1,7 +1,7 @@
 import logging
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from Model.OrderModel import OrderModel
+from Model.CommessaModel import CommessaModel
 from DB.DBUtility import DBUtility
 
 # testati e funzionanti
@@ -14,7 +14,7 @@ class CommessaDAO:
         cursor.execute("SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine FROM commessa c")
         records = cursor.fetchall()
         for row in records:
-            order = OrderModel(
+            order = CommessaModel(
                 id_order=row[0],
                 descrizione=row[1],
                 id_cliente=row[2],
@@ -25,21 +25,21 @@ class CommessaDAO:
             lista_orders[row[0]] = order
         if connection.is_connected():
             connection.close()
-        
+
         return lista_orders
 
     @staticmethod
     def getOrderByID(id_order: int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        order = OrderModel()
+        order = CommessaModel()
         cursor.execute(
             f"SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine from commessa c Where id_commessa ={id_order}")
         record = cursor.fetchone()
         if(record is None):
             return order
         else:
-            order = OrderModel(id_order=record[0], descrizione=record[1], id_cliente=record[2],
+            order = CommessaModel(id_order=record[0], descrizione=record[1], id_cliente=record[2],
                                   id_azienda=record[3], data_inizio=record[4], data_fine=record[5])
         if connection.is_connected():
             connection.close()
@@ -47,7 +47,7 @@ class CommessaDAO:
         return order
 
     @staticmethod
-    def createOrder(order: OrderModel):
+    def createOrder(order: CommessaModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(f"INSERT INTO commessa (descrizione, id_cliente, id_azienda, data_inizio, data_fine) VALUES('{order.descrizione}', '{order.id_cliente}', '{order.id_azienda}', '{order.data_inizio}', '{order.data_fine}');")
@@ -58,7 +58,7 @@ class CommessaDAO:
         return order
 
     @staticmethod
-    def updateOrderById(order: OrderModel):
+    def updateOrderById(order: CommessaModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
@@ -77,3 +77,5 @@ class CommessaDAO:
         connection.commit()
         if connection.is_connected():
             connection.close()
+        
+        return f"Commessa con id = {id_order} eliminata"
