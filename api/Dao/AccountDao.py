@@ -110,7 +110,7 @@ class AccountDao:
         session = ''
         cursor : MySQLCursor = connection.cursor()
         if checkPassword(User) is True:
-            cursor.execute(f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE user = '{User.user}';")
+            cursor.execute(f"SELECT id_account, user, abilitato, id_tipoAccount FROM account WHERE user = '{User.user}';")
             record = cursor.fetchone()
             if(record is None):
                 return ''
@@ -139,15 +139,13 @@ def checkPassword(User: UserModel):
     if(record is None):
         return False
     else:
-        key = record[1] + record[0]
+        key = record[0]
     new_key = hashlib.pbkdf2_hmac(
         'sha256',
-        password_to_check.encode('utf-8'), # Convert the password to bytes
+        password_to_check.encode('utf-8').strip(), # Convert the password to bytes
         record[1], 
         100000
     )
-    print(new_key)
-    print(key)
 
     if new_key == key:
         return True
@@ -156,7 +154,7 @@ def checkPassword(User: UserModel):
 
 def hashPassword(password: str):    
     salt = os.urandom(32)
-    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8').strip(), salt, 100000)
     return salt + key 
     
 

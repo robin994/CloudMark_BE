@@ -66,24 +66,24 @@ async def get_employees_by_last_work():
 
 
 @app.get("/customer")
-async def getAllCustomer():
+async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
 @app.get("/business")
-async def getAllBusiness():
+async def get_all_business():
     return BusinessDao.getAllBusiness()
 
 
-@app.post("/account")
-async def createAccount(account : AccountModel):
+@app.post("/account/signin")
+async def create_account(account : AccountModel):
     return AccountDao.createAccount(account)
 
-@app.post("/account/")
-async def getSession(user : UserModel):
+@app.post("/account/login")
+async def get_session(user : UserModel):
     return AccountDao.getSession(user)
 
 @app.get("/commessa")
-async def getAllOrders():
+async def get_all_orders():
     return CommessaDAO.getAllOrders()
     
 # @app.get("/presence")
