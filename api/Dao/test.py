@@ -76,22 +76,23 @@ class test:
 
     # ###### TEST PresenceDAO ######     
     # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    logging.warning(PresenceDao.getAllPresence())
-    logging.warning(PresenceDao.getPresenceByPrimaryKey(1, '2022-01-01', 'festivo'))
-    presenceCreate = PresenceModel(id_employee=1, date_presence='2022-01-03', typeof_presence='assenza', id_order=1, hours=8)
-    logging.warning(PresenceDao.createPresence(presenceCreate))
-    presenceUpdate = PresenceModel(id_employee=1, date_presence='2022-01-03', typeof_presence='malattia', id_order=1, hours=8)
-    logging.warning(PresenceDao.updatePresenceByIDEmployeeAndDate(presenceUpdate))
-    logging.warning(PresenceDao.deletePresenceByPK(1, '2022-01-03', 'malattia'))
+    # logging.warning(PresenceDao.getAllPresence())
+    # logging.warning(PresenceDao.getPresenceByPrimaryKey(1, '2022-01-01', 'festivo'))
+    # presenceCreate = PresenceModel(id_employee=1, date_presence='2022-01-03', typeof_presence='assenza', id_order=1, hours=8)
+    # logging.warning(PresenceDao.createPresence(presenceCreate))
+    # presenceUpdate = PresenceModel(id_employee=1, date_presence='2022-01-03', typeof_presence='malattia', id_order=1, hours=8)
+    # logging.warning(PresenceDao.updatePresenceByIDEmployeeAndDate(presenceUpdate))
+    # logging.warning(PresenceDao.deletePresenceByPK(1, '2022-01-03', 'malattia'))
 
     # ######  TEST tipo_accountDao  ######
-    # logging.warning(TipoAccountDao.getAllTipoAccount())
-    # logging.warning(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
-    # tipoAccountCreate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
-    # tipoAccountUpdate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
-    # logging.warning(TipoAccountDao.createTipoAccount(tipoAccountCreate))
-    # logging.warning(TipoAccountDao.updateTipoAccount(tipoAccountUpdate))
-    # logging.warning(TipoAccountDao.deleteTipoAccount("provupdate"))
+    # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
+    logging.warning(TipoAccountDao.getAllTipoAccount())
+    logging.warning(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
+    tipoAccountCreate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
+    tipoAccountUpdate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
+    logging.warning(TipoAccountDao.createTipoAccount(tipoAccountCreate))
+    logging.warning(TipoAccountDao.updateTipoAccount(tipoAccountUpdate))
+    logging.warning(TipoAccountDao.deleteTipoAccount("provupdate"))
     
     # ###### TEST TipoContrattoDAO ######
     # logging.warning(TipoContrattoDAO.getAllTipoContratto())

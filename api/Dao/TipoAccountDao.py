@@ -70,3 +70,5 @@ class TipoAccountDao:
         connection.commit()
         if connection.is_connected():
            connection.close()
+        
+        return f"TipoAccount con nome = {nomeTipoAccount} eliminato"
