@@ -66,12 +66,14 @@ class AccountDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
+        
+        return f"Account con id = {id_account} eliminato"
 
     @staticmethod
     def updateAccountByID(account:AccountModel):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE account SET user = '{account.user}', password ='{account.password}', abilitato = '{account.abilitato}', tipo_account ='{account.tipo_account}' where id_account = {account.id_account} WHERE id_account = {account.id_account};")
+        cursor.execute(f"UPDATE account SET user = '{account.user}', password ='{account.password}', abilitato = '{account.abilitato}', tipo_account ='{account.tipo_account}' WHERE id_account = {account.id_account};")
         connection.commit()
         if connection.is_connected():
             connection.close()
