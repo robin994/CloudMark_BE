@@ -35,7 +35,7 @@ CREATE TABLE `cliente` (
 
 DROP TABLE IF EXISTS `tipo_contratto`;
 CREATE TABLE `tipo_contratto` (
-  `id_tipoContratto` int NOT NULL,
+  `id_tipoContratto` int NOT NULL AUTO_INCREMENT,
   `nome_tipocontratto` varchar(45) NOT NULL,
   `descrizione` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_tipoContratto`)
@@ -58,9 +58,9 @@ CREATE TABLE `dipendente` (
   CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`id_tipoContratto`) REFERENCES `id_tipoContratto` (`id_tipoContratto`)
 );
 
-DROP TABLE IF EXISTS `id_tipoAccount`;
-CREATE TABLE `id_tipoAccount` (
-  `id_tipoAccount` int NOT NULL,
+DROP TABLE IF EXISTS `tipoAccount`;
+CREATE TABLE `tipoAccount` (
+  `id_tipoAccount` int NOT NULL AUTO_INCREMENT,
   `nome_id_tipoAccount` varchar(45) NOT NULL,
   `lista_funzioni_del_profilo` text,
   PRIMARY KEY (`id_tipoAccount`)
@@ -95,9 +95,9 @@ CREATE TABLE `commessa` (
   CONSTRAINT `commessa_ibfk_2` FOREIGN KEY (`id_azienda`) REFERENCES `azienda` (`id_azienda`)
 );
 
-DROP TABLE IF EXISTS `id_tipoPresenza`;
-CREATE TABLE `id_tipoPresenza` (
-  `id_tipoPresenza` int NOT NULL,
+DROP TABLE IF EXISTS `tipoPresenza`;
+CREATE TABLE `tipoPresenza` (
+  `id_tipoPresenza` int NOT NULL AUTO_INCREMENT,
   `nome_id_tipoPresenza` varchar(45) NOT NULL,
   `perc_maggiorazione_paga_oraria` int DEFAULT NULL,
   `paga_oraria` int DEFAULT NULL,
