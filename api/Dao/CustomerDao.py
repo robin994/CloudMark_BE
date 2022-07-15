@@ -36,7 +36,7 @@ class CustomerDao:
     @staticmethod    
     def getAllCustomers():
         connection = DBUtility.getLocalConnection()
-        lista_customer = list()
+        lista_customer = dict()
         cursor : MySQLCursor= connection.cursor()
         cursor.execute("SELECT id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM cliente")
         records = cursor.fetchall()
@@ -53,7 +53,7 @@ class CustomerDao:
                 pec= row[8],
                 fax= row[9]
             )
-            lista_customer.append(customer)
+            lista_customer[row[0]] = customer
         if connection.is_connected():
             connection.close()
         

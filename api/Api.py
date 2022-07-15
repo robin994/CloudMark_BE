@@ -8,7 +8,7 @@ from Dao.BusinessDao import BusinessDao
 # from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
-# from Dao.OrderDAO import OrderDao
+from Dao.CommessaDAO import CommessaDAO
 from fastapi import FastAPI
 from Dao.CustomerDao import CustomerDao
 
@@ -67,9 +67,9 @@ async def getAllBusiness():
 async def getAllAccounts():
     return AccountDao.getAllAccounts()
 
-# @app.get("/order")
-# async def getAllOrders():
-#     return OrderDao.getAllOrders()
+@app.get("/commessa")
+async def getAllOrders():
+    return CommessaDAO.getAllOrders()
     
 # @app.get("/presence")
 # async def getAllPresence():

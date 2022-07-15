@@ -9,7 +9,7 @@ class CommessaDAO:
     @staticmethod
     def getAllOrders():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        lista_orders = list()
+        lista_orders = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute("SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine FROM commessa c")
         records = cursor.fetchall()
@@ -22,7 +22,7 @@ class CommessaDAO:
                 data_inizio=row[4],
                 data_fine=row[5]
             )
-            lista_orders.append(order)
+            lista_orders[row[0]] = order
         if connection.is_connected():
             connection.close()
         
