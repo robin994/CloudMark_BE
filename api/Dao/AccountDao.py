@@ -62,7 +62,6 @@ class AccountDao:
         password_hashed = hashPassword(account.password)
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
-        #cursor.execute(f"INSERT INTO account(user, abilitato, tipo_account, password) VALUES('{account.user}', '{account.abilitato}', '{account.tipo_account}','{key_from_password_hashed}');")
         sql = "INSERT INTO account(user, abilitato, id_tipoAccount, password) VALUES( %s, %s, %s, %s)"
         val = (account.user, account.abilitato, account.id_tipoAccount, key_from_password_hashed)
         cursor.execute(sql, val)
@@ -72,7 +71,6 @@ class AccountDao:
         sql ="INSERT INTO saltini(id_account, salt) VALUES(%s, %s);"
         val2 = (id_account[0], salt_from_password_hashed)
         cursor.execute(sql, val2)
-        #cursor.execute(f"INSERT INTO saltino(id_account, salt) VALUES('{id_account[0]}', '{salt_from_password_hashed}');")
         connection.commit()
         if connection.is_connected():
             connection.close()
