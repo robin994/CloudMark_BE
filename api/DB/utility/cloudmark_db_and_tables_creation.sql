@@ -34,7 +34,7 @@ CREATE TABLE `cliente` (
 );
 
 DROP TABLE IF EXISTS `tipoContratto`;
-CREATE TABLE `tipo_contratto` (
+CREATE TABLE `tipoContratto` (
   `id_tipoContratto` int NOT NULL AUTO_INCREMENT,
   `nome_tipocontratto` varchar(45) NOT NULL,
   `descrizione` varchar(255) DEFAULT NULL,
