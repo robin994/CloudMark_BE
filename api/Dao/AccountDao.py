@@ -1,5 +1,4 @@
 from operator import truediv
-import dotenv
 # from sqlalchemy import true
 from DB.DBUtility import DBUtility 
 from Model.AccountModel import AccountModel
@@ -142,7 +141,7 @@ def checkPassword(User: UserModel):
         key = record[0]
     new_key = hashlib.pbkdf2_hmac(
         'sha256',
-        password_to_check.encode('utf-8').strip(), # Convert the password to bytes
+        password_to_check.encode('utf-8'), # Convert the password to bytes
         record[1], 
         100000
     )
@@ -154,7 +153,7 @@ def checkPassword(User: UserModel):
 
 def hashPassword(password: str):    
     salt = os.urandom(32)
-    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8').strip(), salt, 100000)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
     return salt + key 
     
 
