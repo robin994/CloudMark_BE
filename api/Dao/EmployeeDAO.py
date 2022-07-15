@@ -211,27 +211,32 @@ class EmployeeDAO:
         return lista
     def getEmployeesByLastWork():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        employee = EmployeeModel()
-        lista = dict()
+        first_dict = dict()
+        dictionary = dict()
+        lista_key = ["nome", "cognome", "matricola", "codice_fiscale", "data_inizio_rapporto"]
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-        """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
-        FROM dipendente 
-        INNER JOIN dipendente_azienda 
-        ON dipendente_azienda.data_fine_rapporto IS NOT NULL""")
-        records = cursor.fetchall()
-        for record in records:
-            employee = EmployeeModel(
-            id_employee=record[0],
-            nome=record[1],
-            cognome=record[2],
-            cf=record[3],
-            iban=record[4],
-            tipo_contratto=record[5],
-            email=record[6],
-            telefono=record[7]
-        )
-        lista[record[0]] = employee
+            """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
+            FROM dipendente 
+            INNER JOIN dipendente_azienda 
+            ON dipendente_azienda.data_fine_rapporto IS NOT NULL""")
+        records = cursor.fetchone()
+        
+        if records is None:
+            response = CallBackResponse(
+                esitoChiamata="KO", numeroRisultati=0, error="Non sono presenti date di fine rapporto tra i dipendenti")
+            first_dict['response'] = response
+        else:    
+            dictionary = {
+                lista_key[0] : records[1],
+                lista_key[1] : records[0],
+                lista_key[2] : records[2],
+                lista_key[3] : records[3],
+                lista_key[4] : records[4]
+            }      
+            first_dict[f"{records[1]}_{records[0]}"] = dictionary
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            first_dict['response'] = response      
         if connection.is_connected():
             connection.close()
-        return lista
+        return first_dict

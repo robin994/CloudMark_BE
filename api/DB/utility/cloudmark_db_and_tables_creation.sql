@@ -69,7 +69,7 @@ DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `id_account` int NOT NULL AUTO_INCREMENT,
   `user` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` char(64) NOT NULL,
   `abilitato` tinyint(1) DEFAULT NULL,
   `tipo_account` varchar(45) NOT NULL,
   PRIMARY KEY (`id_account`),
@@ -160,4 +160,14 @@ CREATE TABLE `dipendente_azienda` (
   CONSTRAINT `dipendente_azienda_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendente` (`id_dipendente`),
   CONSTRAINT `dipendente_azienda_ibfk_2` FOREIGN KEY (`id_azienda`) REFERENCES `azienda` (`id_azienda`)
 );
+
+DROP TABLE IF EXISTS `saltini`;
+CREATE TABLE `saltini` (
+  `id_account` int NOT NULL auto_increment,
+  `salt` char(64) NOT NULL,
+  PRIMARY KEY (`id_account`),
+  KEY `id_account` (`id_account`),
+  CONSTRAINT `saltini_ibfk_1` FOREIGN KEY (`id_account`) REFERENCES `account` (`id_account`)
+);
+
 
