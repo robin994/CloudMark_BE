@@ -189,7 +189,7 @@ class EmployeeDAO:
         record = cursor.fetchone()
         if record is None:
             response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error="Codice Fiscale Non Presente")
+                esitoChiamata="OK", numeroRisultati=0, error="Matricola Non Presente")
             lista['response'] = response
         else:
             employee = EmployeeModel(
@@ -215,7 +215,7 @@ class EmployeeDAO:
         """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
         FROM dipendente 
         INNER JOIN dipendente_azienda 
-        ON dipendente_azienda.data_fine_rapporto != 0""")
+        ON dipendente_azienda.data_fine_rapporto IS NOT NULL""")
         records = cursor.fetchall()
         for record in records:
             employee = EmployeeModel(

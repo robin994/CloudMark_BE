@@ -42,13 +42,15 @@ class test:
     # logging.warning(BusinessDao.deleteBusinessById(4))
 
     # ###### TEST CustomerDAO ######
-    # logging.warning(CustomerDao.getAllCustomers())
-    # customerCreate = CustomerModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    # customerUpdate = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    # logging.warning(CustomerDao.getCustomerByID(1))
-    # logging.warning(CustomerDao.createCustomer(customerCreate))
-    # logging.warning(CustomerDao.updateCustomerByID(customerUpdate))
-    # logging.warning(CustomerDao.deleteCustomerByID(2))
+    # in console mi aspetto 6 warning, il primo mi ritorna il record con tutti i record presenti nella table, il secondo mi ritorna il record con ID=1, il terzo mi torna l'oggetto che ho inserito nella table, il quarto mi torna i clienti corrispondenti all'azienda di ID=1, il quinto mi torna l'oggetto modificato nella table, l'ultimo mi dà la conferma di eliminazione del record
+    logging.warning(CustomerDao.getAllCustomers())
+    customerCreate = CustomerModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    customerUpdate = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    logging.warning(CustomerDao.getCustomerByID(1))
+    logging.warning(CustomerDao.createCustomer(customerCreate))
+    logging.warning(CustomerDao.getCustomerByBusinessID(1))
+    logging.warning(CustomerDao.updateCustomerByID(customerUpdate))
+    logging.warning(CustomerDao.deleteCustomerByID(2))
     
     # ###### TEST EmployeeDAO ######
     # logging.warning(EmployeeDAO.getAllEmployees())
@@ -86,13 +88,13 @@ class test:
 
     # ######  TEST tipo_accountDao  ######
     # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    logging.warning(TipoAccountDao.getAllTipoAccount())
-    logging.warning(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
-    tipoAccountCreate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
-    tipoAccountUpdate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
-    logging.warning(TipoAccountDao.createTipoAccount(tipoAccountCreate))
-    logging.warning(TipoAccountDao.updateTipoAccount(tipoAccountUpdate))
-    logging.warning(TipoAccountDao.deleteTipoAccount("provupdate"))
+    # logging.warning(TipoAccountDao.getAllTipoAccount())
+    # logging.warning(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
+    # tipoAccountCreate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
+    # tipoAccountUpdate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
+    # logging.warning(TipoAccountDao.createTipoAccount(tipoAccountCreate))
+    # logging.warning(TipoAccountDao.updateTipoAccount(tipoAccountUpdate))
+    # logging.warning(TipoAccountDao.deleteTipoAccount("provupdate"))
     
     # ###### TEST TipoContrattoDAO ######
     # logging.warning(TipoContrattoDAO.getAllTipoContratto())
