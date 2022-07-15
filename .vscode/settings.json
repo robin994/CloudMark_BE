@@ -25,6 +25,5 @@
       "selection.background": "#84FFFF40",
       "statusBarItem.remoteBackground": "#84FFFF"
     }
-  },
-  "workbench.colorTheme": "Default Dark+"
+  }
 }
