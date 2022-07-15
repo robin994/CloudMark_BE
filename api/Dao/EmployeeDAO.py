@@ -5,7 +5,7 @@ from DB.DBUtility import DBUtility
 
 # testati e funzionanti
 class EmployeeDAO:
-
+    
     @staticmethod
     def getAllEmployees():
         connection: MySQLConnection = DBUtility.getLocalConnection()

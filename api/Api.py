@@ -4,13 +4,13 @@ from Dao.TipoAccountDao import TipoAccountDao
 # from Dao.BusinessDao import BusinessDao
 # from Dao.AccountDao import AccountDao
 # from Dao.PresenceDao import PresenceDao
-# from Dao.BusinessDao import BusinessDao
+from Dao.BusinessDao import BusinessDao
 # from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
 # from Dao.OrderDAO import OrderDao
 from fastapi import FastAPI
-# from Dao.CustomerDao import CustomerDao
+from Dao.CustomerDao import CustomerDao
 
 app = FastAPI()
 
@@ -55,13 +55,13 @@ async def get_employee_by_cf(cf):
 
 
 
-# @app.get("/customer")
-# async def getAllCustomer():
-#     return CustomerDao.getAllCustomers()
+@app.get("/customer")
+async def getAllCustomer():
+    return CustomerDao.getAllCustomers()
 
-# @app.get("/business")
-# async def getAllBusiness():
-#     return BusinessDao.getAllBusiness()
+@app.get("/business")
+async def getAllBusiness():
+    return BusinessDao.getAllBusiness()
 
 @app.get("/account")
 async def getAllAccounts():
