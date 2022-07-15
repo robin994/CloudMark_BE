@@ -181,6 +181,32 @@ class EmployeeDAO:
         return lista
         
 
+    @staticmethod
+    def getEmployeesByLastWork():
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        employee = EmployeeModel()
+        lista = dict()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(
+            """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
+            FROM dipendente 
+            INNER JOIN dipendente_azienda 
+            ON dipendente_azienda.data_fine_rapporto != 0""")
+        records = cursor.fetchall()
+        for record in records:
+                employee = EmployeeModel(
+                    id_employee=record[0],
+                    nome=record[1],
+                    cognome=record[2],
+                    cf=record[3],
+                    iban=record[4],
+                    tipo_contratto=record[5],
+                    email=record[6],
+                    telefono=record[7]
+                )
+                lista[record[0]] = employee
+        if connection.is_connected():
+            connection.close()
         return lista
 
     # @staticmethod
