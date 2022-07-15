@@ -2,6 +2,7 @@ from hashlib import new
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.EmployeeModel import EmployeeModel
+from Model.EmployeeBusinessModel import EmployeeBusinessModel
 from DB.DBUtility import DBUtility
 from Model.CallBackResponse import CallBackResponse
 # testati e funzionanti
@@ -94,30 +95,30 @@ class EmployeeDAO:
     @staticmethod
     def getEmployeeByNameSurname(nome: str, cognome: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        cursor: MySQLCursor = connection.cursor()
         employee = EmployeeModel()
-        lista_employee = dict()
+        lista = dict()
+        cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE nome = '{nome}' AND cognome = '{cognome}';")
-        records = cursor.fetchall()
-        if records is None:
-            return employee
+            f"SELECT d.cognome, d.nome, d.cf, da.matricola, da.data_inizio_rapporto FROM dipendente d JOIN dipendente_azienda da ON d.id_dipendente = da.id_dipendente WHERE nome LIKE '{nome}%' and cognome LIKE '{cognome}%';")
+        record = cursor.fetchone()
+        if record is None:
+            response = CallBackResponse(
+                esitoChiamata="OK", numeroRisultati=0, error=f"Il dipendente {nome} {cognome} non è presente")
+            lista['response'] = response
         else:
-            for record in records:
-                employee = EmployeeModel(
-                    id_employee=record[0],
-                    nome=record[1],
-                    cognome=record[2],
-                    cf=record[3],
-                    iban=record[4],
-                    tipo_contratto=record[5],
-                    email=record[6],
-                    telefono=record[7]
-                )
-                lista_employee[record[0]] = employee
+            employee = EmployeeBusinessModel(
+                nome=record[0],
+                cognome=record[1],
+                cf=record[2],
+                matricola=record[3],
+                data_inizio_rapporto=record[4],
+             )
+            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
+            lista[record[0]] = employee
+            lista['response'] = response
         if connection.is_connected():
             connection.close()
-        return lista_employee
+        return lista
 
     @staticmethod
     def getEmployeeBySurname(cognome: str):
