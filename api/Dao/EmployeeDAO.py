@@ -4,14 +4,24 @@ from Model.EmployeeModel import EmployeeModel
 from DB.DBUtility import DBUtility
 
 class EmployeeDAO:
-
+    
     @staticmethod
     def getAllEmployees():
         connection: MySQLConnection = DBUtility.getLocalConnection()
+        # lista = ['id_dipendente', 'nome', 'cognome', 'cf', 'iban', 'tipo_contratto', 'email', 'telefono']
         lista = list()
         cursor = connection.cursor()
         cursor.execute("""SELECT * FROM dipendente""")
         records = cursor.fetchall()
+        
+        # for count in range(8):
+        #     # dizionario[lista[count]] = list(records)[count]
+        #     print(count)
+        
+        # if connection.is_connected():
+        #     connection.close()
+        #     return list(records)
+        
         for row in records:
             employee = EmployeeModel(
                 id=row[0],
@@ -21,9 +31,9 @@ class EmployeeDAO:
                 iban=row[4],
                 tipo_contratto=row[5],
                 email=row[6],
-                telefono=row[7],
+                telefono=row[7]
             )
-            lista.append(employee)
+        lista.append(employee)
         if connection.is_connected():
             connection.close()
             return lista
