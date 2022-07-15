@@ -48,7 +48,7 @@ class test:
     # customerUpdate = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
     # logging.warning(CustomerDao.getCustomerByID(1))
     # logging.warning(CustomerDao.createCustomer(customerCreate))
-    logging.warning(CustomerDao.getCustomerByBusinessID('errore'))
+    # logging.warning(CustomerDao.getCustomerByBusinessID('errore'))
     # logging.warning(CustomerDao.updateCustomerByID(customerUpdate))
     # logging.warning(CustomerDao.deleteCustomerByID(2))
     
@@ -74,7 +74,6 @@ class test:
     # commessaUpdate = CommessaModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
     # logging.warning(CommessaDAO.updateOrderById(commessaUpdate))
     # logging.warning(CommessaDAO.deleteOrderByID(2))
-    
 
     # ###### TEST PresenceDAO ######     
     # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
@@ -89,23 +88,23 @@ class test:
     # ######  TEST tipo_accountDao  ######
     # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
     # logging.warning(TipoAccountDao.getAllTipoAccount())
-    # logging.warning(TipoAccountDao.getTipoAccountByNomeTipoAccount("administrator"))
+    # logging.warning(TipoAccountDao.getTipoAccountByIdTipoAccount(1))
     # tipoAccountCreate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
-    # tipoAccountUpdate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
+    #tipoAccountUpdate = TipoAccount(id_tipoAccount=3, nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
     # logging.warning(TipoAccountDao.createTipoAccount(tipoAccountCreate))
     # logging.warning(TipoAccountDao.updateTipoAccount(tipoAccountUpdate))
-    # logging.warning(TipoAccountDao.deleteTipoAccount("provupdate"))
+    # logging.warning(TipoAccountDao.deleteTipoAccount(3))
     
     # ###### TEST TipoContrattoDAO ######
-    # logging.warning(TipoContrattoDAO.getAllTipoContratto())
-    # logging.warning(TipoContrattoDAO.getTipoContrattoByID('indeterminato'))
-    # contrattoCreate = TipoContratto(name='determinato', info='txt')
-    # contrattoUpdate = TipoContratto(name='determinato', info='text')
-    # logging.warning(TipoContrattoDAO.createTipoContratto(contrattoCreate))
-    # logging.warning(TipoContrattoDAO.updateTipoContrattoById(contrattoUpdate))
-    # logging.warning(TipoContrattoDAO.deleteTipoContrattoById('determinato'))
+    logging.warning(TipoContrattoDAO.getAllTipoContratto())
+    logging.warning(TipoContrattoDAO.getTipoContrattoByID(1))
+    contrattoCreate = TipoContratto(name='determinato', info='txt')
+    contrattoUpdate = TipoContratto(id_tipoContratto=2, name='determinato', info='text')
+    logging.warning(TipoContrattoDAO.createTipoContratto(contrattoCreate))
+    logging.warning(TipoContrattoDAO.updateTipoContrattoById(contrattoUpdate))
+    logging.warning(TipoContrattoDAO.deleteTipoContrattoById(2))
 
-    # ########  TESTING tipo_presenza  ##########    
+    # ########  TESTING tipoPresenzaDAO  ##########    
     # logging.warning(TipoPresenzaDao.getAllTipoPresenza())
     # logging.warning(TipoPresenzaDao.getTipoPresenzabyNomeTipoPresenza("ASSENZA"))
     # tipoPresenza = TipoPresenza(nomeTipoPresenza="provapresenza",percentualeMaggiorazione= 20,pagaOraria=10)

@@ -12,10 +12,10 @@ class TipoPresenzaDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         lista_tipoPresenza = list() 
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute("select tp.nome_tipo_presenza, tp.perc_maggiorazione_paga_oraria, tp.paga_oraria from tipo_presenza tp")
+        cursore.execute("select tp.id_tipoPresenza, tp.nome_tipoPresenza, tp.perc_maggiorazione_paga_oraria, tp.paga_oraria from tipopresenza tp")
         records = cursore.fetchall()
         for row in records:
-            tipoPresenza = TipoPresenza(nomeTipoPresenza=row[0], percentualeMaggiorazione=row[1], pagaOraria=row[2])
+            tipoPresenza = TipoPresenza(id_tipoPresenza=row[0], nomeTipoPresenza=row[1], percentualeMaggiorazione=row[2], pagaOraria=row[3])
             lista_tipoPresenza.append(tipoPresenza)
         if connection.is_connected():
             connection.close()

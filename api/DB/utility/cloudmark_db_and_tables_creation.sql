@@ -55,13 +55,13 @@ CREATE TABLE `dipendente` (
   UNIQUE KEY `cf_UNIQUE` (`cf`),
   KEY `tipo_contratto_idx` (`id_tipoContratto`),
   KEY `fk_dipendente_tipo_contratto_idx` (`id_tipoContratto`),
-  CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`id_tipoContratto`) REFERENCES `id_tipoContratto` (`id_tipoContratto`)
+  CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`id_tipoContratto`) REFERENCES `tipoContratto` (`id_tipoContratto`)
 );
 
 DROP TABLE IF EXISTS `tipoAccount`;
 CREATE TABLE `tipoAccount` (
   `id_tipoAccount` int NOT NULL AUTO_INCREMENT,
-  `nome_id_tipoAccount` varchar(45) NOT NULL,
+  `nome_tipoAccount` varchar(45) NOT NULL,
   `lista_funzioni_del_profilo` text,
   PRIMARY KEY (`id_tipoAccount`)
 );
@@ -77,7 +77,7 @@ CREATE TABLE `account` (
   PRIMARY KEY (`id_account`),
   UNIQUE KEY `user_UNIQUE` (`user`),
   KEY `id_tipoAccount` (`id_tipoAccount`),
-  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`id_tipoAccount`) REFERENCES `id_tipoAccount` (`id_tipoAccount`)
+  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`id_tipoAccount`) REFERENCES `tipoAccount` (`id_tipoAccount`)
 );
 
 DROP TABLE IF EXISTS `commessa`;
@@ -98,7 +98,7 @@ CREATE TABLE `commessa` (
 DROP TABLE IF EXISTS `tipoPresenza`;
 CREATE TABLE `tipoPresenza` (
   `id_tipoPresenza` int NOT NULL AUTO_INCREMENT,
-  `nome_id_tipoPresenza` varchar(45) NOT NULL,
+  `nome_tipoPresenza` varchar(45) NOT NULL,
   `perc_maggiorazione_paga_oraria` int DEFAULT NULL,
   `paga_oraria` int DEFAULT NULL,
   PRIMARY KEY (`id_tipoPresenza`)
@@ -115,7 +115,7 @@ CREATE TABLE `presenza` (
   KEY `id_tipoPresenza` (`id_tipoPresenza`),
   KEY `id_commessa` (`id_commessa`),
   CONSTRAINT `presenza_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendente` (`id_dipendente`),
-  CONSTRAINT `presenza_ibfk_2` FOREIGN KEY (`id_tipoPresenza`) REFERENCES `id_tipoPresenza` (`id_tipoPresenza`),
+  CONSTRAINT `presenza_ibfk_2` FOREIGN KEY (`id_tipoPresenza`) REFERENCES `tipoPresenza` (`id_tipoPresenza`),
   CONSTRAINT `presenza_ibfk_3` FOREIGN KEY (`id_commessa`) REFERENCES `commessa` (`id_commessa`)
 );
 
@@ -178,13 +178,17 @@ INSERT INTO `tipoContratto`(nome_tipocontratto, descrizione) VALUES ('indetermin
 
 INSERT INTO `dipendente` VALUES (1,'bruno','rossi','123','696', 1,'brunorossi@gmail.com','1234');
 
-INSERT INTO `tipoAccount`(nome_id_tipoAccount, lista_funzioni_del_profilo) VALUES ('administrator','admin'),('dipendente','user');
+INSERT INTO `tipoAccount`(nome_tipoAccount, lista_funzioni_del_profilo) VALUES ('administrator','admin'),('dipendente','user');
 
 INSERT INTO `account` VALUES (1,'bruno','pop',0, 1),(2,'mario','mem',1, 2);
 
+INSERT INTO `azienda` VALUES (1,'markup','32355660906','via lombardia 15','00180','IT94L0300203280726346848321','0612345678','markup@gmail.com','mionome@pecazienda.it', '0612345678');
+
+INSERT into `cliente` VALUES (1, 'pippo', 'aaabbbcccdd','via antani 12', '00123', 'IT94L0300203280726346848123','06987654321','pippi@mail.it','pippo@pec.it','06987654321');
+
 INSERT INTO `commessa` VALUES (1, null, 1, 1, '2022-01-01', '2022-03-30');
 
-INSERT INTO `tipoPresenza`(nome_id_tipoPresenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES ('orario standard',0,NULL),('assenza',0,NULL),('festivo',30,NULL),('malattia',0,NULL);
+INSERT INTO `tipoPresenza`(nome_tipoPresenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES ('orario standard',0,NULL),('assenza',0,NULL),('festivo',30,NULL),('malattia',0,NULL);
 
 INSERT INTO `presenza` VALUES (1,'2022-01-01', 3,1,50);
 
