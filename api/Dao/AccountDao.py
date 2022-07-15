@@ -103,46 +103,47 @@ class AccountDao:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         session = ''
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE user = '{User.user}' AND password = '{User.password}';")
-        record = cursor.fetchone()
-        if(record is None):
-            return ''
-        else:
-            session = SessionModel(
-                id_account=record[0],
-                user=record[1],
-                abilitato=record[2],
-                tipo_account=record[3]
-            )
-        if connection.is_connected():
-            connection.close()
-        hashPassword(User.password)
-      
-        session_encoded = jwt.encode( session.dict(), JWTPSW, algorithm="HS256")
-        return session_encoded
-    
-    @staticmethod
-    def checkPassword(password: str, User: UserModel):
-        password_to_check = password # The password provided by the user to check
-        connection : MySQLConnection = DBUtility.getLocalConnection()
-        cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"SELECT password, salt FROM account INNER JOIN  saltino WHERE  saltino.id_account = account.id_account AND user = '{User.user}';")
-        record = cursor.fetchone()
-        if(record is None):
-            return False
-        else:
-            key = record[1] + record[0]
-        new_key = hashlib.pbkdf2_hmac(
-            'sha256',
-            password_to_check.encode('utf-8'), # Convert the password to bytes
-            record[1], 
-            100000
-        )
+        if checkPassword(User) is True:
+            cursor.execute(f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE user = '{User.user}';")
+            record = cursor.fetchone()
+            if(record is None):
+                return ''
+            else:
+                session = SessionModel(
+                    id_account=record[0],
+                    user=record[1],
+                    abilitato=record[2],
+                    tipo_account=record[3]
+                )
+            if connection.is_connected():
+                connection.close()
+            hashPassword(User.password)
 
-        if new_key == key:
-            return True
+            session_encoded = jwt.encode( session.dict(), JWTPSW, algorithm="HS256")
+            return session_encoded
         else:
-            return False
+            return None
+    
+def checkPassword(User: UserModel):
+    password_to_check = User.password
+    connection : MySQLConnection = DBUtility.getLocalConnection()
+    cursor : MySQLCursor = connection.cursor()
+    cursor.execute(f"SELECT password, salt FROM account INNER JOIN  saltino WHERE  saltino.id_account = account.id_account AND user = '{User.user}';")
+    record = cursor.fetchone()
+    if(record is None):
+        return False
+    else:
+        key = record[1] + record[0]
+    new_key = hashlib.pbkdf2_hmac(
+        'sha256',
+        password_to_check.encode('utf-8'), # Convert the password to bytes
+        record[1], 
+        100000
+    )
+    if new_key == key:
+        return True
+    else:
+        return False
 
 def hashPassword(password: str):    
     salt = os.urandom(32)
