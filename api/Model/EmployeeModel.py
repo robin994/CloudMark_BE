@@ -2,7 +2,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 class EmployeeModel(BaseModel):
-    id : Optional[int]
+    id_employee : Optional[int]
     nome : Optional[str]
     cognome : Optional[str]
     cf : Optional[str]

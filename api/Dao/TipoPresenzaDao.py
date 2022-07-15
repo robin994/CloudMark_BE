@@ -10,16 +10,17 @@ class TipoPresenzaDao:
     @staticmethod
     def getAllTipoPresenza():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        lista = list() 
+        lista_tipoPresenza = list() 
         cursore: MySQLCursor = connection.cursor()
         cursore.execute("select tp.nome_tipo_presenza, tp.perc_maggiorazione_paga_oraria, tp.paga_oraria from tipo_presenza tp")
         records = cursore.fetchall()
         for row in records:
             tipoPresenza = TipoPresenza(nomeTipoPresenza=row[0], percentualeMaggiorazione=row[1], pagaOraria=row[2])
-            lista.append(tipoPresenza)
+            lista_tipoPresenza.append(tipoPresenza)
         if connection.is_connected():
             connection.close()
-            return lista
+        
+        return lista_tipoPresenza
 
     @staticmethod
     def getTipoPresenzabyNomeTipoPresenza(nomeTipoPresenza: str):
@@ -34,7 +35,8 @@ class TipoPresenzaDao:
             tipoPresenza = TipoPresenza(nomeTipoPresenza=record[0], percentualeMaggiorazione=record[1], pagaOraria=record[2])
         if connection.is_connected():
             connection.close()
-            return tipoPresenza
+        
+        return tipoPresenza
 
     @staticmethod
     def insertTipoPresenza(tipoPresenza: TipoPresenza):
@@ -44,7 +46,8 @@ class TipoPresenzaDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-            return tipoPresenza
+        
+        return tipoPresenza
 
     @staticmethod
     def updateTipoPresenza(tipoPresenza: TipoPresenza):
@@ -54,14 +57,14 @@ class TipoPresenzaDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-            return tipoPresenza
+        
+        return tipoPresenza
 
     @staticmethod
     def deleteTipoPresenza(nomeTipoPresenza: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(f"delete from tipo_presenza where nome_tipo_presenza = '{nomeTipoPresenza}'")
-        logging.warning(f"presenza con id {nomeTipoPresenza} cancellata")
         connection.commit()
         if connection.is_connected():
             connection.close()

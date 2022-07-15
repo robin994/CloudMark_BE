@@ -31,7 +31,7 @@ class AccountDao:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         account = AccountModel()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"SELECT id_account, user, password, abilitato, tipo_account FROM account    WHERE id_account = {id_account};")
+        cursor.execute(f"SELECT id_account, user, password, abilitato, tipo_account FROM account WHERE id_account = {id_account};")
         record = cursor.fetchone()
         if(record is None):
             return account
@@ -71,7 +71,7 @@ class AccountDao:
     def updateAccountByID(account:AccountModel):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE account SET user = '{account.user}', password ='{account.password}', abilitato = '{account.abilitato}', tipo_account ='{account.tipo_account}' where id_account = {account.id_account};")
+        cursor.execute(f"UPDATE account SET user = '{account.user}', password ='{account.password}', abilitato = '{account.abilitato}', tipo_account ='{account.tipo_account}' where id_account = {account.id_account} WHERE id_account = {account.id_account};")
         connection.commit()
         if connection.is_connected():
             connection.close()
