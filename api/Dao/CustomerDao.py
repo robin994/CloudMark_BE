@@ -3,7 +3,7 @@ from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from mysql.connector.errors import Error, DataError, IntegrityError
+from mysql.connector.errors import Error
 
 # testati e funzionanti
 class CustomerDao:
@@ -119,7 +119,7 @@ class CustomerDao:
                         fax= row[9]
                 )
                 lista_customer[row[0]] = customer
-        except Error or DataError or IntegrityError as e:
+        except Error as e:
             response = CallBackResponse(
                 esitoChiamata="KO", numeroRisultati=0, error=f"'{e}'")
             lista_customer['response'] = response
