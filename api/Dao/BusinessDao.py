@@ -87,6 +87,8 @@ class BusinessDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
+        
+        return f"Azienda con id = {id_business} eliminata"
 
     @staticmethod
     def getBusinessbyName(nome:str):

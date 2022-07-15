@@ -22,22 +22,23 @@ class test:
   def main():
     ###### TEST AccountDAO ######
     # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    logging.warning(AccountDao.getAllAccounts())
-    accountCreate = AccountModel(user="Franco", password='aaaa', abilitato='1', tipo_account='Administrator')
-    logging.warning(AccountDao.getAccountByID(1))
-    logging.warning(AccountDao.createAccount(accountCreate))
-    accountUpdate = AccountModel(id_account=2, user="Beppe", password='aaaa', abilitato='1', tipo_account='Administrator')
-    logging.warning(AccountDao.updateAccountByID(accountUpdate))
-    logging.warning(AccountDao.deleteAccountByID(2))
+    # logging.warning(AccountDao.getAllAccounts())
+    # accountCreate = AccountModel(user="Franco", password='aaaa', abilitato='1', tipo_account='Administrator')
+    # logging.warning(AccountDao.getAccountByID(1))
+    # logging.warning(AccountDao.createAccount(accountCreate))
+    # accountUpdate = AccountModel(id_account=2, user="Beppe", password='aaaa', abilitato='1', tipo_account='Administrator')
+    # logging.warning(AccountDao.updateAccountByID(accountUpdate))
+    # logging.warning(AccountDao.deleteAccountByID(2))
 
     # ###### TEST BusinessDao ######
-    # logging.warning(BusinessDao.getAllBusiness())
-    # businessCreate = BusinessModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    # businessUpdate = BusinessModel(id_business=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    # logging.warning(BusinessDao.getBusinessByID(1))
-    # logging.warning(BusinessDao.createBusiness(businessCreate))
-    # logging.warning(BusinessDao.updateBusinessById(businessUpdate))
-    # logging.warning(BusinessDao.deleteBusinessById(2))
+    # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
+    logging.warning(BusinessDao.getAllBusiness())
+    businessCreate = BusinessModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    businessUpdate = BusinessModel(id_business=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    logging.warning(BusinessDao.getBusinessByID(1))
+    logging.warning(BusinessDao.createBusiness(businessCreate))
+    logging.warning(BusinessDao.updateBusinessById(businessUpdate))
+    logging.warning(BusinessDao.deleteBusinessById(4))
 
     # ###### TEST CustomerDAO ######
     # logging.warning(CustomerDao.getAllCustomers())
