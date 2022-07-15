@@ -18,7 +18,8 @@ class DBUtility:
             host = db['endpoint'],
             user = db['user'],
             password = db['password'],
-            database = db['database'])
+            database = db['database'],
+            charset="utf8mb4")
             logging.info("connessione eseguita correttamente")
         except mysql.connector.Error as e:
             logging.error("Error reading data from MySQL table", e)

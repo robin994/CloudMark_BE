@@ -39,7 +39,7 @@ class AccountDao:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         account = AccountModel()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"SELECT id_account, user, password, abilitato, tipo_account FROM account WHERE id_account = {id_account};")
+        cursor.execute(f"SELECT id_account, user, password, abilitato, id_tipoAccount FROM account WHERE id_account = {id_account};")
         record = cursor.fetchone()
         if(record is None):
             return account
@@ -64,7 +64,8 @@ class AccountDao:
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
         #cursor.execute(f"INSERT INTO account(user, abilitato, tipo_account, password) VALUES('{account.user}', '{account.abilitato}', '{account.tipo_account}','{key_from_password_hashed}');")
-        sql = "INSERT INTO account(user, abilitato, tipo_account, password) VALUES( %s, %s, %s, %s)"
+        sql = "INSERT INTO account(user, abilitato, id_tipoAccount, password) VALUES( %s, %s, %s, %s)"
+        print(account)
         val = (account.user, account.abilitato, account.tipo_account, key_from_password_hashed)
         cursor.execute(sql, val)
         connection.commit()
