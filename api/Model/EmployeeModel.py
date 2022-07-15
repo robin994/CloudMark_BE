@@ -7,6 +7,6 @@ class EmployeeModel(BaseModel):
     cognome : Optional[str]
     cf : Optional[str]
     iban : Optional[str]
-    tipo_contratto: Optional[str]
+    id_tipoContratto: Optional[int]
     email : Optional[str]
     telefono : Optional[str]

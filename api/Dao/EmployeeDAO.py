@@ -15,7 +15,7 @@ class EmployeeDAO:
         lista_employee = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            "SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente")
+            "SELECT id_dipendente, nome, cognome, cf, iban, id_tipoContratto, email, telefono FROM dipendente")
         records = cursor.fetchall()
         for row in records:
             employee = EmployeeModel(
@@ -24,7 +24,7 @@ class EmployeeDAO:
                 cognome=row[2],
                 cf=row[3],
                 iban=row[4],
-                tipo_contratto=row[5],
+                id_tipoContratto=row[5],
                 email=row[6],
                 telefono=row[7]
             )
@@ -40,7 +40,7 @@ class EmployeeDAO:
         employee = EmployeeModel()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE id_dipendente = '{id_employee}';")
+            f"SELECT id_dipendente, nome, cognome, cf, iban, id_tipoContratto, email, telefono FROM dipendente WHERE id_dipendente = '{id_employee}';")
         record = cursor.fetchone()
         if record is None:
             return employee
@@ -51,7 +51,7 @@ class EmployeeDAO:
                 cognome=record[2],
                 cf=record[3],
                 iban=record[4],
-                tipo_contratto=record[5],
+                id_tipoContratto=record[5],
                 email=record[6],
                 telefono=record[7]
             )
@@ -65,7 +65,7 @@ class EmployeeDAO:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"INSERT INTO dipendente(nome, cognome, cf, iban, tipo_contratto, email, telefono) VALUES ('{employee.nome}', '{employee.cognome}', '{employee.cf}', '{employee.iban}', '{employee.tipo_contratto}', '{employee.email}', '{employee.telefono}');")
+            f"INSERT INTO dipendente(nome, cognome, cf, iban, id_tipoContratto, email, telefono) VALUES ('{employee.nome}', '{employee.cognome}', '{employee.cf}', '{employee.iban}', '{employee.id_tipoContratto}', '{employee.email}', '{employee.telefono}');")
         connection.commit()
         return employee
 
@@ -74,7 +74,7 @@ class EmployeeDAO:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"UPDATE dipendente SET nome = '{employee.nome}', cognome ='{employee.cognome}', cf = '{employee.cf}', iban ='{employee.iban}', tipo_contratto = '{employee.tipo_contratto}', email ='{employee.email}' , telefono ='{employee.telefono}' WHERE id_dipendente = {employee.id_employee};")
+            f"UPDATE dipendente SET nome = '{employee.nome}', cognome ='{employee.cognome}', cf = '{employee.cf}', iban ='{employee.iban}', id_tipoContratto = '{employee.id_tipoContratto}', email ='{employee.email}' , telefono ='{employee.telefono}' WHERE id_dipendente = {employee.id_employee};")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -98,7 +98,7 @@ class EmployeeDAO:
         employee = EmployeeModel()
         lista_employee = dict()
         cursor.execute(
-            f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE nome = '{nome}' AND cognome = '{cognome}';")
+            f"SELECT id_dipendente, nome, cognome, cf, iban, id_tipoContratto, email, telefono FROM dipendente WHERE nome = '{nome}' AND cognome = '{cognome}';")
         records = cursor.fetchall()
         if records is None:
             return employee
@@ -110,7 +110,7 @@ class EmployeeDAO:
                     cognome=record[2],
                     cf=record[3],
                     iban=record[4],
-                    tipo_contratto=record[5],
+                    id_tipoContratto=record[5],
                     email=record[6],
                     telefono=record[7]
                 )
@@ -126,7 +126,7 @@ class EmployeeDAO:
         employee = EmployeeModel()
         lista_employee = dict()
         cursor.execute(
-            f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE cognome = '{cognome}';")
+            f"SELECT id_dipendente, nome, cognome, cf, iban, id_tipoContratto, email, telefono FROM dipendente WHERE cognome = '{cognome}';")
         records = cursor.fetchall()
         if records is None:
             return employee
@@ -138,7 +138,7 @@ class EmployeeDAO:
                     cognome=record[2],
                     cf=record[3],
                     iban=record[4],
-                    tipo_contratto=record[5],
+                    id_tipoContratto=record[5],
                     email=record[6],
                     telefono=record[7]
                 )
@@ -154,7 +154,7 @@ class EmployeeDAO:
         lista = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE cf ='{cf}';")
+            f"SELECT id_dipendente, nome, cognome, cf, iban, id_tipoContratto, email, telefono FROM dipendente WHERE cf ='{cf}';")
         record = cursor.fetchone()
         if record is None:
             response = CallBackResponse()
@@ -166,7 +166,7 @@ class EmployeeDAO:
                 cognome=record[2],
                 cf=record[3],
                 iban=record[4],
-                tipo_contratto=record[5],
+                id_tipoContratto=record[5],
                 email=record[6],
                 telefono=record[7]
             )
@@ -184,7 +184,7 @@ class EmployeeDAO:
         lista = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"SELECT d.id_dipendente, d.nome,d.cognome,d.cf,d.iban,d.tipo_contratto,d.email,d.telefono from dipendente d join dipendente_azienda da on d.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda where matricola = '{matricola}'")
+            f"SELECT d.id_dipendente, d.nome,d.cognome,d.cf,d.iban,d.id_tipoContratto,d.email,d.telefono from dipendente d join dipendente_azienda da on d.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda where matricola = '{matricola}'")
         record = cursor.fetchone()
         if record is None :       
             response = CallBackResponse(esitoChiamata="OK", numeroRisultati=0, error=f"La matricola ({matricola}) non è presente")
@@ -199,7 +199,7 @@ class EmployeeDAO:
                 cognome=record[2],
                 cf=record[3],
                 iban=record[4],
-                tipo_contratto=record[5],
+                id_tipoContratto=record[5],
                 email=record[6],
                 telefono=record[7]
             )
