@@ -18,7 +18,7 @@ class AccountDao:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         lista_account = dict()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute("SELECT id_account, user, password, abilitato, tipo_account FROM account")
+        cursor.execute("SELECT id_account, user, password, abilitato, id_tipoAccount FROM account")
         records = cursor.fetchall()
         for row in records:
             account = AccountModel(
@@ -26,7 +26,7 @@ class AccountDao:
                 user=row[1],
                 password=row[2],
                 abilitato=row[3],
-                tipo_account=row[4]
+                id_tipoAccount=row[4]
             )
             lista_account[row[0]] = account
         if connection.is_connected():
@@ -39,7 +39,7 @@ class AccountDao:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         account = AccountModel()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"SELECT id_account, user, password, abilitato, tipo_account FROM account WHERE id_account = {id_account};")
+        cursor.execute(f"SELECT id_account, user, password, abilitato, id_tipoAccount FROM account WHERE id_account = {id_account};")
         record = cursor.fetchone()
         if(record is None):
             return account
@@ -49,7 +49,7 @@ class AccountDao:
                 user=record[1],
                 password=record[2],
                 abilitato=record[3],
-                tipo_account=record[4]
+                id_tipoAccount=record[4]
             )
         if connection.is_connected():
             connection.close()
@@ -64,8 +64,8 @@ class AccountDao:
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
         #cursor.execute(f"INSERT INTO account(user, abilitato, tipo_account, password) VALUES('{account.user}', '{account.abilitato}', '{account.tipo_account}','{key_from_password_hashed}');")
-        sql = "INSERT INTO account(user, abilitato, tipo_account, password) VALUES( %s, %s, %s, %s)"
-        val = (account.user, account.abilitato, account.tipo_account, key_from_password_hashed)
+        sql = "INSERT INTO account(user, abilitato, id_tipoAccount, password) VALUES( %s, %s, %s, %s)"
+        val = (account.user, account.abilitato, account.id_tipoAccount, key_from_password_hashed)
         cursor.execute(sql, val)
         connection.commit()
         cursor.execute(f"SELECT id_account from account where user = '{account.user}'")
@@ -94,7 +94,7 @@ class AccountDao:
     def updateAccountByID(account:AccountModel):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE account SET user = '{account.user}', password ='{account.password}', abilitato = '{account.abilitato}', tipo_account ='{account.tipo_account}' WHERE id_account = {account.id_account};")
+        cursor.execute(f"UPDATE account SET user = '{account.user}', password ='{account.password}', abilitato = '{account.abilitato}', id_tipoAccount ={account.id_tipoAccount} WHERE id_account = {account.id_account};")
         connection.commit()
         if connection.is_connected():
             connection.close()

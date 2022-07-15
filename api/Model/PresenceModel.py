@@ -5,6 +5,6 @@ from pydantic import BaseModel
 class PresenceModel(BaseModel):
     id_employee: Optional[int]
     date_presence: Optional[date]
-    typeof_presence: Optional[str]
+    id_tipoPresenza: Optional[int]
     id_order: Optional[int]
     hours: Optional[int]
