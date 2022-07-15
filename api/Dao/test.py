@@ -1,6 +1,6 @@
 from xml.dom.minicompat import EmptyNodeList
-from AccountDao import AccountDao
-from Model.AccountModel import AccountModel
+# from AccountDao import AccountDao
+# from Model.AccountModel import AccountModel
 from BusinessDao import BusinessDao
 from Model.BusinessModel import BusinessModel
 from CustomerDao import CustomerDao
@@ -65,23 +65,24 @@ class test:
 
     # ###### TEST CommessaDAO ######
     # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    logging.warning(CommessaDAO.getAllOrders())
-    logging.warning(CommessaDAO.getOrderByID(1))
-    commessaCreate = CommessaModel(descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2022-01-03")
-    logging.warning(CommessaDAO.createOrder(commessaCreate))
-    commessaUpdate = CommessaModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
-    logging.warning(CommessaDAO.updateOrderById(commessaUpdate))
-    logging.warning(CommessaDAO.deleteOrderByID(2))
+    # logging.warning(CommessaDAO.getAllOrders())
+    # logging.warning(CommessaDAO.getOrderByID(1))
+    # commessaCreate = CommessaModel(descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2022-01-03")
+    # logging.warning(CommessaDAO.createOrder(commessaCreate))
+    # commessaUpdate = CommessaModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
+    # logging.warning(CommessaDAO.updateOrderById(commessaUpdate))
+    # logging.warning(CommessaDAO.deleteOrderByID(2))
     
 
     # ###### TEST PresenceDAO ######     
-    # logging.warning(PresenceDao.getAllPresence())
-    # logging.warning(PresenceDao.getPresenceByPrimaryKey(1, '2022-01-01', 'festivo'))
-    # presenceCreate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='assenza', id_order=1, hours=8)
-    # logging.warning(PresenceDao.createPresence(presenceCreate))
-    # presenceUpdate = PresenceModel(id_employee=1, date_presence='2022-01-02', typeof_presence='malattia', id_order=1, hours=8)
-    # logging.warning(PresenceDao.updatePresenceByIDandDate(presenceUpdate))
-    # logging.warning(PresenceDao.deletePresenceByPK(1, '2022-01-02', 'malattia'))
+    # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
+    logging.warning(PresenceDao.getAllPresence())
+    logging.warning(PresenceDao.getPresenceByPrimaryKey(1, '2022-01-01', 'festivo'))
+    presenceCreate = PresenceModel(id_employee=1, date_presence='2022-01-03', typeof_presence='assenza', id_order=1, hours=8)
+    logging.warning(PresenceDao.createPresence(presenceCreate))
+    presenceUpdate = PresenceModel(id_employee=1, date_presence='2022-01-03', typeof_presence='malattia', id_order=1, hours=8)
+    logging.warning(PresenceDao.updatePresenceByIDEmployeeAndDate(presenceUpdate))
+    logging.warning(PresenceDao.deletePresenceByPK(1, '2022-01-03', 'malattia'))
 
     # ######  TEST tipo_accountDao  ######
     # logging.warning(TipoAccountDao.getAllTipoAccount())

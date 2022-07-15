@@ -79,3 +79,5 @@ class PresenceDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
+
+        return f"Presenza con id_dipendente= {id_employee}, data= '{datePresence}', tipoPresenza='{typeofPresence}' eliminata"
