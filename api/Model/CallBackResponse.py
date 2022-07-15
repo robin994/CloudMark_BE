@@ -1,10 +1,12 @@
 from typing import Optional
-from fastapi import Response
+from typing_extensions import Self
 from pydantic import BaseModel
+from pydantic.json import pydantic_encoder
 
 
 class CallBackResponse(BaseModel):
     esitoChiamata: str
     numeroRisultati : int
-    error : Optional[str]
+    error: Optional[str]
     
+

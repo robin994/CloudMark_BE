@@ -1,14 +1,15 @@
+from operator import truediv
 import dotenv
+from sqlalchemy import true
 from DB.DBUtility import DBUtility 
 from Model.AccountModel import AccountModel
 from Model.UserModel import UserModel, SessionModel
 from mysql.connector.cursor import MySQLCursor
 from mysql.connector.connection import MySQLConnection
 import os
+import hashlib
 from dotenv import load_dotenv
 import jwt
-import json
-
 
 # testati e funzionanti
 class AccountDao:
@@ -59,7 +60,14 @@ class AccountDao:
     def createAccount(account:AccountModel):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"INSERT INTO account(user, password, abilitato, tipo_account) VALUES('{account.user}', '{account.password}', '{account.abilitato}', '{account.tipo_account}');")
+        password_hashed = hashPassword(account.password)
+        salt_from_password_hashed = password_hashed[:32]
+        account.password = key_from_password_hashed = password_hashed[32:]
+        cursor.execute(f"INSERT INTO account(user, password, abilitato, tipo_account) VALUES('{account.user}', '{key_from_password_hashed}', '{account.abilitato}', '{account.tipo_account}');")
+        connection.commit()
+        cursor.execute(f"SELECT id_account from account where user = '{account.user}'")
+        id_account = cursor.fetchone()
+        cursor.execute(f"INSERT INTO saltino(id_account, salt) VALUES('{id_account[0]}', '{salt_from_password_hashed}');")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -95,19 +103,51 @@ class AccountDao:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         session = ''
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE user = '{User.user}' AND password = '{User.password}';")
-        record = cursor.fetchone()
-        if(record is None):
-            return ''
+        if checkPassword(User) is True:
+            cursor.execute(f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE user = '{User.user}';")
+            record = cursor.fetchone()
+            if(record is None):
+                return ''
+            else:
+                session = SessionModel(
+                    id_account=record[0],
+                    user=record[1],
+                    abilitato=record[2],
+                    tipo_account=record[3]
+                )
+            if connection.is_connected():
+                connection.close()
+            hashPassword(User.password)
+
+            session_encoded = jwt.encode( session.dict(), JWTPSW, algorithm="HS256")
+            return session_encoded
         else:
-            session = SessionModel(
-                id_account=record[0],
-                user=record[1],
-                abilitato=record[2],
-                tipo_account=record[3]
-            )
-        if connection.is_connected():
-            connection.close()
-      
-        session_encoded = jwt.encode( session.dict(), JWTPSW, algorithm="HS256")
-        return session_encoded
+            return None
+    
+def checkPassword(User: UserModel):
+    password_to_check = User.password
+    connection : MySQLConnection = DBUtility.getLocalConnection()
+    cursor : MySQLCursor = connection.cursor()
+    cursor.execute(f"SELECT password, salt FROM account INNER JOIN  saltino WHERE  saltino.id_account = account.id_account AND user = '{User.user}';")
+    record = cursor.fetchone()
+    if(record is None):
+        return False
+    else:
+        key = record[1] + record[0]
+    new_key = hashlib.pbkdf2_hmac(
+        'sha256',
+        password_to_check.encode('utf-8'), # Convert the password to bytes
+        record[1], 
+        100000
+    )
+    if new_key == key:
+        return True
+    else:
+        return False
+
+def hashPassword(password: str):    
+    salt = os.urandom(32)
+    key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
+    return salt + key 
+    
+

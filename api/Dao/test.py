@@ -43,14 +43,14 @@ class test:
 
     # ###### TEST CustomerDAO ######
     # in console mi aspetto 6 warning, il primo mi ritorna il record con tutti i record presenti nella table, il secondo mi ritorna il record con ID=1, il terzo mi torna l'oggetto che ho inserito nella table, il quarto mi torna i clienti corrispondenti all'azienda di ID=1, il quinto mi torna l'oggetto modificato nella table, l'ultimo mi dà la conferma di eliminazione del record
-    logging.warning(CustomerDao.getAllCustomers())
-    customerCreate = CustomerModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    customerUpdate = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    logging.warning(CustomerDao.getCustomerByID(1))
-    logging.warning(CustomerDao.createCustomer(customerCreate))
-    logging.warning(CustomerDao.getCustomerByBusinessID(1))
-    logging.warning(CustomerDao.updateCustomerByID(customerUpdate))
-    logging.warning(CustomerDao.deleteCustomerByID(2))
+    # logging.warning(CustomerDao.getAllCustomers())
+    # customerCreate = CustomerModel(name='pluto', p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="0110012", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    # customerUpdate = CustomerModel(id_customer=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    # logging.warning(CustomerDao.getCustomerByID(1))
+    # logging.warning(CustomerDao.createCustomer(customerCreate))
+    logging.warning(CustomerDao.getCustomerByBusinessID('errore'))
+    # logging.warning(CustomerDao.updateCustomerByID(customerUpdate))
+    # logging.warning(CustomerDao.deleteCustomerByID(2))
     
     # ###### TEST EmployeeDAO ######
     # logging.warning(EmployeeDAO.getAllEmployees())
