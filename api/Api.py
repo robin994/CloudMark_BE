@@ -8,7 +8,7 @@ from Dao.BusinessDao import BusinessDao
 # from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
-# from Dao.OrderDAO import OrderDao
+from Dao.CommessaDAO import CommessaDAO
 from fastapi import FastAPI
 from Dao.CustomerDao import CustomerDao
 from api.Model.UserModel import UserModel
@@ -51,6 +51,10 @@ async def get_employee_by_surname(lastname):
 async def get_employee_by_cf(cf):
     return EmployeeDAO.getEmployeeByCF(cf)
 
+@app.get("/employee/fine/rapporto")
+async def get_employees_by_last_work():
+    return EmployeeDAO.getEmployeesByLastWork()
+
 
 
 
@@ -72,9 +76,9 @@ async def getAllBusiness():
 async def getSession(user : UserModel):
     return AccountDao.getSession(user)
 
-# @app.get("/order")
-# async def getAllOrders():
-#     return OrderDao.getAllOrders()
+@app.get("/commessa")
+async def getAllOrders():
+    return CommessaDAO.getAllOrders()
     
 # @app.get("/presence")
 # async def getAllPresence():

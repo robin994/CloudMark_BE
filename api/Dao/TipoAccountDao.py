@@ -8,7 +8,7 @@ class TipoAccountDao:
     @staticmethod
     def getAllTipoAccount():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        lista_tipoAccount = list()
+        lista_tipoAccount = dict()
         cursore: MySQLCursor = connection.cursor()
         query = "SELECT ta.nome_tipo_account, ta.lista_funzioni_del_profilo FROM tipo_account ta"
         cursore.execute(query)
@@ -17,7 +17,7 @@ class TipoAccountDao:
             tipoAccount = TipoAccount(
                 nomeTipoAccount=row[0],
                 funzioneProfilo=row[1])
-            lista_tipoAccount.append(tipoAccount)
+            lista_tipoAccount[row[0]] = tipoAccount
         if connection.is_connected():
             connection.close()
         

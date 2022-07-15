@@ -12,23 +12,23 @@ class EmployeeDAO:
     @staticmethod
     def getAllEmployees():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        lista_employee = list()
+        lista_employee = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
             "SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente")
         records = cursor.fetchall()
-        for record in records:
+        for row in records:
             employee = EmployeeModel(
-                id_employee=record[0],
-                nome=record[1],
-                cognome=record[2],
-                cf=record[3],
-                iban=record[4],
-                tipo_contratto=record[5],
-                email=record[6],
-                telefono=record[7]
+                id_employee=row[0],
+                nome=row[1],
+                cognome=row[2],
+                cf=row[3],
+                iban=row[4],
+                tipo_contratto=row[5],
+                email=row[6],
+                telefono=row[7]
             )
-            lista_employee.append(employee)
+            lista_employee[row[0]] = employee
         if connection.is_connected():
             connection.close()
 
@@ -96,7 +96,7 @@ class EmployeeDAO:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         employee = EmployeeModel()
-        lista_employee = list()
+        lista_employee = dict()
         cursor.execute(
             f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE nome = '{nome}' AND cognome = '{cognome}';")
         records = cursor.fetchall()
@@ -114,7 +114,7 @@ class EmployeeDAO:
                     email=record[6],
                     telefono=record[7]
                 )
-                lista_employee.append(employee)
+                lista_employee[record[0]] = employee
         if connection.is_connected():
             connection.close()
         return lista_employee
@@ -124,7 +124,7 @@ class EmployeeDAO:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         employee = EmployeeModel()
-        lista_employee = list()
+        lista_employee = dict()
         cursor.execute(
             f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE cognome = '{cognome}';")
         records = cursor.fetchall()
@@ -142,7 +142,7 @@ class EmployeeDAO:
                     email=record[6],
                     telefono=record[7]
                 )
-                lista_employee.append(employee)
+                lista_employee[record[0]] = employee
             if connection.is_connected():
                 connection.close()
             return lista_employee
@@ -151,7 +151,7 @@ class EmployeeDAO:
     def getEmployeeByCF(cf: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         employee = EmployeeModel()
-        lista = list()
+        lista = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
             f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE cf ='{cf}';")
@@ -173,7 +173,7 @@ class EmployeeDAO:
                 email=record[6],
                 telefono=record[7]
             )
-            lista.append(employee)
+            lista[record[0]] = employee
             response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
             lista.append(response)
         if connection.is_connected():
@@ -181,6 +181,32 @@ class EmployeeDAO:
         return lista
         
 
+    @staticmethod
+    def getEmployeesByLastWork():
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        employee = EmployeeModel()
+        lista = dict()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(
+            """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
+            FROM dipendente 
+            INNER JOIN dipendente_azienda 
+            ON dipendente_azienda.data_fine_rapporto != 0""")
+        records = cursor.fetchall()
+        for record in records:
+                employee = EmployeeModel(
+                    id_employee=record[0],
+                    nome=record[1],
+                    cognome=record[2],
+                    cf=record[3],
+                    iban=record[4],
+                    tipo_contratto=record[5],
+                    email=record[6],
+                    telefono=record[7]
+                )
+                lista[record[0]] = employee
+        if connection.is_connected():
+            connection.close()
         return lista
 
     # @staticmethod

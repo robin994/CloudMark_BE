@@ -3,7 +3,7 @@ from datetime import date, datetime
 from typing import Optional
 from pydantic import BaseModel
 
-class OrderModel(BaseModel):
+class CommessaModel(BaseModel):
     id_order : Optional[int]
     descrizione : Optional[str]
     id_cliente : Optional[int]
