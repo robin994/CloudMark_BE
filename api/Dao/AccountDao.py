@@ -8,7 +8,7 @@ class AccountDao:
     @staticmethod
     def getAllAccounts():
         connection : MySQLConnection = DBUtility.getLocalConnection()
-        lista_account = list()
+        lista_account = dict()
         cursor : MySQLCursor = connection.cursor()
         cursor.execute("SELECT id_account, user, password, abilitato, tipo_account FROM account")
         records = cursor.fetchall()
@@ -20,7 +20,7 @@ class AccountDao:
                 abilitato=row[3],
                 tipo_account=row[4]
             )
-            lista_account.append(account)
+            lista_account[row[0]] = account
         if connection.is_connected():
             connection.close()
         
