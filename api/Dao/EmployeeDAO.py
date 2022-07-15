@@ -9,22 +9,22 @@ class EmployeeDAO:
     @staticmethod
     def getAllEmployees():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        lista_employee = list()
+        lista_employee = dict()
         cursor : MySQLCursor = connection.cursor()
         cursor.execute("SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente")
         records = cursor.fetchall()
-        for record in records:
+        for row in records:
             employee = EmployeeModel(
-                id_employee=record[0],
-                nome=record[1],
-                cognome=record[2],
-                cf=record[3],
-                iban=record[4],
-                tipo_contratto=record[5],
-                email=record[6],
-                telefono=record[7]
+                id_employee=row[0],
+                nome=row[1],
+                cognome=row[2],
+                cf=row[3],
+                iban=row[4],
+                tipo_contratto=row[5],
+                email=row[6],
+                telefono=row[7]
             )
-            lista_employee.append(employee)
+            lista_employee[row[0]] = employee
         if connection.is_connected():
             connection.close()
         
@@ -88,7 +88,7 @@ class EmployeeDAO:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
         employee = EmployeeModel()
-        lista_employee = list()
+        lista_employee = dict()
         cursor.execute(f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE nome = '{nome}' AND cognome = '{cognome}';")
         records = cursor.fetchall()
         if records is None:
@@ -119,7 +119,7 @@ class EmployeeDAO:
                     email=record[6],
                     telefono=record[7]
                 )
-                lista_employee.append(employee)
+                lista_employee[record[0]] = employee
             if connection.is_connected():
                 connection.close()
             return lista_employee
@@ -129,7 +129,7 @@ class EmployeeDAO:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
         employee = EmployeeModel()
-        lista_employee = list()
+        lista_employee = dict()
         cursor.execute(f"SELECT id_dipendente, nome, cognome, cf, iban, tipo_contratto, email, telefono FROM dipendente WHERE cognome = '{cognome}';")
         records = cursor.fetchall()
         if records is None:
@@ -146,7 +146,7 @@ class EmployeeDAO:
                     email=record[6],
                     telefono=record[7]
                 )
-                lista_employee.append(employee)
+                lista_employee[record[0]] = employee
             if connection.is_connected():
                 connection.close()
             return lista_employee
