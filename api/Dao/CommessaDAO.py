@@ -25,7 +25,7 @@ class CommessaDAO:
             lista_orders[row[0]] = order
         if connection.is_connected():
             connection.close()
-        
+
         return lista_orders
 
     @staticmethod
@@ -77,3 +77,5 @@ class CommessaDAO:
         connection.commit()
         if connection.is_connected():
             connection.close()
+        
+        return f"Commessa con id = {id_order} eliminata"

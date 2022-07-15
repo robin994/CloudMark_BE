@@ -1,3 +1,4 @@
+from xml.dom.minicompat import EmptyNodeList
 from AccountDao import AccountDao
 from Model.AccountModel import AccountModel
 from BusinessDao import BusinessDao
@@ -32,13 +33,13 @@ class test:
 
     # ###### TEST BusinessDao ######
     # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    logging.warning(BusinessDao.getAllBusiness())
-    businessCreate = BusinessModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    businessUpdate = BusinessModel(id_business=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
-    logging.warning(BusinessDao.getBusinessByID(1))
-    logging.warning(BusinessDao.createBusiness(businessCreate))
-    logging.warning(BusinessDao.updateBusinessById(businessUpdate))
-    logging.warning(BusinessDao.deleteBusinessById(4))
+    # logging.warning(BusinessDao.getAllBusiness())
+    # businessCreate = BusinessModel(name="Pluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    # businessUpdate = BusinessModel(id_business=2, name="notPluto", p_iva="aaabbbcccee", address="Via Sfarulli, 8", cap="01100", iban="IT94L0355555555555555555553", phone="06222222222", email="grossaaziendapluto@gmail.com", pec="pluto@pec.it", fax="06222222222")
+    # logging.warning(BusinessDao.getBusinessByID(1))
+    # logging.warning(BusinessDao.createBusiness(businessCreate))
+    # logging.warning(BusinessDao.updateBusinessById(businessUpdate))
+    # logging.warning(BusinessDao.deleteBusinessById(4))
 
     # ###### TEST CustomerDAO ######
     # logging.warning(CustomerDao.getAllCustomers())
@@ -60,15 +61,18 @@ class test:
     # logging.warning(EmployeeDAO.createEmployee(employeeCreate))
     # logging.warning(EmployeeDAO.updateEmployeeByID(employeeUpdate))
     # logging.warning(EmployeeDAO.deleteEmployeeByID(2))
+    # logging.warning(EmployeeDAO.getEmployeesByLastWork())
+
+    # ###### TEST CommessaDAO ######
+    # in console mi aspetto 5 warning, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
+    logging.warning(CommessaDAO.getAllOrders())
+    logging.warning(CommessaDAO.getOrderByID(1))
+    commessaCreate = CommessaModel(descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2022-01-03")
+    logging.warning(CommessaDAO.createOrder(commessaCreate))
+    commessaUpdate = CommessaModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
+    logging.warning(CommessaDAO.updateOrderById(commessaUpdate))
+    logging.warning(CommessaDAO.deleteOrderByID(2))
     
-    # ###### TEST OrderDAO ######
-    # logging.warning(CommessaDAO.getAllOrders())
-    # logging.warning(CommessaDAO.getOrderByID(1))
-    # orderCreate = CommessaModel(descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2022-01-03")
-    # logging.warning(CommessaDAO.createOrder(orderCreate))
-    # orderUpdate = CommessaModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
-    # logging.warning(CommessaDAO.updateOrderById(orderUpdate))
-    # logging.warning(CommessaDAO.deleteOrderByID(2))
 
     # ###### TEST PresenceDAO ######     
     # logging.warning(PresenceDao.getAllPresence())
