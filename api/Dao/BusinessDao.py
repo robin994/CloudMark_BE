@@ -2,6 +2,7 @@ from DB.DBUtility import DBUtility
 from Model.BusinessModel import BusinessModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
+import json
 
 # testati e funzionanti
 class BusinessDao:
@@ -9,7 +10,7 @@ class BusinessDao:
     @staticmethod
     def getAllBusiness():
         connection : MySQLConnection = DBUtility.getLocalConnection()
-        lista_business = list()
+        lista_business = dict()
         cursor : MySQLCursor= connection.cursor()
         cursor.execute("SELECT id_azienda, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM azienda")
         records = cursor.fetchall()
@@ -26,7 +27,8 @@ class BusinessDao:
                 pec= row[8],
                 fax= row[9]
             )
-            lista_business.append(business)
+            lista_business[row[0]] =  business
+            
         if connection.is_connected():
             connection.close()
         

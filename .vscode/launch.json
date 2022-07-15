@@ -14,22 +14,21 @@
             "--reload"
         ],
         "env" : {
-            "PYTHONPATH":"${workspaceFolder}/api"
+            "PYTHONPATH":"${workspaceFolder}/api;${workspaceFolder}/api;${workspaceFolder}/api/DB;${workspaceFolder}/api/Model;"
         
         },
         "jinja": true,
         "justMyCode": true
+    },
+    {
+      "name": "Test Dao",
+      "type": "python",
+      "request": "launch",
+      "module": "test",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+      }
     }
-
-    // {
-    //   "name": "Test Dao",
-    //   "type": "python",
-    //   "request": "launch",
-    //   "module": "test",
-    //   "justMyCode": true,
-    //   "env": {
-    //     "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
-    //   }
-    // }
-  ]
+  
 }
