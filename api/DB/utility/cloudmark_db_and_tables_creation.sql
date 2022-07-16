@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS cloudmark;
+CREATE DATABASE IF NOT EXISTS CloudMark;
 
-USE cloudmark;
+USE CloudMark;
 
 DROP TABLE IF EXISTS `azienda`;
 CREATE TABLE `azienda` (
@@ -33,12 +33,12 @@ CREATE TABLE `cliente` (
   PRIMARY KEY (`id_cliente`)
 );
 
-DROP TABLE IF EXISTS `tipoContratto`;
-CREATE TABLE `tipoContratto` (
-  `id_tipoContratto` int NOT NULL AUTO_INCREMENT,
-  `nome_tipocontratto` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `tipo_contratto`;
+CREATE TABLE `tipo_contratto` (
+  `id_tipo_contratto` int NOT NULL AUTO_INCREMENT,
+  `nome_tipo_contratto` varchar(45) NOT NULL,
   `descrizione` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_tipoContratto`)
+  PRIMARY KEY (`id_tipo_contratto`)
 );
 
 DROP TABLE IF EXISTS `dipendente`;
@@ -48,22 +48,22 @@ CREATE TABLE `dipendente` (
   `cognome` varchar(45) DEFAULT NULL,
   `cf` varchar(16) NOT NULL,
   `iban` varchar(45) NOT NULL,
-  `id_tipoContratto` int NOT NULL,
+  `id_tipo_contratto` int NOT NULL,
   `email` varchar(90) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_dipendente`),
   UNIQUE KEY `cf_UNIQUE` (`cf`),
-  KEY `tipo_contratto_idx` (`id_tipoContratto`),
-  KEY `fk_dipendente_tipo_contratto_idx` (`id_tipoContratto`),
-  CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`id_tipoContratto`) REFERENCES `tipoContratto` (`id_tipoContratto`)
+  KEY `tipo_contratto_idx` (`id_tipo_contratto`),
+  KEY `fk_dipendente_tipo_contratto_idx` (`id_tipo_contratto`),
+  CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`id_tipo_contratto`) REFERENCES `tipo_contratto` (`id_tipo_contratto`)
 );
 
-DROP TABLE IF EXISTS `tipoAccount`;
-CREATE TABLE `tipoAccount` (
-  `id_tipoAccount` int NOT NULL AUTO_INCREMENT,
-  `nome_tipoAccount` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `tipo_account`;
+CREATE TABLE `tipo_account` (
+  `id_tipo_account` int NOT NULL AUTO_INCREMENT,
+  `nome_tipo_account` varchar(45) NOT NULL,
   `lista_funzioni_del_profilo` text,
-  PRIMARY KEY (`id_tipoAccount`)
+  PRIMARY KEY (`id_tipo_account`)
 );
 
 
@@ -73,11 +73,11 @@ CREATE TABLE `account` (
   `user` varchar(45) NOT NULL,
   `password` VARBINARY(64) NOT NULL,
   `abilitato` tinyint(1) DEFAULT NULL,
-  `id_tipoAccount` int NOT NULL,
+  `id_tipo_account` int NOT NULL,
   PRIMARY KEY (`id_account`),
   UNIQUE KEY `user_UNIQUE` (`user`),
-  KEY `id_tipoAccount` (`id_tipoAccount`),
-  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`id_tipoAccount`) REFERENCES `tipoAccount` (`id_tipoAccount`)
+  KEY `id_tipoAccount` (`id_tipo_account`),
+  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`id_tipo_account`) REFERENCES `tipo_account` (`id_tipo_account`)
 );
 
 DROP TABLE IF EXISTS `commessa`;
@@ -95,27 +95,27 @@ CREATE TABLE `commessa` (
   CONSTRAINT `commessa_ibfk_2` FOREIGN KEY (`id_azienda`) REFERENCES `azienda` (`id_azienda`)
 );
 
-DROP TABLE IF EXISTS `tipoPresenza`;
-CREATE TABLE `tipoPresenza` (
-  `id_tipoPresenza` int NOT NULL AUTO_INCREMENT,
-  `nome_tipoPresenza` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `tipo_presenza`;
+CREATE TABLE `tipo_presenza` (
+  `id_tipo_presenza` int NOT NULL AUTO_INCREMENT,
+  `nome_tipo_presenza` varchar(45) NOT NULL,
   `perc_maggiorazione_paga_oraria` int DEFAULT NULL,
   `paga_oraria` int DEFAULT NULL,
-  PRIMARY KEY (`id_tipoPresenza`)
+  PRIMARY KEY (`id_tipo_presenza`)
 );
 
 DROP TABLE IF EXISTS `presenza`;
 CREATE TABLE `presenza` (
   `id_dipendente` int NOT NULL,
   `data` date NOT NULL,
-  `id_tipoPresenza` int NOT NULL,
+  `id_tipo_presenza` int NOT NULL,
   `id_commessa` int NOT NULL,
   `ore` int DEFAULT NULL,
-  PRIMARY KEY (`id_dipendente`,`data`,`id_tipoPresenza`),
-  KEY `id_tipoPresenza` (`id_tipoPresenza`),
+  PRIMARY KEY (`id_dipendente`,`data`,`id_tipo_presenza`),
+  KEY `id_tipo_presenza` (`id_tipo_presenza`),
   KEY `id_commessa` (`id_commessa`),
   CONSTRAINT `presenza_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendente` (`id_dipendente`),
-  CONSTRAINT `presenza_ibfk_2` FOREIGN KEY (`id_tipoPresenza`) REFERENCES `tipoPresenza` (`id_tipoPresenza`),
+  CONSTRAINT `presenza_ibfk_2` FOREIGN KEY (`id_tipo_presenza`) REFERENCES `tipo_presenza` (`id_tipo_presenza`),
   CONSTRAINT `presenza_ibfk_3` FOREIGN KEY (`id_commessa`) REFERENCES `commessa` (`id_commessa`)
 );
 
