@@ -103,6 +103,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-DbCredential.json
+DbCredentialCloudmark.json
 
 .vscode
