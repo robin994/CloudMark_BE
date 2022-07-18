@@ -70,7 +70,7 @@ async def create_account(account : AccountModel):
 async def get_session(user : UserModel):
     return AccountDao.getSession(user)
 
-@app.get("/commessa", tags=["commessa"])
+@app.get("/order", tags=["order"])
 async def get_all_orders():
     return CommessaDAO.getAllOrders()
     
