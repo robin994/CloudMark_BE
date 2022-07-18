@@ -49,11 +49,6 @@ async def filter_employee_by(Employee : EmployeeModel, idAzienda: int):
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
 
-
-
-
-
-
 @app.get("/customer")
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
