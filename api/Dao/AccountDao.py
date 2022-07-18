@@ -1,5 +1,3 @@
-from operator import truediv
-from typing import Dict
 from uuid import UUID, uuid4
 from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
@@ -126,20 +124,20 @@ class AccountDao:
                 tipo_account=record[0][3]
             )
         
-        jwt.decode(encoded, JWTPSW, algorithms="HS256")
+        # jwt.decode(encoded, JWTPSW, algorithms="HS256")
         
-        # if record is None:
-        #     return ''
-        # else:
+        if record is None:
+            return ''
+        else:
             
-        #     print(session)
-        # if connection.is_connected():
-        #     connection.close()
-        # # print("La porco dio di sessione", session)
+            print(session)
+        if connection.is_connected():
+            connection.close()
+        # print("La porco dio di sessione", session)
   
-        # session_encoded = jwt.encode(session.dict(), JWTPSW, algorithm="HS256")
-        # return session_encoded
-        # # return user
+        session_encoded = jwt.encode(session.dict(), JWTPSW, algorithm="HS256")
+        return session_encoded
+        # return user
     
     @staticmethod
     def getSession(User: UserModel):
