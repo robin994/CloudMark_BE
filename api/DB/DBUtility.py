@@ -7,7 +7,7 @@ class DBUtility:
     def getLocalConnection():
 
         logging.info("creo la connessione")
-        with open('api\DB\DbCredentialCloudmark.json') as f:
+        with open('api\DB\DbLocalCredential.json') as f:
          db = json.load(f)
          connessione=None
         try:

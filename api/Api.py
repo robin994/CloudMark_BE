@@ -10,7 +10,7 @@ from fastapi import FastAPI
 from Dao.CustomerDao import CustomerDao
 from api.Model.CustomerModel import CustomerModel
 from api.Model.BusinessModel import BusinessModel
-from api.Model.AccountModel import AccountModel
+from api.Model.AccountModel import AccountModel, NewAccountModel
 from api.Model.UserModel import UserModel
 from api.Model.EmployeeModel import EmployeeModel
 
@@ -36,13 +36,16 @@ app.add_middleware(
 )
 
 #Endpoint - Account
+@app.get("/account", tags=["account"])
+async def get_all_accounts():
+    return AccountDao.getAllAccounts()
 
-# @app.get("/account", tags=["account"])
-# async def get_all_accounts():
-#     return AccountDao.getAllAccounts()
+@app.get("/account/{uuid}", tags=["account"])
+async def get_accounts_by_uuid(uuid):
+    return AccountDao.getAccountByID(uuid)
 
 @app.post("/account/signin", tags=["account"])
-async def create_account(account : AccountModel):
+async def create_account(account : NewAccountModel):
     return AccountDao.createAccount(account)
 
 @app.post("/account/login", tags=["account"])

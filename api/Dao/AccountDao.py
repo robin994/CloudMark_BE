@@ -1,4 +1,5 @@
 from operator import truediv
+from typing import Dict
 from uuid import UUID, uuid4
 from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
@@ -9,6 +10,7 @@ import os
 import hashlib
 from dotenv import load_dotenv
 import jwt
+import logging
 
 from api.Model.AccountModel import NewAccountModel
 
@@ -18,42 +20,43 @@ from api.Model.AccountModel import NewAccountModel
 class AccountDao:
     @staticmethod
     def getAllAccounts():
+        logging.info("Chiamata getAllAccounts")
         connection: MySQLConnection = DBUtility.getLocalConnection()
         lista_account = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            "SELECT id_account, user, password, abilitato, id_tipoAccount FROM account")
+            "SELECT id_account, user, abilitato, id_tipo_account FROM account")
         records = cursor.fetchall()
         for row in records:
-            account = AccountModel(
+            account = dict(
                 id_account=row[0],
                 user=row[1],
-                password=row[2],
-                abilitato=row[3],
-                id_tipoAccount=row[4]
+                abilitato=row[2],
+                id_tipoAccount=row[3]
             )
             lista_account[row[0]] = account
         if connection.is_connected():
             connection.close()
+            logging.info("Chiudo la connessione")
+        logging.info("ritorno lista account")
+
         return lista_account
 
     @staticmethod
     def getAccountByID(id_account: UUID):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        account = AccountModel()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"SELECT id_account, user, password, abilitato, id_tipoAccount FROM account WHERE id_account = {id_account};")
+            f"SELECT `id_account`, `user`, `abilitato`, `id_tipo_account` FROM account WHERE `id_account` = '{id_account}';")
         record = cursor.fetchone()
         if(record is None):
-            return account
+            return ""
         else:
-            account = AccountModel(
+            account = dict(
                 id_account=record[0],
                 user=record[1],
-                password=record[2],
-                abilitato=record[3],
-                id_tipoAccount=record[4]
+                abilitato=record[2],
+                id_tipoAccount=record[3]
             )
         if connection.is_connected():
             connection.close()
@@ -68,7 +71,8 @@ class AccountDao:
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
         sql = "INSERT INTO account(id_account,user, abilitato, id_tipo_account, password) VALUES(%s, %s, %s, %s, %s)"
-        val = (uuid4(), account.user, account.abilitato,
+        uuid = uuid4()
+        val = (str(uuid), account.user, account.abilitato,
                account.id_tipoAccount, key_from_password_hashed)
         cursor.execute(sql, val)
         connection.commit()
@@ -81,7 +85,7 @@ class AccountDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return 1
+        return uuid
 
     @staticmethod
     def deleteAccountByID(id_account: UUID):
