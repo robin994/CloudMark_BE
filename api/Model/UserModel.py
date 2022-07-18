@@ -9,7 +9,7 @@ class UserModel(BaseModel):
 
 
 class SessionModel(BaseModel):
-    id_account: Optional[UUID]
+    id_account: Optional[str]
     user: Optional[str]
     abilitato: Optional[str]
     tipo_account: Optional[str]

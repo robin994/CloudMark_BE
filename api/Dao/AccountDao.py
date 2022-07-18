@@ -98,46 +98,15 @@ class AccountDao:
         return f"Account con id = {id_account} eliminato"
 
     @staticmethod
-    def updateAccount(user: UserModel):
-                
-        load_dotenv()
-        JWTPSW = os.getenv("JWTPSW")
+    def updateAccount(account: AccountModel, session_encoded: str):                 
+        if AccountDao.jwt_verify(session_encoded):
+            connection : MySQLConnection = DBUtility.getLocalConnection()
+            cursor : MySQLCursor = connection.cursor()
+            sql = "UPDATE `account` SET `user`=%s   WHERE `id_account`= %s;"
+            val = (account.user , account.id_account)
+            cursor.execute(sql ,val)
+            connection.commit()
         
-        connection : MySQLConnection = DBUtility.getLocalConnection()
-        session_encoded = ''
-        
-        cursor : MySQLCursor = connection.cursor()
-        sql = """UPDATE account SET user=%s, abilitato=%s WHERE id_account=%s;"""
-        val = (user.user, user.abilitato, user.id_account, )
-        cursor.execute(sql ,val)
-        connection.commit()
-        
-        sql_2 = f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE id_account = {user.id_account};"
-        cursor.execute(sql_2)
-        record = cursor.fetchall()
-        # print(record)
-        
-        session = SessionModel(
-                id_account=record[0][0],
-                user=record[0][1],
-                abilitato=record[0][2],
-                tipo_account=record[0][3]
-            )
-        
-        # jwt.decode(encoded, JWTPSW, algorithms="HS256")
-        
-        if record is None:
-            return ''
-        else:
-            
-            print(session)
-        if connection.is_connected():
-            connection.close()
-        # print("La porco dio di sessione", session)
-  
-        session_encoded = jwt.encode(session.dict(), JWTPSW, algorithm="HS256")
-        return session_encoded
-        # return user
     
     @staticmethod
     def getSession(User: UserModel):
@@ -169,7 +138,25 @@ class AccountDao:
             return session_encoded
         else:
             return None
-
+        
+    @staticmethod
+    def jwt_verify(token):
+        load_dotenv()
+        JWTPSW = os.getenv("JWTPSW")
+        jwt_options = {
+            'verify_signature': True
+        }
+        try:
+            jwt.decode(
+                token,
+                JWTPSW,
+                algorithms=['HS256'],
+                options=jwt_options
+            )
+            return True
+        except Exception as err:
+            print(str(err))
+            return False
 
 def checkPassword(User: UserModel):
     password_to_check = User.password

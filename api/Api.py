@@ -48,6 +48,10 @@ async def get_accounts_by_uuid(uuid):
 async def create_account(account : NewAccountModel):
     return AccountDao.createAccount(account)
 
+@app.patch("/account/update", tags=["account"])
+async def create_account(account : AccountModel, session: str):
+    return AccountDao.updateAccount(account, session)
+
 @app.post("/account/login", tags=["account"])
 async def get_session(user : UserModel):
     return AccountDao.getSession(user)
@@ -55,6 +59,10 @@ async def get_session(user : UserModel):
 @app.post("/account/delete", tags=["account"])
 async def delete_account(id_account):
     return AccountDao.deleteAccountByID(id_account)
+
+@app.post("/account/verify_account", tags=["account"])
+async def jwt_verify(token: str):
+    return AccountDao.jwt_verify(token)
 
 # Endpoint - Business
 
