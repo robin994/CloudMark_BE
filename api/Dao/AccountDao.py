@@ -1,12 +1,4 @@
 from operator import truediv
-<<<<<<< HEAD
-import dotenv
-<<<<<<< HEAD
-=======
-=======
->>>>>>> a7b49ed949a439d60b474a507f76cba36de6f372
-# from sqlalchemy import true
->>>>>>> a26f3967272e6b1163b77a5eab74db852a6b60ef
 from DB.DBUtility import DBUtility 
 from Model.AccountModel import AccountModel
 from Model.UserModel import UserModel, SessionModel
