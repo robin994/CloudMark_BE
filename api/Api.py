@@ -38,39 +38,39 @@ app.add_middleware(
 )
 
 # Endpoint - Employee
-@app.get("/employee")
+@app.get("/employee", tags=["employee"])
 async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
-@app.post('/employee/')
+@app.post('/employee/', tags=["employee"] )
 async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
     return EmployeeDAO.filterByEmployee(Employee, idAzienda)
 
-@app.get("/fine/rapporto")
+@app.get("/employee/lastwork", tags=["employee"])
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
 
-@app.get("/customer")
+@app.get("/customer", tags=["customer"])
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
-@app.get("/business")
+@app.get("/business", tags=["business"])
 async def get_all_business():
     return BusinessDao.getAllBusiness()
 
-@app.post('/business/')
+@app.post('/business/', tags=["business"])
 async def filter_by_business(Business : BusinessModel):
     return BusinessDao.filterByBusiness(Business)
 
-@app.post("/account/signin")
+@app.post("/account/signin", tags=["account"])
 async def create_account(account : AccountModel):
     return AccountDao.createAccount(account)
 
-@app.post("/account/login")
+@app.post("/account/login", tags=["account"])
 async def get_session(user : UserModel):
     return AccountDao.getSession(user)
 
-@app.get("/commessa")
+@app.get("/commessa", tags=["commessa"])
 async def get_all_orders():
     return CommessaDAO.getAllOrders()
     
@@ -81,10 +81,10 @@ async def get_all_orders():
 
 
 # Endpoint - TipoAccount
-@app.get("/tipo/account")
+@app.get("/tipo/account", tags=["TipoAccount"])
 async def get_all_tipo_account():
     return TipoAccountDao.getAllTipoAccount()
 
-@app.get("/tipo/account/{id_account}")
+@app.get("/tipo/account/{id_account}", tags=["TipoAccount"])
 async def get_tipo_account_by_id(id_account):
     return TipoAccountDao.getTipoAccountByNomeTipoAccount(id_account)
