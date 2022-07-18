@@ -1,6 +1,7 @@
 import mysql.connector
 import json
 import logging
+
 class DBUtility:
 
     @staticmethod
@@ -45,6 +46,3 @@ class DBUtility:
         except mysql.connector.Error as e:
             logging.error("Error reading data from MySQL table", e)
         return connessione
-
-
-
