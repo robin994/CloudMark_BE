@@ -8,7 +8,7 @@ class DBUtility:
     def getLocalConnection():
 
         logging.info("creo la connessione")
-        with open('api\DB\DbLocalCredential.json') as f:
+        with open('api/DB/DbLocalCredential.json') as f:
          db = json.load(f)
          connessione=None
         try:
@@ -25,7 +25,6 @@ class DBUtility:
             logging.error("Error reading data from MySQL table", e)
         return connessione
     
-
 
 
 
