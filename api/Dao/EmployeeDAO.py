@@ -95,29 +95,8 @@ class EmployeeDAO:
     @staticmethod
     def filterEmployeeBy(emp : EmployeeModel, idAzienda):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        employee = EmployeeModel()
-<<<<<<< HEAD
-        lista = dict()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"SELECT d.cognome, d.nome, d.cf, da.matricola, da.data_inizio_rapporto FROM dipendente d JOIN dipendente_azienda da ON d.id_dipendente = da.id_dipendente WHERE nome LIKE '{nome}%' and cognome LIKE '{cognome}%';")
-        record = cursor.fetchone()
-        if record is None:
-            response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error=f"Il dipendente {nome} {cognome} non è presente")
-            lista['response'] = response
-        else:
-            employee = EmployeeBusinessModel(
-                nome=record[0],
-                cognome=record[1],
-                cf=record[2],
-                matricola=record[3],
-                data_inizio_rapporto=record[4],
-             )
-            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
-            lista[record[0]] = employee
-            lista['response'] = response
-=======
+        employee = EmployeeModel()
         lista_employee = dict()
         sql = """SELECT * FROM dipendente 
         JOIN dipendente_azienda ON dipendente.id_dipendente = dipendente_azienda.id_dipendente  
@@ -141,10 +120,9 @@ class EmployeeDAO:
                     telefono=record[7]
                 )
                 lista_employee[record[0]] = employee
->>>>>>> a7b49ed949a439d60b474a507f76cba36de6f372
         if connection.is_connected():
             connection.close()
-        return lista
+        return lista_employee
 
     @staticmethod
     def getEmployeeBySurname(cognome: str):
