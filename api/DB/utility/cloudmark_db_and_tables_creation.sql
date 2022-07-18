@@ -170,6 +170,6 @@ CREATE TABLE `saltini` (
   `salt` VARBINARY(64) NOT NULL,
   PRIMARY KEY (`id_account`),
   KEY `id_account` (`id_account`),
-  CONSTRAINT `saltini_ibfk_1` FOREIGN KEY (`id_account`) REFERENCES `account` (`id_account`)
+  CONSTRAINT `saltini_ibfk_1` FOREIGN KEY (`id_account`) REFERENCES `account` (`id_account`) ON DELETE CASCADE
 );
 
