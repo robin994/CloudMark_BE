@@ -177,6 +177,7 @@ INSERT into `cliente` VALUES (1, 'pippo', 'aaabbbcccdd','via antani 12', '00123'
 INSERT INTO `tipo_contratto` VALUES ('indeterminato',NULL);
 
 INSERT INTO `dipendente` VALUES (1,'bruno','rossi','123','696','indeterminato','brunorossi@gmail.com','1234');
+INSERT INTO `dipendente` VALUES (2,'luca','verdi','456','789','indeterminato','lucaverdi@gmail.com','4567');
 
 INSERT INTO `tipo_account` VALUES ('administrator','admin'),('dipendente','user');
 
@@ -195,3 +196,4 @@ INSERT INTO `azienda_cliente` VALUES (1, 1);
 INSERT into `commessa_dipendente` VALUES (1, 1, 200);
 
 INSERT INTO `dipendente_azienda` VALUES (1, 1, '2022-01-01', '000', '2022-05-05');
+INSERT INTO `dipendente_azienda` VALUES (2, 1, '2022-01-01', '111', '2022-05-05');
