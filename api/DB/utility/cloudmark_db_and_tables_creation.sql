@@ -20,7 +20,7 @@ CREATE TABLE `azienda` (
 
 DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
-  `id_cliente` int NOT NULL AUTO_INCREMENT,
+  `id_cliente` varchar(120) NOT NULL ,
   `nome` varchar(90) DEFAULT NULL,
   `p_iva` char(11) DEFAULT NULL,
   `indirizzo` varchar(90) DEFAULT NULL,
@@ -84,7 +84,7 @@ DROP TABLE IF EXISTS `commessa`;
 CREATE TABLE `commessa` (
   `id_commessa` int NOT NULL AUTO_INCREMENT,
   `descrizione` varchar(255) DEFAULT NULL,
-  `id_cliente` int NOT NULL,
+  `id_cliente` varchar(120) NOT NULL,
   `id_azienda` int NOT NULL,
   `data_inizio` date NOT NULL,
   `data_fine` date NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE `account_dipendente` (
 DROP TABLE IF EXISTS `azienda_cliente`;
 CREATE TABLE `azienda_cliente` (
   `id_azienda` int NOT NULL,
-  `id_cliente` int NOT NULL,
+  `id_cliente` varchar(120) NOT NULL,
   PRIMARY KEY (`id_azienda`,`id_cliente`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `azienda_cliente_ibfk_1` FOREIGN KEY (`id_azienda`) REFERENCES `azienda` (`id_azienda`),
