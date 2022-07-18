@@ -67,7 +67,7 @@ class AccountDao:
         password_hashed = hashPassword(account.password)
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
-        sql = "INSERT INTO account(id_account,user, abilitato, id_tipoAccount, password) VALUES(%s, %s, %s, %s, %s)"
+        sql = "INSERT INTO account(id_account,user, abilitato, id_tipo_account, password) VALUES(%s, %s, %s, %s, %s)"
         val = (uuid4(), account.user, account.abilitato,
                account.id_tipoAccount, key_from_password_hashed)
         cursor.execute(sql, val)
@@ -115,8 +115,7 @@ class AccountDao:
         session = ''
         cursor: MySQLCursor = connection.cursor()
         if checkPassword(User) is True:
-            cursor.execute(
-                f"SELECT id_account, user, abilitato, id_tipoAccount FROM account WHERE user = '{User.user}';")
+            cursor.execute(f"SELECT id_account, user, abilitato, id_tipo_account FROM account WHERE user = '{User.user}';")
             record = cursor.fetchone()
             if(record is None):
                 return ''

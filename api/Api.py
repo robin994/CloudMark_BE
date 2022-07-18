@@ -34,6 +34,54 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+#Endpoint - Account
+
+@app.post("/account/signin", tags=["account"])
+async def create_account(account : AccountModel):
+    return AccountDao.createAccount(account)
+
+@app.post("/account/login", tags=["account"])
+async def get_session(user : UserModel):
+    return AccountDao.getSession(user)
+
+# Endpoint - Business
+
+@app.get("/business", tags=["business"])
+async def get_all_business():
+    return BusinessDao.getAllBusiness()
+
+@app.post('/business/search', tags=["business"])
+async def filter_by_business(Business : BusinessModel):
+    return BusinessDao.filterByBusiness(Business)
+
+@app.post("/business/create", tags=["business"])
+async def create_business(business : BusinessModel):
+    return BusinessDao.createBusiness(business)  
+
+@app.post("/business/update", tags=["business"])
+async def update_business(id_business):
+    return BusinessDao.updateBusinessById(id_business)      
+
+@app.post("/business/delete", tags=["business"])
+async def delete_business(id_business):
+    return BusinessDao.deleteBusinessById(id_business)
+
+#Endpoint - Commessa
+
+@app.get("/order", tags=["order"])
+async def get_all_orders():
+    return CommessaDAO.getAllOrders()
+    
+# @app.get("/presence")
+# async def getAllPresence():
+#     return PresenceDao.getAllPresence()
+
+# Endpoint - Customer
+
+@app.get("/customer", tags=["customer"])
+async def get_all_customer():
+    return CustomerDao.getAllCustomers()
+
 # Endpoint - Employee
 @app.get("/employee", tags=["employee"])
 async def get_all_employees():
@@ -46,36 +94,6 @@ async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
 @app.get("/employee/lastwork", tags=["employee"])
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
-
-@app.get("/customer", tags=["customer"])
-async def get_all_customer():
-    return CustomerDao.getAllCustomers()
-
-@app.get("/business", tags=["business"])
-async def get_all_business():
-    return BusinessDao.getAllBusiness()
-
-@app.post('/business/', tags=["business"])
-async def filter_by_business(Business : BusinessModel):
-    return BusinessDao.filterByBusiness(Business)
-
-@app.post("/account/signin", tags=["account"])
-async def create_account(account : AccountModel):
-    return AccountDao.createAccount(account)
-
-@app.post("/account/login", tags=["account"])
-async def get_session(user : UserModel):
-    return AccountDao.getSession(user)
-
-@app.get("/order", tags=["order"])
-async def get_all_orders():
-    return CommessaDAO.getAllOrders()
-    
-# @app.get("/presence")
-# async def getAllPresence():
-#     return PresenceDao.getAllPresence()
-
-
 
 # Endpoint - TipoAccount
 @app.get("/type/account", tags=["Type"])

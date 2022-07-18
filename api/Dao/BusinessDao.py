@@ -104,7 +104,7 @@ class BusinessDao:
         if connection.is_connected():
             connection.close()
 
-        return record
+    #     return record
 
     @staticmethod
     def createBusiness(business: NewBusinessModel):
@@ -139,30 +139,4 @@ class BusinessDao:
 
         return f"Azienda con id = {id_business} eliminata"
 
-    @staticmethod
-    def getBusinessbyName(nome: str):
-        connection: MySQLConnection = DBUtility.getLocalConnection()
-        business = BusinessModel()
-        cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"SELECT id_azienda, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM azienda WHERE nome ='{nome}'")
-        record = cursor.fetchone()
-        if(record is None):
-            return business
-        else:
-            business = BusinessModel(
-                id_business=record[0],
-                name=record[1],
-                p_iva=record[2],
-                address=record[3],
-                cap=record[4],
-                iban=record[5],
-                phone=record[6],
-                email=record[7],
-                pec=record[8],
-                fax=record[9]
-            )
-        if connection.is_connected():
-            connection.close()
-
-        return record
+    
