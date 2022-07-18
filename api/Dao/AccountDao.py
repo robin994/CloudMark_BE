@@ -1,5 +1,3 @@
-from operator import truediv
-from typing import Dict
 from uuid import UUID, uuid4
 from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
