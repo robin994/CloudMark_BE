@@ -10,7 +10,7 @@ from CustomerDao import CustomerDao
 from Model.CustomerModel import CustomerModel
 from EmployeeDAO import EmployeeDAO
 from Model.EmployeeModel import EmployeeModel
-from CommessaDAO import CommessaDAO
+from OrderDao import OrderDao
 from Model.CommessaModel import CommessaModel
 from PresenceDao import PresenceDao
 from Model.PresenceModel import PresenceModel
@@ -65,15 +65,15 @@ class test:
     # logging.info(EmployeeDAO.deleteEmployeeByID(2))
     # logging.info(EmployeeDAO.getEmployeesByLastWork())
 # 
-    # # ###### TEST CommessaDAO ######
+    # # ###### TEST OrderDao ######
     # # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    # logging.info(CommessaDAO.getAllOrders())
-    # logging.info(CommessaDAO.getOrderByID(1))
+    # logging.info(OrderDao.getAllOrders())
+    # logging.info(OrderDao.getOrderByID(1))
     # commessaCreate = CommessaModel(descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2022-01-03")
-    # logging.info(CommessaDAO.createOrder(commessaCreate))
+    # logging.info(OrderDao.createOrder(commessaCreate))
     # commessaUpdate = CommessaModel(id_order=2, descrizione="txt", id_cliente=1, id_azienda=1, data_inizio="2022-01-01", data_fine="2023-01-03")
-    # logging.info(CommessaDAO.updateOrderById(commessaUpdate))
-    # logging.info(CommessaDAO.deleteOrderByID(2))
+    # logging.info(OrderDao.updateOrderById(commessaUpdate))
+    # logging.info(OrderDao.deleteOrderByID(2))
 # 
     # # ###### TEST PresenceDAO ######     
     # # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2

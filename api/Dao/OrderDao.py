@@ -8,7 +8,7 @@ from api.Model.CommessaModel import NewCommessaModel
 # testati e funzionanti
 
 
-class CommessaDAO:
+class OrderDao:
     @staticmethod
     def getAllOrders():
         connection: MySQLConnection = DBUtility.getLocalConnection()
