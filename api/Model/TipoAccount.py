@@ -1,7 +1,8 @@
 from typing import Optional
 from pydantic import BaseModel
 
+
 class TipoAccount(BaseModel):
-    id_tipoAccount: Optional[int]
-    nomeTipoAccount : Optional[str]
-    funzioneProfilo : Optional[str]
+    id_tipo_account: Optional[int]
+    nomeTipoAccount: Optional[str]
+    funzioneProfilo: Optional[str]

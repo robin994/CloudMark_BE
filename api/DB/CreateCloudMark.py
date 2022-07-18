@@ -1,18 +1,26 @@
+import json
 import logging
 from DBUtility import DBUtility
 from mysql.connector.cursor import MySQLCursor
-from mysql.connector.connection import MySQLConnection
+import mysql.connector
 
 
 class CreateSchema:
     def main():
-        connessione: MySQLConnection = DBUtility.getConnection()
+        with open('api/DB/DbCredentialCloudmark.json') as f:
+         db = json.load(f)
+        connessione=None
+        connessione = mysql.connector.connect(
+             # Params
+            host = db['endpoint'],
+            user = db['user'],
+            password = db['password'],
+            charset="utf8mb4")
         with open("api/DB/utility/cloudmark_db_and_tables_creation.sql", 'r') as f:
             logging.warning("Sto Creando Il DB")
             cursor: MySQLCursor = connessione.cursor()
             sql_str = f.read()
             cursor.execute(sql_str, multi=True)
-            connessione.commit()
         if connessione.is_connected:
             connessione.close()
 

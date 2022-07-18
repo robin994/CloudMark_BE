@@ -1,12 +1,18 @@
 
-from datetime import date, datetime
+from datetime import date
 from typing import Optional
 from pydantic import BaseModel
+from uuid import UUID
 
-class CommessaModel(BaseModel):
-    id_order : Optional[int]
-    descrizione : Optional[str]
-    id_cliente : Optional[int]
-    id_azienda : Optional[int]
-    data_inizio : Optional[date]
-    data_fine : Optional[date]
+
+class NewCommessaModel(BaseModel):
+    id_order: UUID
+    descrizione: Optional[str]
+    id_cliente: Optional[UUID]
+    id_azienda: Optional[UUID]
+    data_inizio: Optional[date]
+    data_fine: Optional[date]
+
+
+class CommessaModel(NewCommessaModel):
+    id_order: UUID

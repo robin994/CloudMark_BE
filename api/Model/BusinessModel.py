@@ -1,8 +1,9 @@
 from typing import Optional
 from pydantic import BaseModel
+from uuid import UUID
 
-class BusinessModel(BaseModel):
-    id_business: Optional[int]
+
+class NewBusinessModel(BaseModel):
     name: Optional[str]
     p_iva: Optional[str]
     address: Optional[str]
@@ -12,3 +13,7 @@ class BusinessModel(BaseModel):
     email: Optional[str]
     pec: Optional[str]
     fax: Optional[str]
+
+
+class BusinessModel(NewBusinessModel):
+    id_business: UUID

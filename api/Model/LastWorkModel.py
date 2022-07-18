@@ -1,7 +1,7 @@
 from datetime import date
-import datetime
 from typing import Optional
 from pydantic import BaseModel
+
 
 class LastWorkModel(BaseModel):
     nome: Optional[str]
@@ -9,4 +9,3 @@ class LastWorkModel(BaseModel):
     matricola: Optional[str]
     cf: Optional[str]
     data_assunzione: Optional[date]
-    
