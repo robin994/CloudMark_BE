@@ -5,11 +5,34 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Create CloudMark Schema",
+      "type": "python",
+      "request": "launch",
+      "module": "CreateCloudMark",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+      }
+    },
+    {
+      "name": "Insert records into CloudMark Schema",
+      "type": "python",
+      "request": "launch",
+      "module": "InsertCloudMark",
+      "justMyCode": true,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+      }
+    },
+    {
       "name": "Python: FastAPI",
       "type": "python",
       "request": "launch",
       "module": "uvicorn",
-      "args": ["Api:app", "--reload"],
+      "args": [
+        "Api:app",
+        "--reload"
+      ],
       "env": {
         "PYTHONPATH": "${workspaceFolder}/api"
       },

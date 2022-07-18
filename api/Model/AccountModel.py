@@ -6,4 +6,4 @@ class AccountModel(BaseModel):
     user : Optional[str]
     password: Optional[str]
     abilitato: Optional[int]
-    tipo_account: Optional[str]
+    id_tipoAccount: Optional[int]
