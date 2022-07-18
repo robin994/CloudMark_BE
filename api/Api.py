@@ -55,7 +55,7 @@ async def get_employee_by_cf(cf):
 async def get_employee_by_employee(matricola:str):
     return EmployeeDAO.getEmployeeByMatricola(matricola)
 
-@app.get("/employee/fine/rapporto")
+@app.get("/fine/rapporto")
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
 
