@@ -4,7 +4,7 @@ USE CloudMark;
 
 DROP TABLE IF EXISTS `azienda`;
 CREATE TABLE `azienda` (
-  `id_azienda` int NOT NULL AUTO_INCREMENT,
+  `id_azienda` varchar(80) NOT NULL,
   `nome` varchar(90) DEFAULT NULL,
   `p_iva` char(11) DEFAULT NULL,
   `indirizzo` varchar(90) DEFAULT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE `azienda` (
 
 DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente` (
-  `id_cliente` varchar(120) NOT NULL ,
+  `id_cliente` varchar(80) NOT NULL ,
   `nome` varchar(90) DEFAULT NULL,
   `p_iva` char(11) DEFAULT NULL,
   `indirizzo` varchar(90) DEFAULT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `tipo_contratto` (
 
 DROP TABLE IF EXISTS `dipendente`;
 CREATE TABLE `dipendente` (
-  `id_dipendente` int NOT NULL AUTO_INCREMENT,
+  `id_dipendente` varchar(80) NOT NULL,
   `nome` varchar(45) DEFAULT NULL,
   `cognome` varchar(45) DEFAULT NULL,
   `cf` varchar(16) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `tipo_account` (
 
 DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
-  `id_account` int NOT NULL AUTO_INCREMENT,
+  `id_account` varchar(80) NOT NULL,
   `user` varchar(45) NOT NULL,
   `password` VARBINARY(64) NOT NULL,
   `abilitato` tinyint(1) DEFAULT NULL,
@@ -82,10 +82,10 @@ CREATE TABLE `account` (
 
 DROP TABLE IF EXISTS `commessa`;
 CREATE TABLE `commessa` (
-  `id_commessa` int NOT NULL AUTO_INCREMENT,
+  `id_commessa` varchar(80) NOT NULL,
   `descrizione` varchar(255) DEFAULT NULL,
   `id_cliente` varchar(120) NOT NULL,
-  `id_azienda` int NOT NULL,
+  `id_azienda` varchar(80) NOT NULL,
   `data_inizio` date NOT NULL,
   `data_fine` date NOT NULL,
   PRIMARY KEY (`id_commessa`),
@@ -106,10 +106,10 @@ CREATE TABLE `tipo_presenza` (
 
 DROP TABLE IF EXISTS `presenza`;
 CREATE TABLE `presenza` (
-  `id_dipendente` int NOT NULL,
+  `id_dipendente`varchar(80) NOT NULL,
   `data` date NOT NULL,
   `id_tipo_presenza` int NOT NULL,
-  `id_commessa` int NOT NULL,
+  `id_commessa` varchar(80) NOT NULL,
   `ore` int DEFAULT NULL,
   PRIMARY KEY (`id_dipendente`,`data`,`id_tipo_presenza`),
   KEY `id_tipo_presenza` (`id_tipo_presenza`),
@@ -121,8 +121,8 @@ CREATE TABLE `presenza` (
 
 DROP TABLE IF EXISTS `account_dipendente`;
 CREATE TABLE `account_dipendente` (
-  `id_dipendente` int NOT NULL,
-  `id_account` int NOT NULL,
+  `id_account` varchar(80) NOT NULL,
+  `id_dipendente` varchar(80) NOT NULL,
   PRIMARY KEY (`id_dipendente`,`id_account`),
   KEY `id_account` (`id_account`),
   CONSTRAINT `account_dipendente_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendente` (`id_dipendente`),
@@ -131,8 +131,8 @@ CREATE TABLE `account_dipendente` (
 
 DROP TABLE IF EXISTS `azienda_cliente`;
 CREATE TABLE `azienda_cliente` (
-  `id_azienda` int NOT NULL,
-  `id_cliente` varchar(120) NOT NULL,
+  `id_azienda` varchar(80) NOT NULL,
+  `id_cliente` varchar(80) NOT NULL,
   PRIMARY KEY (`id_azienda`,`id_cliente`),
   KEY `id_cliente` (`id_cliente`),
   CONSTRAINT `azienda_cliente_ibfk_1` FOREIGN KEY (`id_azienda`) REFERENCES `azienda` (`id_azienda`),
@@ -141,8 +141,8 @@ CREATE TABLE `azienda_cliente` (
 
 DROP TABLE IF EXISTS `commessa_dipendente`;
 CREATE TABLE `commessa_dipendente` (
-  `id_commessa` int NOT NULL,
-  `id_dipendente` int NOT NULL,
+  `id_commessa` varchar(80) NOT NULL,
+  `id_dipendente` varchar(80) NOT NULL,
   `rate` decimal(10,0) NOT NULL,
   PRIMARY KEY (`id_commessa`,`id_dipendente`),
   KEY `id_dipendente` (`id_dipendente`),
@@ -152,8 +152,8 @@ CREATE TABLE `commessa_dipendente` (
 
 DROP TABLE IF EXISTS `dipendente_azienda`;
 CREATE TABLE `dipendente_azienda` (
-  `id_dipendente` int NOT NULL,
-  `id_azienda` int NOT NULL,
+  `id_dipendente` varchar(80) NOT NULL,
+  `id_azienda` varchar(80) NOT NULL,
   `data_inizio_rapporto` date NOT NULL,
   `matricola` varchar(45) DEFAULT NULL,
   `data_fine_rapporto` date DEFAULT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE `dipendente_azienda` (
 
 DROP TABLE IF EXISTS `saltini`;
 CREATE TABLE `saltini` (
-  `id_account` int NOT NULL auto_increment,
+  `id_account` varchar(80) NOT NULL,
   `salt` VARBINARY(64) NOT NULL,
   PRIMARY KEY (`id_account`),
   KEY `id_account` (`id_account`),
