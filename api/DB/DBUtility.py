@@ -1,6 +1,7 @@
 import mysql.connector
 import json
 import logging
+
 class DBUtility:
 
     @staticmethod
