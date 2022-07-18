@@ -100,12 +100,12 @@ class AccountDao:
         return f"Account con id = {id_account} eliminato"
 
     @staticmethod
-    def updateAccount(user: UserModel, session_encoded: str):                 
+    def updateAccount(account: AccountModel, session_encoded: str):                 
         if AccountDao.jwt_verify(session_encoded):
             connection : MySQLConnection = DBUtility.getLocalConnection()
             cursor : MySQLCursor = connection.cursor()
-            sql = """UPDATE account SET user=%s, abilitato=%s WHERE id_account=%s;"""
-            val = (user.user, user.abilitato, user.id_account, )
+            sql = "UPDATE `account` SET `user`=%s   WHERE `id_account`= %s;"
+            val = (account.user , account.id_account)
             cursor.execute(sql ,val)
             connection.commit()
         

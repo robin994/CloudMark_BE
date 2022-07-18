@@ -21,6 +21,7 @@ from Model.TipoPresenza import TipoPresenza
 import logging
 
 from api.Model.EmployeeModel import NewEmployeeModel
+from api.Model.UserModel import UserModel
 
 class test:
   def main():
@@ -42,7 +43,6 @@ class test:
     try:
       total += 1
       uuidAccount = AccountDao.createAccount(accountCreate)
-      accountUpdate = AccountModel(id_account=uuidAccount, user="Beppe", password='aaaa', abilitato=1, id_tipoAccount=1)
       print(uuidAccount)
       counter += 1
     except(RuntimeError, TypeError, NameError):
@@ -54,13 +54,21 @@ class test:
       counter += 1
     except(RuntimeError, TypeError, NameError):
       logging.error("AccountDaio getAccountByID not passed")
+      
+    try:
+      total += 1
+      session = AccountDao.getSession(UserModel(user='Franco', password='aaaa') )
+      counter += 1
+    except(RuntimeError, TypeError, NameError):
+      logging.error("AccountDaio getSession not passed")
    
-    # try:
-    #   total += 1
-    #   AccountDao.updateAccountByID(accountUpdate)
-    #   counter += 1
-    # except(RuntimeError, TypeError, NameError):
-    #   logging.error("AccountDaio updateAccountByID not passed")
+    try:
+      total += 1
+      accountUpdate = AccountModel(id_account=str(uuidAccount), user="Beppe", password='aaaa', abilitato=1, id_tipoAccount=1)
+      AccountDao.updateAccount(accountUpdate, session)
+      counter += 1
+    except(RuntimeError, TypeError, NameError):
+      logging.error("AccountDaio updateAccountByID not passed")
     
     try:
       total += 1

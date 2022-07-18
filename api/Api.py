@@ -48,6 +48,10 @@ async def get_accounts_by_uuid(uuid):
 async def create_account(account : NewAccountModel):
     return AccountDao.createAccount(account)
 
+@app.patch("/account/update", tags=["account"])
+async def create_account(account : AccountModel, session: str):
+    return AccountDao.updateAccount(account, session)
+
 @app.post("/account/login", tags=["account"])
 async def get_session(user : UserModel):
     return AccountDao.getSession(user)

@@ -1,5 +1,4 @@
 from typing import Optional
-from uuid import UUID
 from pydantic import BaseModel
 
 
@@ -11,4 +10,4 @@ class NewAccountModel(BaseModel):
 
 
 class AccountModel(NewAccountModel):
-    id_account: UUID
+    id_account: str
