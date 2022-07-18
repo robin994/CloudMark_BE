@@ -29,7 +29,6 @@ class AccountDao:
             lista_account[row[0]] = account
         if connection.is_connected():
             connection.close()
-        
         return lista_account
     
     @staticmethod

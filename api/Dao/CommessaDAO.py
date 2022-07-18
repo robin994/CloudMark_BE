@@ -1,4 +1,3 @@
-import logging
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.CommessaModel import CommessaModel
