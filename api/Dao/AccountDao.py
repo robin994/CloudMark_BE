@@ -1,4 +1,5 @@
 from operator import truediv
+import re
 from DB.DBUtility import DBUtility 
 from Model.AccountModel import AccountModel
 from Model.UserModel import UserModel, SessionModel
@@ -11,6 +12,7 @@ import jwt
 
 # testati e funzionanti
 class AccountDao:
+            
     @staticmethod
     def getAllAccounts():
         connection : MySQLConnection = DBUtility.getLocalConnection()
@@ -87,14 +89,46 @@ class AccountDao:
         return f"Account con id = {id_account} eliminato"
 
     @staticmethod
-    def updateAccountByID(account:AccountModel):
+    def updateAccount(user: UserModel):
+        
+        load_dotenv()
+        JWTPSW = os.getenv("JWTPSW")
+        
         connection : MySQLConnection = DBUtility.getLocalConnection()
+        session_encoded = ''
+        
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE account SET user = '{account.user}', password ='{account.password}', abilitato = '{account.abilitato}', id_tipoAccount ={account.id_tipoAccount} WHERE id_account = {account.id_account};")
+        sql = """UPDATE account SET user=%s, abilitato=%s WHERE id_account=%s;"""
+        val = (user.user, user.abilitato, user.id_account, )
+        cursor.execute(sql ,val)
         connection.commit()
-        if connection.is_connected():
-            connection.close()
-        return account
+        
+        sql_2 = f"SELECT id_account, user, abilitato, tipo_account FROM account WHERE id_account = {user.id_account};"
+        cursor.execute(sql_2)
+        record = cursor.fetchall()
+        # print(record)
+        
+        session = SessionModel(
+                id_account=record[0][0],
+                user=record[0][1],
+                abilitato=record[0][2],
+                tipo_account=record[0][3]
+            )
+        
+        jwt.decode(encoded, JWTPSW, algorithms="HS256")
+        
+        # if record is None:
+        #     return ''
+        # else:
+            
+        #     print(session)
+        # if connection.is_connected():
+        #     connection.close()
+        # # print("La porco dio di sessione", session)
+  
+        # session_encoded = jwt.encode(session.dict(), JWTPSW, algorithm="HS256")
+        # return session_encoded
+        # # return user
     
     @staticmethod
     def getSession(User: UserModel):
@@ -148,7 +182,7 @@ def checkPassword(User: UserModel):
     else:
         return False
 
-def hashPassword(password: str):    
+def hashPassword(password: str):
     salt = os.urandom(32)
     key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
     return salt + key 
