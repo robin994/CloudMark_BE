@@ -1,3 +1,4 @@
+import uuid
 from Model.CallBackResponse import CallBackResponse
 from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
@@ -9,7 +10,7 @@ from mysql.connector.errors import Error
 class CustomerDao:
     
     @staticmethod
-    def getCustomerByID(id_customer: int):
+    def getCustomerByID(id_customer: uuid.UUID):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         customer = CustomerModel()
         cursor : MySQLCursor = connection.cursor()
@@ -65,7 +66,7 @@ class CustomerDao:
     def createCustomer(customer: CustomerModel):
         connection : MySQLConnection = DBUtility.getLocalConnection()
         cursor : MySQLCursor = connection.cursor()
-        cursor.execute(f"INSERT INTO cliente(nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{customer.name}','{customer.p_iva}','{customer.address}','{customer.cap}','{customer.iban}','{customer.phone}','{customer.email}','{customer.pec}','{customer.fax}');")
+        cursor.execute(f"INSERT INTO cliente(id_cliente,nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{customer.id_customer}','{customer.name}','{customer.p_iva}','{customer.address}','{customer.cap}','{customer.iban}','{customer.phone}','{customer.email}','{customer.pec}','{customer.fax}');")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -90,7 +91,7 @@ class CustomerDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return customer
+        return customer.id_customer
 
     @staticmethod
     def getCustomerByBusinessID(id_business: str):

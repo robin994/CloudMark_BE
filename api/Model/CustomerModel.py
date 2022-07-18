@@ -1,9 +1,10 @@
 from typing import Optional
+import typing
 from pydantic import BaseModel
-import uuid
+from uuid import uuid4,UUID
 
 class CustomerModel(BaseModel):
-    id_customer: Optional[uuid.UUID]
+    id_customer : UUID 
     name: Optional[str]
     p_iva: Optional[str]
     address: Optional[str]
