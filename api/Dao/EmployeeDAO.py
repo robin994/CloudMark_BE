@@ -5,6 +5,7 @@ from Model.EmployeeModel import EmployeeModel
 from Model.EmployeeBusinessModel import EmployeeBusinessModel
 from DB.DBUtility import DBUtility
 from Model.CallBackResponse import CallBackResponse
+from Model.LastWorkModel import LastWorkModel
 # testati e funzionanti
 
 
@@ -100,7 +101,7 @@ class EmployeeDAO:
         sql = """SELECT * FROM dipendente 
         JOIN dipendente_azienda ON dipendente.id_dipendente = dipendente_azienda.id_dipendente  
         ON  nome LIKE '%s' AND cognome LIKE '%s' AND id_dipendente LIKE '%s' AND cf LIKE '%s' 
-        AND iban LIKE '%s' AND id_tipo_contratto LIKE '%s' AND email LIKE '%s' AND telefono LIKE '%s';")"""
+        AND iban LIKE '%s' AND id_tipo_contratto LIKE '%s' AND email LIKE '%s' AND telefono LIKE '%s';)"""
         val = (emp.nome, emp.cognome, emp.id_employee, emp.cf, emp.iban, emp.id_tipoContratto, emp.email, emp.telefono)
         cursor.execute(sql, val)
         records = cursor.fetchall()
@@ -190,7 +191,7 @@ class EmployeeDAO:
         cursor.execute(
             f"SELECT d.id_dipendente, d.nome,d.cognome,d.cf,d.iban,d.id_tipoContratto,d.email,d.telefono from dipendente d join dipendente_azienda da on d.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda where matricola = '{matricola}'")
         record = cursor.fetchone()
-        if record is None :       
+        if record is None:
             response = CallBackResponse(esitoChiamata="OK", numeroRisultati=0, error=f"La matricola ({matricola}) non è presente")
         if record is None:
             response = CallBackResponse(
@@ -213,34 +214,28 @@ class EmployeeDAO:
         if connection.is_connected():
              connection.close()
         return lista
+    
+    @staticmethod
     def getEmployeesByLastWork():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        first_dict = dict()
-        dictionary = dict()
-        lista_key = ["nome", "cognome", "matricola", "codice_fiscale", "data_inizio_rapporto"]
+        all_last_work = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
             """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
             FROM dipendente 
             INNER JOIN dipendente_azienda 
             ON dipendente_azienda.data_fine_rapporto IS NOT NULL""")
-        records = cursor.fetchone()
+        records = cursor.fetchall()
         
-        if records is None:
-            response = CallBackResponse(
-                esitoChiamata="KO", numeroRisultati=0, error="Non sono presenti date di fine rapporto tra i dipendenti")
-            first_dict['response'] = response
-        else:    
-            dictionary = {
-                lista_key[0] : records[1],
-                lista_key[1] : records[0],
-                lista_key[2] : records[2],
-                lista_key[3] : records[3],
-                lista_key[4] : records[4]
-            }      
-            first_dict[f"{records[1]}_{records[0]}"] = dictionary
-            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
-            first_dict['response'] = response      
+        for record in records:
+            last_work = LastWorkModel(
+                name=record[0],
+                cognome=record[1],
+                matricola=record[2],
+                cf=record[3],
+                data_assunzione=record[4]
+            )
+            all_last_work[f"{record[0]}_{record[1]}"] = last_work
         if connection.is_connected():
             connection.close()
-        return first_dict
+        return all_last_work

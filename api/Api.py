@@ -45,7 +45,7 @@ async def get_all_employees():
 async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
     return EmployeeDAO.filterByEmployee(Employee, idAzienda)
 
-@app.get("/employee/fine/rapporto")
+@app.get("/fine/rapporto")
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
 
