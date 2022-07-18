@@ -80,7 +80,7 @@ async def delete_business(id_business):
 
 #Endpoint - Commessa
 
-@app.get("/commessa", tags=["commessa"])
+@app.get("/orders", tags=["orders"])
 async def get_all_orders():
     return CommessaDAO.getAllOrders()
     
