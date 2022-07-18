@@ -20,51 +20,53 @@ from TipoPresenzaDao import TipoPresenzaDao
 from Model.TipoPresenza import TipoPresenza
 import logging
 
+from api.Model.EmployeeModel import NewEmployeeModel
+
 class test:
   def main():
     logging.getLogger().setLevel(logging.WARNING)
     ###### TEST AccountDAO ######
     # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    total = 0
-    counter = 0
+    # total = 0
+    # counter = 0
     
-    try:
-      total += 1
-      AccountDao.getAllAccounts()
-      counter += 1
-    except:
-      logging.error("AccountDaio getAllAccounts not passed")
+    # try:
+    #   total += 1
+    #   AccountDao.getAllAccounts()
+    #   counter += 1
+    # except:
+    #   logging.error("AccountDaio getAllAccounts not passed")
       
-    try:
-      total += 1
-      accountCreate = AccountModel(user="Franco", password='aaaa', abilitato='1', id_tipoAccount=1)
-      AccountDao.getAccountByID(1)
-      counter += 1
-    except:
-      logging.error("AccountDaio getAccountByID not passed")
+    # try:
+    #   total += 1
+    #   accountCreate = AccountModel(user="Franco", password='aaaa', abilitato='1', id_tipoAccount=1)
+    #   AccountDao.getAccountByID(1)
+    #   counter += 1
+    # except:
+    #   logging.error("AccountDaio getAccountByID not passed")
       
-    try:
-      total += 1
-      AccountDao.createAccount(accountCreate)
-      counter += 1
-    except:
-      logging.error("AccountDaio createAccount not passed")
-    accountUpdate = AccountModel(id_account=2, user="Beppe", password='aaaa', abilitato='1', id_tipoAccount=1)
+    # try:
+    #   total += 1
+    #   AccountDao.createAccount(accountCreate)
+    #   counter += 1
+    # except:
+    #   logging.error("AccountDaio createAccount not passed")
+    # accountUpdate = AccountModel(id_account=2, user="Beppe", password='aaaa', abilitato='1', id_tipoAccount=1)
     
-    try:
-      total += 1
-      AccountDao.updateAccountByID(accountUpdate)
-      counter += 1
-    except:
-      logging.error("AccountDaio updateAccountByID not passed")
+    # try:
+    #   total += 1
+    #   AccountDao.updateAccountByID(accountUpdate)
+    #   counter += 1
+    # except:
+    #   logging.error("AccountDaio updateAccountByID not passed")
       
-    try:
-      total += 1
-      AccountDao.deleteAccountByID(2)
-      counter += 1
-    except:
-      logging.error("AccountDaio deleteAccountByID not passed")
-    logging.warning("Test AccountDao, completati con successo %d / %d", counter, total)
+    # try:
+    #   total += 1
+    #   AccountDao.deleteAccountByID(2)
+    #   counter += 1
+    # except:
+    #   logging.error("AccountDaio deleteAccountByID not passed")
+    # logging.warning("Test AccountDao, completati con successo %d / %d", counter, total)
     
 
     # ###### TEST BusinessDao ######
@@ -94,9 +96,9 @@ class test:
     # logging.info(EmployeeDAO.getEmployeeBySurname('rossi'))
     # logging.info(EmployeeDAO.getEmployeeByNameSurname('mario','rossi'))
     # logging.info(EmployeeDAO.getEmployeeByCF('123'))
-    # employeeCreate = EmployeeModel(nome="Franco", cognome="Baresi", cf="1234", iban="0001", id_tipoContratto=1, email="francobaresimilan@gmail.com", telefono='123456789')
+    employeeCreate = NewEmployeeModel(nome="Franco", cognome="Baresi", cf="1234", iban="0001", id_tipoContratto=1, email="francobaresimilan@gmail.com", telefono='123456789')
     # employeeUpdate = EmployeeModel(id_employee="2", nome="Beppe", cognome="Baresi", cf="1234", iban="0001", id_tipoContratto=1, email="francobaresi6@gmail.com", telefono='123456789')
-    # logging.info(EmployeeDAO.createEmployee(employeeCreate))
+    logging.info(EmployeeDAO.createEmployee(employeeCreate))
     # logging.info(EmployeeDAO.updateEmployeeByID(employeeUpdate))
     # logging.info(EmployeeDAO.deleteEmployeeByID(2))
     # logging.info(EmployeeDAO.getEmployeesByLastWork())

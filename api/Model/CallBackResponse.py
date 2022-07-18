@@ -4,7 +4,5 @@ from pydantic import BaseModel
 
 class CallBackResponse(BaseModel):
     esitoChiamata: str
-    numeroRisultati : int
+    numeroRisultati: int
     error: Optional[str]
-    
-

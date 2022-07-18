@@ -2,8 +2,8 @@ from typing import Optional
 from pydantic import BaseModel
 from uuid import UUID
 
-class CustomerModel(BaseModel):
-    id_customer : UUID 
+
+class NewCustomerModel(BaseModel):
     name: Optional[str]
     p_iva: Optional[str]
     address: Optional[str]
@@ -13,3 +13,7 @@ class CustomerModel(BaseModel):
     email: Optional[str]
     pec: Optional[str]
     fax: Optional[str]
+
+
+class CustomerModel(NewCustomerModel):
+    id_customer: UUID

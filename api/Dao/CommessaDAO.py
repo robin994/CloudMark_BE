@@ -1,16 +1,21 @@
+from uuid import UUID, uuid4
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.CommessaModel import CommessaModel
 from DB.DBUtility import DBUtility
+from api.Model.CommessaModel import NewCommessaModel
 
 # testati e funzionanti
+
+
 class CommessaDAO:
     @staticmethod
     def getAllOrders():
         connection: MySQLConnection = DBUtility.getLocalConnection()
         lista_orders = dict()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute("SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine FROM commessa c")
+        cursor.execute(
+            "SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine FROM commessa c")
         records = cursor.fetchall()
         for row in records:
             order = CommessaModel(
@@ -28,7 +33,7 @@ class CommessaDAO:
         return lista_orders
 
     @staticmethod
-    def getOrderByID(id_order: int):
+    def getOrderByID(id_order: UUID):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         order = CommessaModel()
@@ -42,18 +47,19 @@ class CommessaDAO:
                                   id_azienda=record[3], data_inizio=record[4], data_fine=record[5])
         if connection.is_connected():
             connection.close()
-        
+
         return order
 
     @staticmethod
-    def createOrder(order: CommessaModel):
+    def createOrder(order: NewCommessaModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(f"INSERT INTO commessa (descrizione, id_cliente, id_azienda, data_inizio, data_fine) VALUES('{order.descrizione}', '{order.id_cliente}', '{order.id_azienda}', '{order.data_inizio}', '{order.data_fine}');")
+        cursor.execute(
+            f"INSERT INTO commessa (id_commessa,descrizione, id_cliente, id_azienda, data_inizio, data_fine) VALUES('{uuid4()}''{order.descrizione}', '{order.id_cliente}', '{order.id_azienda}', '{order.data_inizio}', '{order.data_fine}');")
         connection.commit()
         if connection.is_connected():
             connection.close()
-        
+
         return order
 
     @staticmethod
@@ -65,16 +71,16 @@ class CommessaDAO:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        
+
         return order
 
     @staticmethod
-    def deleteOrderByID(id_order: int):
+    def deleteOrderByID(id_order: UUID):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(f"DELETE FROM commessa WHERE id_commessa = {id_order}")
         connection.commit()
         if connection.is_connected():
             connection.close()
-        
+
         return f"Commessa con id = {id_order} eliminata"

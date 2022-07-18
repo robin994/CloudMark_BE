@@ -1,10 +1,15 @@
 from datetime import date
 from typing import Optional
 from pydantic import BaseModel
+from uuid import UUID
 
-class PresenceModel(BaseModel):
-    id_employee: Optional[int]
+
+class NewPresenceModel(BaseModel):
     date_presence: Optional[date]
     id_tipoPresenza: Optional[int]
-    id_order: Optional[int]
+    id_order: UUID
     hours: Optional[int]
+
+
+class PresenceModel(NewPresenceModel):
+    id_employee: UUID
