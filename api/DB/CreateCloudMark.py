@@ -6,13 +6,12 @@ from mysql.connector.connection import MySQLConnection
 
 class CreateSchema:
     def main():
-        connessione: MySQLConnection = DBUtility.getConnection()
+        connessione: MySQLConnection = DBUtility.getLocalConnection()
         with open("api/DB/utility/cloudmark_db_and_tables_creation.sql", 'r') as f:
             logging.warning("Sto Creando Il DB")
             cursor: MySQLCursor = connessione.cursor()
             sql_str = f.read()
             cursor.execute(sql_str, multi=True)
-            connessione.commit()
         if connessione.is_connected:
             connessione.close()
 
