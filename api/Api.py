@@ -82,6 +82,6 @@ async def get_all_orders():
 async def get_all_tipo_account():
     return TipoAccountDao.getAllTipoAccount()
 
-@app.get("/type/account/{id_account}", tags=["Type"])
+@app.post("/type/account/{id_account}", tags=["Type"])
 async def get_tipo_account_by_id(id_account):
-    return TipoAccountDao.getTipoAccountByNomeTipoAccount(id_account)
+    return TipoAccountDao.getTipoAccountByIdTipoAccount(id_account)
