@@ -4,6 +4,7 @@ from mysql.connector.cursor import MySQLCursor
 from Model.EmployeeModel import EmployeeModel
 from DB.DBUtility import DBUtility
 from Model.CallBackResponse import CallBackResponse
+from Model.LastWorkModel import LastWorkModel
 # testati e funzionanti
 
 
@@ -186,7 +187,7 @@ class EmployeeDAO:
         cursor.execute(
             f"SELECT d.id_dipendente, d.nome,d.cognome,d.cf,d.iban,d.tipo_contratto,d.email,d.telefono from dipendente d join dipendente_azienda da on d.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda where matricola = '{matricola}'")
         record = cursor.fetchone()
-        if record is None :       
+        if record is None:
             response = CallBackResponse(esitoChiamata="OK", numeroRisultati=0, error=f"La matricola ({matricola}) non è presente")
         if record is None:
             response = CallBackResponse(
@@ -211,32 +212,26 @@ class EmployeeDAO:
         return lista
     def getEmployeesByLastWork():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        first_dict = dict()
-        dictionary = dict()
-        lista_key = ["nome", "cognome", "matricola", "codice_fiscale", "data_inizio_rapporto"]
+        # first_dict = dict()
+        all_last_work = dict()
+        # lista_key = ["nome", "cognome", "matricola", "codice_fiscale", "data_inizio_rapporto"]
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
             """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
             FROM dipendente 
             INNER JOIN dipendente_azienda 
             ON dipendente_azienda.data_fine_rapporto IS NOT NULL""")
-        records = cursor.fetchone()
+        records = cursor.fetchall()
         
-        if records is None:
-            response = CallBackResponse(
-                esitoChiamata="KO", numeroRisultati=0, error="Non sono presenti date di fine rapporto tra i dipendenti")
-            first_dict['response'] = response
-        else:    
-            dictionary = {
-                lista_key[0] : records[1],
-                lista_key[1] : records[0],
-                lista_key[2] : records[2],
-                lista_key[3] : records[3],
-                lista_key[4] : records[4]
-            }      
-            first_dict[f"{records[1]}_{records[0]}"] = dictionary
-            response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1)
-            first_dict['response'] = response      
+        for record in records:
+            last_work = LastWorkModel(
+                name=record[0],
+                cognome=record[1],
+                matricola=record[2],
+                cf=record[3],
+                data_assunzione=record[4]
+            )
+            all_last_work[f"{record[0]}_{record[1]}"] = last_work
         if connection.is_connected():
             connection.close()
-        return first_dict
+        return all_last_work
