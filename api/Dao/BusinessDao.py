@@ -1,6 +1,7 @@
 from DB.DBUtility import DBUtility
 from Model.BusinessModel import BusinessModel
 from mysql.connector.connection import MySQLConnection
+from Model.CallBackResponse import CallBackResponse
 from mysql.connector.cursor import MySQLCursor
 import json
 
@@ -32,6 +33,40 @@ class BusinessDao:
         if connection.is_connected():
             connection.close()
         
+        return lista_business
+
+    @staticmethod
+    def filterByBusiness(bus : BusinessModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        lista_business = dict()
+        sql = """SELECT * FROM azienda WHERE `nome` LIKE %s AND `p_iva` LIKE %s AND `indirizzo` LIKE %s AND `cap` LIKE %s 
+        AND `iban` LIKE %s AND `telefono` LIKE %s AND `email` LIKE %s AND `pec` LIKE %s AND `fax` LIKE %s"""
+        val = ('%'+bus.name+'%', '%'+bus.p_iva, '%'+bus.address+'%', '%'+bus.cap+'%', '%'+bus.iban+'%', '%'+bus.phone+'%', '%'+bus.email+'%', '%'+bus.pec+'%', '%'+bus.fax+'%')
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
+        if records is None:
+            response = CallBackResponse(esitoChiamata="OK", numeroRisultati=0, error="")
+            lista_business['response'] = response    
+        else:
+            for record in records:
+                business = BusinessModel(
+                    id_business=record[0],
+                    name=record[1],
+                    p_iva=record[2],
+                    address=record[3],
+                    cap=record[4],
+                    iban=record[5],
+                    phone=record[6],
+                    email=record[7],
+                    pec=record[8],
+                    fax=record[9]
+                )
+                response = CallBackResponse(esitoChiamata="Ok", numeroRisultati=1).dict(exclude_none=True)
+                lista_business[record[0]] = business
+                lista_business['response'] = response
+        if connection.is_connected():
+            connection.close()
         return lista_business
 
     @staticmethod
