@@ -23,7 +23,7 @@ class test_account_dao:
    try:
      total += 1
      uuidAccount = AccountDao.createAccount(accountCreate)
-     logging.debug("Acccount Createte :" + uuidAccount)
+     logging.debug("Acccount Create:" + str(uuidAccount))
      counter += 1
    except(RuntimeError, TypeError, NameError):
      logging.error("AccountDaio createAccount not passed")

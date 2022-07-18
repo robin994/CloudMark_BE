@@ -49,7 +49,7 @@ async def create_account(account : NewAccountModel):
     return AccountDao.createAccount(account)
 
 @app.patch("/account/update", tags=["account"])
-async def create_account(account : AccountModel, session: str):
+async def update_account(account : AccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
 @app.post("/account/login", tags=["account"])
