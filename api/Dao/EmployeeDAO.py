@@ -105,7 +105,7 @@ class EmployeeDAO:
         cursor.execute(sql, val)
         records = cursor.fetchall()
         if records is None:
-            return employee
+            return ''
         else:
             for record in records:
                 employee = EmployeeModel(
