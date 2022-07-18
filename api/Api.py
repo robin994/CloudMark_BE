@@ -11,6 +11,7 @@ from Dao.AccountDao import AccountDao
 from Dao.CommessaDAO import CommessaDAO
 from fastapi import FastAPI
 from Dao.CustomerDao import CustomerDao
+from api.Model.BusinessModel import BusinessModel
 from api.Model.AccountModel import AccountModel
 from api.Model.UserModel import UserModel
 from api.Model.EmployeeModel import EmployeeModel
@@ -57,6 +58,9 @@ async def get_all_customer():
 async def get_all_business():
     return BusinessDao.getAllBusiness()
 
+@app.post('/business/')
+async def filter_by_business(Business : BusinessModel):
+    return BusinessDao.filterByBusiness(Business)
 
 @app.post("/account/signin")
 async def create_account(account : AccountModel):
