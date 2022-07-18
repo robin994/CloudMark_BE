@@ -2,8 +2,6 @@ from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.TipoPresenza import TipoPresenza
 from DB.DBUtility import DBUtility
-import mysql.connector
-import logging
 
 
 class TipoPresenzaDao:

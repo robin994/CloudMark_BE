@@ -1,11 +1,8 @@
 from fastapi.middleware.cors import CORSMiddleware
 # from Dao.TipoPresenzaDao import TipoPresenzaDao
 from Dao.TipoAccountDao import TipoAccountDao
-# from Dao.BusinessDao import BusinessDao
-# from Dao.AccountDao import AccountDao
 # from Dao.PresenceDao import PresenceDao
 from Dao.BusinessDao import BusinessDao
-# from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
 from Dao.CommessaDAO import CommessaDAO
@@ -81,10 +78,10 @@ async def get_all_orders():
 
 
 # Endpoint - TipoAccount
-@app.get("/tipo/account", tags=["TipoAccount"])
+@app.get("/type/account", tags=["Type"])
 async def get_all_tipo_account():
     return TipoAccountDao.getAllTipoAccount()
 
-@app.get("/tipo/account/{id_account}", tags=["TipoAccount"])
+@app.get("/type/account/{id_account}", tags=["Type"])
 async def get_tipo_account_by_id(id_account):
     return TipoAccountDao.getTipoAccountByNomeTipoAccount(id_account)

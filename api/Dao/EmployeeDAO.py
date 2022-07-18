@@ -1,4 +1,3 @@
-from hashlib import new
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.EmployeeModel import EmployeeModel

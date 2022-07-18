@@ -1,7 +1,6 @@
 from typing import Optional
-import typing
 from pydantic import BaseModel
-from uuid import uuid4,UUID
+from uuid import UUID
 
 class CustomerModel(BaseModel):
     id_customer : UUID 
