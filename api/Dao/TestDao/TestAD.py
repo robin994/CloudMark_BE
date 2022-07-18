@@ -23,7 +23,7 @@ class test_account_dao:
    try:
      total += 1
      uuidAccount = AccountDao.createAccount(accountCreate)
-     print(uuidAccount)
+     logging.debug("Acccount Createte :" + uuidAccount)
      counter += 1
    except(RuntimeError, TypeError, NameError):
      logging.error("AccountDaio createAccount not passed")
@@ -38,6 +38,7 @@ class test_account_dao:
    try:
      total += 1
      session = AccountDao.getSession(UserModel(user='Franco', password='aaaa') )
+     logging.debug("sesssion: "+session)
      counter += 1
    except(RuntimeError, TypeError, NameError):
      logging.error("AccountDaio getSession not passed")
