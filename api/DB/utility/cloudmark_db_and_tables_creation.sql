@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS cloudmark;
+CREATE DATABASE IF NOT EXISTS CloudMark;
 
-USE cloudmark;
+USE CloudMark;
 
 DROP TABLE IF EXISTS `azienda`;
 CREATE TABLE `azienda` (
@@ -35,9 +35,10 @@ CREATE TABLE `cliente` (
 
 DROP TABLE IF EXISTS `tipo_contratto`;
 CREATE TABLE `tipo_contratto` (
-  `nome_tipocontratto` varchar(45) NOT NULL,
+  `id_tipo_contratto` int NOT NULL AUTO_INCREMENT,
+  `nome_tipo_contratto` varchar(45) NOT NULL,
   `descrizione` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`nome_tipocontratto`)
+  PRIMARY KEY (`id_tipo_contratto`)
 );
 
 DROP TABLE IF EXISTS `dipendente`;
@@ -47,21 +48,22 @@ CREATE TABLE `dipendente` (
   `cognome` varchar(45) DEFAULT NULL,
   `cf` varchar(16) NOT NULL,
   `iban` varchar(45) NOT NULL,
-  `tipo_contratto` varchar(45) NOT NULL,
+  `id_tipo_contratto` int NOT NULL,
   `email` varchar(90) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_dipendente`),
   UNIQUE KEY `cf_UNIQUE` (`cf`),
-  KEY `tipo_contratto_idx` (`tipo_contratto`),
-  KEY `fk_dipendente_tipo_contratto_idx` (`tipo_contratto`),
-  CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`tipo_contratto`) REFERENCES `tipo_contratto` (`nome_tipocontratto`)
+  KEY `tipo_contratto_idx` (`id_tipo_contratto`),
+  KEY `fk_dipendente_tipo_contratto_idx` (`id_tipo_contratto`),
+  CONSTRAINT `dipendente_ibfk_1` FOREIGN KEY (`id_tipo_contratto`) REFERENCES `tipo_contratto` (`id_tipo_contratto`)
 );
 
 DROP TABLE IF EXISTS `tipo_account`;
 CREATE TABLE `tipo_account` (
+  `id_tipo_account` int NOT NULL AUTO_INCREMENT,
   `nome_tipo_account` varchar(45) NOT NULL,
   `lista_funzioni_del_profilo` text,
-  PRIMARY KEY (`nome_tipo_account`)
+  PRIMARY KEY (`id_tipo_account`)
 );
 
 
@@ -69,13 +71,13 @@ DROP TABLE IF EXISTS `account`;
 CREATE TABLE `account` (
   `id_account` int NOT NULL AUTO_INCREMENT,
   `user` varchar(45) NOT NULL,
-  `password` char(64) NOT NULL,
+  `password` VARBINARY(64) NOT NULL,
   `abilitato` tinyint(1) DEFAULT NULL,
-  `tipo_account` varchar(45) NOT NULL,
+  `id_tipo_account` int NOT NULL,
   PRIMARY KEY (`id_account`),
   UNIQUE KEY `user_UNIQUE` (`user`),
-  KEY `tipo_account` (`tipo_account`),
-  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`tipo_account`) REFERENCES `tipo_account` (`nome_tipo_account`)
+  KEY `id_tipoAccount` (`id_tipo_account`),
+  CONSTRAINT `account_ibfk_1` FOREIGN KEY (`id_tipo_account`) REFERENCES `tipo_account` (`id_tipo_account`)
 );
 
 DROP TABLE IF EXISTS `commessa`;
@@ -95,24 +97,25 @@ CREATE TABLE `commessa` (
 
 DROP TABLE IF EXISTS `tipo_presenza`;
 CREATE TABLE `tipo_presenza` (
+  `id_tipo_presenza` int NOT NULL AUTO_INCREMENT,
   `nome_tipo_presenza` varchar(45) NOT NULL,
   `perc_maggiorazione_paga_oraria` int DEFAULT NULL,
   `paga_oraria` int DEFAULT NULL,
-  PRIMARY KEY (`nome_tipo_presenza`)
+  PRIMARY KEY (`id_tipo_presenza`)
 );
 
 DROP TABLE IF EXISTS `presenza`;
 CREATE TABLE `presenza` (
   `id_dipendente` int NOT NULL,
   `data` date NOT NULL,
-  `tipo_presenza` varchar(45) NOT NULL,
+  `id_tipo_presenza` int NOT NULL,
   `id_commessa` int NOT NULL,
   `ore` int DEFAULT NULL,
-  PRIMARY KEY (`id_dipendente`,`data`,`tipo_presenza`),
-  KEY `tipo_presenza` (`tipo_presenza`),
+  PRIMARY KEY (`id_dipendente`,`data`,`id_tipo_presenza`),
+  KEY `id_tipo_presenza` (`id_tipo_presenza`),
   KEY `id_commessa` (`id_commessa`),
   CONSTRAINT `presenza_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendente` (`id_dipendente`),
-  CONSTRAINT `presenza_ibfk_2` FOREIGN KEY (`tipo_presenza`) REFERENCES `tipo_presenza` (`nome_tipo_presenza`),
+  CONSTRAINT `presenza_ibfk_2` FOREIGN KEY (`id_tipo_presenza`) REFERENCES `tipo_presenza` (`id_tipo_presenza`),
   CONSTRAINT `presenza_ibfk_3` FOREIGN KEY (`id_commessa`) REFERENCES `commessa` (`id_commessa`)
 );
 
@@ -164,10 +167,8 @@ CREATE TABLE `dipendente_azienda` (
 DROP TABLE IF EXISTS `saltini`;
 CREATE TABLE `saltini` (
   `id_account` int NOT NULL auto_increment,
-  `salt` char(64) NOT NULL,
+  `salt` VARBINARY(64) NOT NULL,
   PRIMARY KEY (`id_account`),
   KEY `id_account` (`id_account`),
   CONSTRAINT `saltini_ibfk_1` FOREIGN KEY (`id_account`) REFERENCES `account` (`id_account`)
 );
-
-
