@@ -100,8 +100,8 @@ class EmployeeDAO:
         lista_employee = dict()
         sql = """SELECT * FROM dipendente
         JOIN dipendente_azienda ON dipendente.id_dipendente = dipendente_azienda.id_dipendente  
-        WHERE `id_azienda` = '%s' AND  `nome` LIKE %s AND cognome LIKE %s AND cf LIKE %s 
-        #AND iban LIKE %s AND email LIKE %s AND telefono LIKE %s"""
+        WHERE `id_azienda` = '%s' AND  `nome` LIKE %s AND `cognome` LIKE %s AND `cf` LIKE %s 
+        AND `iban` LIKE %s AND `email` LIKE %s AND `telefono` LIKE %s"""
         val = (idAzienda,'%'+emp.nome+'%', '%'+emp.cognome+'%', '%'+emp.cf+'%','%'+emp.iban+'%', '%'+emp.email+'%', '%'+emp.telefono+'%',)
         cursor.execute(sql, val)
         records = cursor.fetchall()
