@@ -13,6 +13,7 @@ from fastapi import FastAPI
 from Dao.CustomerDao import CustomerDao
 from api.Model.AccountModel import AccountModel
 from api.Model.UserModel import UserModel
+from api.Model.EmployeeModel import EmployeeModel
 
 app = FastAPI()
 
@@ -40,21 +41,9 @@ app.add_middleware(
 async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
-@app.get('/employee/{firstname}/{lastname}')
-async def get_employee_by_name_surname(firstname, lastname):
-    return EmployeeDAO.getEmployeeByNameSurname(firstname, lastname)
-
-@app.get('/employee/{lastname}')
-async def get_employee_by_surname(lastname):
-    return EmployeeDAO.getEmployeeBySurname(lastname)
-
-@app.get('/codicefiscale/{cf}')
-async def get_employee_by_cf(cf):
-    return EmployeeDAO.getEmployeeByCF(cf)
-
-@app.get('/matricola/{matricola}')
-async def get_employee_by_employee(matricola:str):
-    return EmployeeDAO.getEmployeeByMatricola(matricola)
+@app.post('/employee/')
+async def filter_employee_by(Employee : EmployeeModel, idAzienda: int):
+    return EmployeeDAO.filterEmployeeBy(Employee, idAzienda)
 
 @app.get("/employee/fine/rapporto")
 async def get_employees_by_last_work():

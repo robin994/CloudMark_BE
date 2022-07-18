@@ -92,13 +92,17 @@ class EmployeeDAO:
             connection.close()
 
     @staticmethod
-    def getEmployeeByNameSurname(nome: str, cognome: str):
+    def filterEmployeeBy(emp : EmployeeModel, idAzienda):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         employee = EmployeeModel()
         lista_employee = dict()
-        cursor.execute(
-            f"SELECT id_dipendente, nome, cognome, cf, iban, id_tipoContratto, email, telefono FROM dipendente WHERE nome = '{nome}' AND cognome = '{cognome}';")
+        sql = """SELECT * FROM dipendente 
+        JOIN dipendente_azienda ON dipendente.id_dipendente = dipendente_azienda.id_dipendente  
+        ON  nome LIKE '%s' AND cognome LIKE '%s' AND id_dipendente LIKE '%s' AND cf LIKE '%s' 
+        AND iban LIKE '%s' AND id_tipoContratto LIKE '%s' AND email LIKE '%s' AND telefono LIKE '%s';")"""
+        val = (emp.nome, emp.cognome)
+        cursor.execute()
         records = cursor.fetchall()
         if records is None:
             return employee
