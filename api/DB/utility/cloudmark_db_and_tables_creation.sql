@@ -172,3 +172,5 @@ CREATE TABLE `saltini` (
   KEY `id_account` (`id_account`),
   CONSTRAINT `saltini_ibfk_1` FOREIGN KEY (`id_account`) REFERENCES `account` (`id_account`)
 );
+
+Commit;
