@@ -210,11 +210,11 @@ class EmployeeDAO:
         if connection.is_connected():
              connection.close()
         return lista
+    
+    @staticmethod
     def getEmployeesByLastWork():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        # first_dict = dict()
         all_last_work = dict()
-        # lista_key = ["nome", "cognome", "matricola", "codice_fiscale", "data_inizio_rapporto"]
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
             """SELECT dipendente.cognome, dipendente.nome, dipendente_azienda.matricola, dipendente.cf, dipendente_azienda.data_inizio_rapporto 
