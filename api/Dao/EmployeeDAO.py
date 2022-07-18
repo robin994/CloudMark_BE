@@ -93,7 +93,7 @@ class EmployeeDAO:
             connection.close()
 
     @staticmethod
-    def filterEmployeeBy(emp : EmployeeModel, idAzienda):
+    def filterByEmployee(emp : EmployeeModel, idAzienda):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         lista_employee = dict()

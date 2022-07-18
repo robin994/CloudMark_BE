@@ -42,8 +42,8 @@ async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
 @app.post('/employee/')
-async def filter_employee_by(Employee : EmployeeModel, idAzienda: int):
-    return EmployeeDAO.filterEmployeeBy(Employee, idAzienda)
+async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
+    return EmployeeDAO.filterByEmployee(Employee, idAzienda)
 
 @app.get("/employee/fine/rapporto")
 async def get_employees_by_last_work():
