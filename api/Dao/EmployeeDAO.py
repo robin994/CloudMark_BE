@@ -96,7 +96,6 @@ class EmployeeDAO:
     def filterEmployeeBy(emp : EmployeeModel, idAzienda):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        employee = EmployeeModel()
         lista_employee = dict()
         sql = """SELECT * FROM dipendente 
         JOIN dipendente_azienda ON dipendente.id_dipendente = dipendente_azienda.id_dipendente  
