@@ -91,7 +91,7 @@ class AccountDao:
     def deleteAccountByID(id_account: UUID):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(f"DELETE FROM account WHERE id_account = {id_account}")
+        cursor.execute(f"DELETE FROM `account` WHERE `id_account` = '{id_account}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
