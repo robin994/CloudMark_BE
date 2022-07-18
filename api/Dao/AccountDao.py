@@ -1,6 +1,5 @@
 from operator import truediv
 import dotenv
-from sqlalchemy import true
 from DB.DBUtility import DBUtility 
 from Model.AccountModel import AccountModel
 from Model.UserModel import UserModel, SessionModel
