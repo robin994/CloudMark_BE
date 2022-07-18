@@ -56,6 +56,10 @@ async def get_session(user : UserModel):
 async def delete_account(id_account):
     return AccountDao.deleteAccountByID(id_account)
 
+@app.post("/account/verify_account", tags=["account"])
+async def jwt_verify(token: str):
+    return AccountDao.jwt_verify(token)
+
 # Endpoint - Business
 
 @app.get("/business", tags=["business"])
