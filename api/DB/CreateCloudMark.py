@@ -7,7 +7,7 @@ import mysql.connector
 
 class CreateSchema:
     def main():
-        with open('api/DB/DbCredentialCloudmark.json') as f:
+        with open('api/DB/DbLocalCredential.json') as f:
          db = json.load(f)
         connessione=None
         connessione = mysql.connector.connect(

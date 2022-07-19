@@ -7,11 +7,11 @@ from uuid import UUID
 
 class NewCommessaModel(BaseModel):
     id_order: UUID
-    descrizione: Optional[str]
-    id_cliente: Optional[UUID]
-    id_azienda: Optional[UUID]
-    data_inizio: Optional[date]
-    data_fine: Optional[date]
+    description: Optional[str]
+    id_customer: Optional[UUID]
+    id_business: Optional[UUID]
+    startDate: Optional[date]
+    endDate: Optional[date]
 
 
 class CommessaModel(NewCommessaModel):

@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 
 class EmployeeBusinessModel(BaseModel):
-    nome: Optional[str]
-    cognome: Optional[str]
+    firstName: Optional[str]
+    lastName: Optional[str]
     cf: Optional[str]
     matricola: Optional[str]
-    inizio_data_rapporto: Optional[date]
+    startRelationshipDate: Optional[date]

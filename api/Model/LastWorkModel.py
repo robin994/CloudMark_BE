@@ -4,8 +4,8 @@ from pydantic import BaseModel
 
 
 class LastWorkModel(BaseModel):
-    nome: Optional[str]
-    cognome: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
     matricola: Optional[str]
     cf: Optional[str]
-    data_assunzione: Optional[date]
+    intakeDate: Optional[date]

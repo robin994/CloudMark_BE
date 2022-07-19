@@ -20,11 +20,11 @@ class OrderDao:
         for row in records:
             order = CommessaModel(
                 id_order=row[0],
-                descrizione=row[1],
-                id_cliente=row[2],
-                id_azienda=row[3],
-                data_inizio=row[4],
-                data_fine=row[5]
+                description=row[1],
+                id_customer=row[2],
+                id_business=row[3],
+                startDate=row[4],
+                endDate=row[5]
             )
             lista_orders[row[0]] = order
         if connection.is_connected():
@@ -43,8 +43,8 @@ class OrderDao:
         if(record is None):
             return order
         else:
-            order = CommessaModel(id_order=record[0], descrizione=record[1], id_cliente=record[2],
-                                  id_azienda=record[3], data_inizio=record[4], data_fine=record[5])
+            order = CommessaModel(id_order=record[0], description=record[1], id_customer=record[2],
+                                  id_business=record[3], startDate=record[4], endDate=record[5])
         if connection.is_connected():
             connection.close()
 
@@ -67,7 +67,7 @@ class OrderDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"update commessa set descrizione = '{order.descrizione}',id_cliente = '{order.id_cliente}',id_azienda='{order.id_azienda}',data_inizio='{order.data_inizio}', data_fine='{order.data_fine}' where id_commessa = {order.id_order}")
+            f"update commessa set descrizione = '{order.description}',id_cliente = '{order.id_customer}',id_azienda='{order.id_business}',data_inizio='{order.startDate}', data_fine='{order.endDate}' where id_commessa = {order.id_order}")
         connection.commit()
         if connection.is_connected():
             connection.close()

@@ -11,5 +11,5 @@ class UserModel(BaseModel):
 class SessionModel(BaseModel):
     id_account: Optional[str]
     user: Optional[str]
-    abilitato: Optional[str]
-    tipo_account: Optional[str]
+    abilitate: Optional[str]
+    accountType: Optional[str]
