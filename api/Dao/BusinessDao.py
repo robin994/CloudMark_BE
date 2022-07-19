@@ -79,15 +79,18 @@ class BusinessDao:
         return lista_business
 
     @staticmethod
-    def getBusinessByID(id_azienda: UUID):
+    def getBusinessByID(id_azienda):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        business = NewBusinessModel()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"SELECT id_azienda, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM azienda WHERE id_azienda ='{id_azienda}'")
+        sql= "SELECT * FROM azienda WHERE id_azienda = %s"
+        val = (id_azienda,)
+        cursor.execute(sql, val)
         record = cursor.fetchone()
+        if connection.is_connected():
+            connection.close()
+
         if(record is None):
-            return business
+            return {}
         else:
             business = BusinessModel(
                 id_business=record[0],
@@ -101,8 +104,8 @@ class BusinessDao:
                 pec=record[8],
                 fax=record[9]
             )
-        if connection.is_connected():
-            connection.close()
+            return business
+
 
     #     return record
 

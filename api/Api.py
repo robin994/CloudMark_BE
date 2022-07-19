@@ -75,6 +75,10 @@ async def jwt_verify(token: str):
 async def get_all_business():
     return BusinessDao.getAllBusiness()
 
+@app.get("/business/{uuid}", tags=["business"])
+async def get_business_by_id(uuid):
+    return BusinessDao.getBusinessByID(uuid)
+
 @app.post("/business/", tags=["business"])
 async def filter_by_business(business : BusinessModel):
     return BusinessDao.filterByBusiness(business)
