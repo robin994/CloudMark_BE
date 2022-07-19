@@ -19,7 +19,7 @@ class test_account_dao:
      logging.error("AccountDaio getAllAccounts not passed")
      logging.exception(e)
      
-   accountCreate = NewAccountModel(user="Franco", password='aaaa', abilitato=1, id_tipoAccount=1)
+   accountCreate = NewAccountModel(user="Franco", password='aaaa', abilitato=1, id_tipoAccount=1) 
        
    try:
      total += 1
