@@ -114,8 +114,8 @@ class CustomerDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         lista_customer = dict()
-        sql = "SELECT C.id_cliente, C.nome, C.p_iva, C.indirizzo, C.cap, C.iban, C.telefono, C.email, C.pec, C.fax FROM cliente C, azienda A, azienda_cliente AC WHERE C.id_cliente = AC.id_cliente and AC.id_azienda = A.id_azienda and A.id_azienda = %s;"
-        val = (id_business)
+        sql = "SELECT * FROM cliente C, azienda A, azienda_cliente AC WHERE C.id_cliente = AC.id_cliente and AC.id_azienda = A.id_azienda and A.id_azienda = %s;"
+        val = (id_business,)
         cursor.execute(sql, val)
         records = cursor.fetchall()
         if connection.is_connected():

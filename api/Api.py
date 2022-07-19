@@ -12,7 +12,7 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from api.Model.ContractType import ContractType
 from api.Dao.AccountTypeDao import AccountTypeDao
-from api.Model.CustomerModel import CustomerModel
+from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.BusinessModel import BusinessModel, NewBusinessModel
 from api.Model.AccountModel import AccountModel, NewAccountModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
@@ -128,17 +128,25 @@ async def delete_business(id_business:str):
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
-# @app.get("/customer/byBusinessId", tags=["customer"])
-# async def get_all_customer_by_business_id():
-#     return CustomerDao.getCustomerByBusinessID()    
+@app.get("/customer/{business_uuid}", tags=["customer"])
+async def get_all_customer_by_business_id(business_uuid):
+    return CustomerDao.getCustomerByBusinessID(business_uuid)    
+
+@app.get("/customer/{uuid}", tags=["customer"])
+async def get__by_id(uuid):
+    return CustomerDao.getCustomerByID(uuid)  
 
 @app.post("/customer/create", tags=["customer"])
-async def create_customer(customer : CustomerModel):
+async def create_customer(customer : NewCustomerModel):
     return CustomerDao.createCustomer(customer)
 
 @app.post("/customer/delete", tags=["customer"])
-async def delete_customer(id_customer):
+async def delete_customer(id_customer: str):
     return CustomerDao.deleteCustomerByID(id_customer)
+
+@app.patch("/customer/update", tags=["customer"])
+async def update_customer_by_id(customer: CustomerModel):
+    return CustomerDao.deleteCustomerByID(customer)
 
 # Endpoint - Employee
 

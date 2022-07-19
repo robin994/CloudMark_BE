@@ -37,13 +37,13 @@ class test_customer_dao:
             logging.error("CustomerDao getCustomerByID not passed")
             logging.exception(e)
 
-        # try:
-        #     total += 1
-        #     CustomerDao.getCustomerByBusinessID()
-        #     counter += 1
-        # except(RuntimeError, TypeError, NameError) as e:
-        #     logging.error("CustomerDao getCustomerByBusinessID not passed")
-        #     logging.exception(e)
+        try:
+            total += 1
+            CustomerDao.getCustomerByBusinessID(str(uuidCustomer))
+            counter += 1
+        except(RuntimeError, TypeError, NameError) as e:
+            logging.error("CustomerDao getCustomerByBusinessID not passed")
+            logging.exception(e)
 
         try:
             total += 1
