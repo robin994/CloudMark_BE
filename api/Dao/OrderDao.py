@@ -1,6 +1,7 @@
 from uuid import UUID, uuid4
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
+import sqlalchemy
 from Model.OrderModel import OrderModel, NewOrderModel
 from DB.DBUtility import DBUtility
 
@@ -60,11 +61,10 @@ class OrderDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         uuid = uuid4()
-        sql = """"INSERT INTO commessa (id_commessa,descrizione, id_cliente, id_azienda, data_inizio, data_fine) 
-        VALUES(%s,%s,%s,%s,%s);"""
-        val = (uuid, order.description, order.id_customer, order.id_business, order.startDate, order.endDate,)
-        cursor.execute(
-            f"")
+        sql = """INSERT INTO `commessa`
+        VALUES( %s , %s , %s , %s , %s , %s);"""
+        val = (str(uuid), order.description, order.id_customer, order.id_business, order.startDate, order.endDate,)
+        cursor.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -75,8 +75,12 @@ class OrderDao:
     def updateOrderById(order: OrderModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute(
-            f"update commessa set descrizione = '{order.description}',id_cliente = '{order.id_customer}',id_azienda='{order.id_business}',data_inizio='{order.startDate}', data_fine='{order.endDate}' where id_commessa = {order.id_order}")
+        sql= """update commessa 
+        set `descrizione` = %s ,`id_cliente` = %s,
+        `id_azienda`=%s,`data_inizio`= %s, 
+        `data_fine`= %s where `id_commessa` =  %s"""
+        val = (order.description, order.id_customer, order.id_business, order.startDate, order.endDate, order.id_order)
+        cursore.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -84,12 +88,14 @@ class OrderDao:
         return order
 
     @staticmethod
-    def deleteOrderByID(id_order: UUID):
+    def deleteOrderByID(id_order: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(f"DELETE FROM commessa WHERE id_commessa = {id_order}")
+        sql = "DELETE FROM commessa WHERE id_commessa = %s"
+        val = (id_order,)
+        cursor.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return f"Commessa con id = {id_order} eliminata"
+        return ""

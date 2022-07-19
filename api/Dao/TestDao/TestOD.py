@@ -21,7 +21,7 @@ class test_order_dao:
             
    try:
      total += 1
-     commessaCreate = NewOrderModel(description="txt", id_customer="123e4567-e89b-12d3-a456-426614174000", id_business="124e4567-e85b-1fd3-a456-426614474000", startDate=datetime(year=2022,month=1,day=1), endDate=datetime(year=2022,month=1,day=3))
+     commessaCreate = NewOrderModel(description="txt", id_customer="123e4567-e89b-12d3-a456-426614174000", id_business="124e4567-e85b-1fd3-a456-426614474000", startDate= "2022-07-19", endDate= "2022-08-19")
      uuidOrder = OrderDao.createOrder(commessaCreate)
      logging.debug("OrderDao createOrder:" + str(uuidOrder))
      counter += 1
@@ -31,7 +31,7 @@ class test_order_dao:
    
    try:
      total += 1
-     OrderDao.getOrderByID(uuidOrder)
+     order = OrderDao.getOrderByID(str(uuidOrder))
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:
      logging.error("OrderDao getOrderByID not passed")
@@ -39,7 +39,8 @@ class test_order_dao:
      
    try:
      total += 1
-     OrderDao.updateOrderById( )
+     order.description = "modificato"
+     OrderDao.updateOrderById(order)
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:
      logging.error("OrderDao updateOrderById not passed")
@@ -47,7 +48,7 @@ class test_order_dao:
 
    try:
      total += 1
-     OrderDao.deleteOrderByID(uuidOrder)
+     OrderDao.deleteOrderByID(str(uuidOrder))
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:
      logging.error("OrderDao deleteOrderByID not passed")
