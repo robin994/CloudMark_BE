@@ -1,4 +1,6 @@
+from unicodedata import name
 import uuid
+from jwt import PyJWK
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from uuid import UUID, uuid4
@@ -23,13 +25,13 @@ class EmployeeDAO:
         for row in records:
             employee = EmployeeModel(
                 id_employee=row[0],
-                nome=row[1],
-                cognome=row[2],
+                first_name=row[1],
+                last_name=row[2],
                 cf=row[3],
                 iban=row[4],
-                id_tipoContratto=row[5],
+                id_contractType=row[5],
                 email=row[6],
-                telefono=row[7]
+                phoneNumber=row[7]
             )
             lista_employee[row[0]] = employee
         if connection.is_connected():
@@ -50,13 +52,13 @@ class EmployeeDAO:
         else:
             employee = EmployeeModel(
                 id_employee=record[0],
-                nome=record[1],
-                cognome=record[2],
+                first_name=record[1],
+                last_name=record[2],
                 cf=record[3],
                 iban=record[4],
-                id_tipoContratto=record[5],
+                id_contractType=record[5],
                 email=record[6],
-                telefono=record[7]
+                phoneNumber=record[7]
             )
         if connection.is_connected():
             connection.close()
@@ -68,7 +70,7 @@ class EmployeeDAO:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"INSERT INTO dipendente(id_dipendente,nome, cognome, cf, iban, id_tipo_contratto, email, telefono) VALUES ('{uuid4()}','{employee.nome}', '{employee.cognome}', '{employee.cf}', '{employee.iban}', '{employee.id_tipoContratto}', '{employee.email}', '{employee.telefono}');")
+            f"INSERT INTO dipendente(id_dipendente,nome, cognome, cf, iban, id_tipo_contratto, email, telefono) VALUES ('{uuid4()}','{employee.first_name}', '{employee.last_name}', '{employee.cf}', '{employee.iban}', '{employee.id_contractType}', '{employee.email}', '{employee.phoneNumber}');")
         connection.commit()
         return employee
 
@@ -77,7 +79,7 @@ class EmployeeDAO:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"UPDATE dipendente SET nome = '{employee.nome}', cognome ='{employee.cognome}', cf = '{employee.cf}', iban ='{employee.iban}', id_tipoContratto = '{employee.id_tipoContratto}', email ='{employee.email}' , telefono ='{employee.telefono}' WHERE id_dipendente = {employee.id_employee};")
+            f"UPDATE dipendente SET nome = '{employee.first_name}', cognome ='{employee.last_name}', cf = '{employee.cf}', iban ='{employee.iban}', id_tipoContratto = '{employee.id_contractType}', email ='{employee.email}' , telefono ='{employee.phoneNumber}' WHERE id_dipendente = {employee.id_employee};")
         connection.commit()
         if connection.is_connected():
             connection.close()

@@ -15,11 +15,11 @@ from Model.CommessaModel import CommessaModel
 from PresenceDao import PresenceDao
 from Model.PresenceModel import PresenceModel
 from TipoAccountDao import TipoAccountDao
-from Model.TipoAccount import TipoAccount
+from Model.AccountType import AccountType
 from TipoContrattoDAO import TipoContrattoDAO
-from Model.TipoContratto import TipoContratto
+from Model.ContractType import ContractType
 from TipoPresenzaDao import TipoPresenzaDao
-from Model.TipoPresenza import TipoPresenza
+from Model.PresenceType import PresenceType
 from api.Dao.TestDao.TestAD import test_account_dao
 from api.Dao.TestDao.TestBD import test_business_dao
 
@@ -87,7 +87,7 @@ class test:
     # logging.info(PresenceDao.updatePresenceByIDEmployeeAndDate(presenceUpdate))
     # logging.info(PresenceDao.deletePresenceByPK(1, '2022-01-03', 1))
 # 
-    # # ######  TEST tipo_accountDao  ######
+    # # ######  TEST PresenceTypeDao  ######
     # # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
     # logging.info(TipoAccountDao.getAllTipoAccount())
     # logging.info(TipoAccountDao.getTipoAccountByIdTipoAccount(1))

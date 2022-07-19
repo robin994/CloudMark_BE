@@ -27,7 +27,7 @@ class PresenceDao:
                 date_presence=record[1],
                 id_tipoPresenza=record[2],
                 id_order=record[3],
-                ore=record[4]
+                hours=record[4]
             )
         if connection.is_connected():
             connection.close()
@@ -48,7 +48,7 @@ class PresenceDao:
                 date_presence=row[1],
                 id_tipoPresenza=row[2],
                 id_order=row[3],
-                ore=row[4]
+                hours=row[4]
             )
             lista_presence.append(presence)
         if connection.is_connected():
@@ -81,13 +81,13 @@ class PresenceDao:
         return presence
 
     @staticmethod
-    def deletePresenceByPK(id_employee: UUID, datePresence: date, id_tipoPresenza: UUID):
+    def deletePresenceByPK(id_employee: UUID, datePresence: date, id_typePresence: UUID):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            f"DELETE FROM presenza WHERE id_dipendente = '{id_employee}' AND data = '{datePresence}' AND id_tipoPresenza = '{id_tipoPresenza}';")
+            f"DELETE FROM presenza WHERE id_dipendente = '{id_employee}' AND data = '{datePresence}' AND id_tipoPresenza = '{id_typePresence}';")
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return f"Presenza con id_dipendente= {id_employee}, data= '{datePresence}', id_tipoPresenza='{id_tipoPresenza}' eliminata"
+        return f"Presenza con id_dipendente= {id_employee}, data= '{datePresence}', id_tipoPresenza='{id_typePresence}' eliminata"

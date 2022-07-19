@@ -3,6 +3,6 @@ from pydantic import BaseModel
 
 
 class CallBackResponse(BaseModel):
-    esitoChiamata: str
-    numeroRisultati: int
+    outcome: str
+    resultsNum: int
     error: Optional[str]

@@ -4,13 +4,13 @@ from uuid import UUID
 
 
 class NewEmployeeModel(BaseModel):
-    nome: Optional[str]
-    cognome: Optional[str]
+    first_name: Optional[str]
+    last_name: Optional[str]
     cf: Optional[str]
     iban: Optional[str]
-    id_tipoContratto: Optional[int]
+    id_contractType: Optional[int]
     email: Optional[str]
-    telefono: Optional[str]
+    phoneNumber: Optional[str]
 
 
 class EmployeeModel(NewEmployeeModel):

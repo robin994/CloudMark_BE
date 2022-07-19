@@ -1,83 +1,84 @@
+from unicodedata import name
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from Model.TipoAccount import TipoAccount
+from Model.AccountType import AccountType
 from DB.DBUtility import DBUtility
 
 # testati e funzionanti
 
 
-class TipoAccountDao:
+class AccountTypeDao:
     @staticmethod
-    def getAllTipoAccount():
+    def getAllAccountsType():
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        lista_tipoAccount = dict()
+        lista_accountType = dict()
         cursore: MySQLCursor = connection.cursor()
         query = "SELECT * FROM tipo_account"
         cursore.execute(query)
         records = cursore.fetchall()
         for row in records:
-            tipoAccount = TipoAccount(
-                id_tipo_account=row[0],
-                nomeTipoAccount=row[1],
-                funzioneProfilo=row[2])
-            lista_tipoAccount[row[0]] = tipoAccount
+            tipoAccount = AccountType(
+                id_account_type=row[0],
+                accountTypeName=row[1],
+                function=row[2])
+            lista_accountType[row[0]] = tipoAccount
         if connection.is_connected():
             connection.close()
 
-        return lista_tipoAccount
+        return lista_accountType
 
     @staticmethod
-    def getTipoAccountByIdTipoAccount(id_tipo_account: int):
+    def getAccountTypeById(id_accountType: int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        tipoAccount = TipoAccount()
+        accountType = AccountType()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"SELECT * FROM tipo_account WHERE id_tipo_account = {id_tipo_account}")
+            f"SELECT * FROM tipo_account WHERE id_tipo_account = {id_accountType}")
         record = cursore.fetchone()
         if(record is None):
-            return tipoAccount
+            return accountType
         else:
-            tipoAccount = TipoAccount(
-                id_tipo_account=record[0],
-                nomeTipoAccount=record[1],
-                funzioneProfilo=record[2])
+            accountType = AccountType(
+                id_account_type=record[0],
+                accountTypeName=record[1],
+                function=record[2])
         if connection.is_connected():
             connection.close()
 
-        return tipoAccount
+        return accountType
 
     @staticmethod
-    def createTipoAccount(tipoAccount: TipoAccount):
+    def createAccountType(accountType: AccountType):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"Insert into tipo_account(nome_tipoAccount,lista_funzioni_del_profilo) values('{tipoAccount.nomeTipoAccount}','{tipoAccount.funzioneProfilo}')")
+            f"Insert into tipo_account(nome_tipoAccount,lista_funzioni_del_profilo) values('{accountType.accountTypeName}','{accountType.function}')")
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return tipoAccount
+        return accountType
 
     @staticmethod
-    def updateTipoAccount(tipoAccount: TipoAccount):
+    def updateAccountType(accountType: AccountType):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"update tipo_account set nome_tipoAccount='{tipoAccount.nomeTipoAccount}', lista_funzioni_del_profilo = '{tipoAccount.funzioneProfilo}' where id_tipo_account = '{tipoAccount.id_tipo_account}'")
+            f"update tipo_account set nome_tipoAccount='{accountType.accountTypeName}', lista_funzioni_del_profilo = '{accountType.function}' where id_tipo_account = '{accountType.id_account_type}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return tipoAccount
+        return accountType
 
     @staticmethod
-    def deleteTipoAccount(id_tipo_account: int):
+    def deleteAccountType(id_account_type: int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"delete from tipo_account where id_tipo_account = '{id_tipo_account}'")
+            f"delete from tipo_account where id_tipo_account = '{id_account_type}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return f"TipoAccount con nome = {id_tipo_account} eliminato"
+        return f"TipoAccount con nome = {id_account_type} eliminato"

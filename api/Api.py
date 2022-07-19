@@ -1,18 +1,23 @@
 from fastapi.middleware.cors import CORSMiddleware
 # from Dao.TipoPresenzaDao import TipoPresenzaDao
-from Dao.TipoAccountDao import TipoAccountDao
+from Dao.AccountTypeDao import AccountTypeDao
 # from Dao.PresenceDao import PresenceDao
 from Dao.BusinessDao import BusinessDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
 from Dao.OrderDao import OrderDao
 from fastapi import FastAPI
+from Dao.AccountTypeDao import AccountTypeDao
+from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
+from api.Model.ContractType import ContractType
+from api.Dao.AccountTypeDao import AccountTypeDao
 from api.Model.CustomerModel import CustomerModel
 from api.Model.BusinessModel import BusinessModel
 from api.Model.AccountModel import AccountModel, NewAccountModel
 from api.Model.UserModel import UserModel
 from api.Model.EmployeeModel import EmployeeModel
+
 
 app = FastAPI()
 
@@ -128,12 +133,24 @@ async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
 
-# Endpoint - TipoAccount
+# Endpoint - AccountType
 
 @app.get("/type/account", tags=["Type"])
 async def get_all_tipo_account():
-    return TipoAccountDao.getAllTipoAccount()
+    return AccountTypeDao.getAllAccountsType()
 
 @app.post("/type/account/{id_account}", tags=["Type"])
 async def get_tipo_account_by_id(id_account):
-    return TipoAccountDao.getTipoAccountByIdTipoAccount(id_account)
+    return AccountTypeDao.getAccountTypeById(id_account)
+
+# Endpoint - ContractType
+
+@app.get("/type/contract", tags=["Type"])
+async def get_all_contract_type():
+    return ContractTypeDAO.getAllContractsType()
+
+@app.post("/type/contract/{id_contract}", tags=["Type"])
+async def get_contract_type_by_id(id_contract):
+    return ContractTypeDAO.getContractTypeByID(id_contract)
+
+
