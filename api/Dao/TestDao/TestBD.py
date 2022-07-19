@@ -32,7 +32,7 @@ class test_business_dao:
         
         try:
             total += 1
-            BusinessDao.getBusinessByID()
+            BusinessDao.getBusinessByID(uuidBusiness)
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("BusinessDao getBusinessByID not passed")
@@ -40,7 +40,7 @@ class test_business_dao:
 
         try:
             total += 1
-            businessUpdate = NewBusinessModel(id_business=str(uuidBusiness), name='PeppeHub', p_iva='498484894', address='via Salimberi 1', cap='00321', iban="846541515121",phone="065454554" ,email="techub@mail.it", pec="techub@pec.it", fax="0645454545")
+            businessUpdate = BusinessModel(id_business=str(uuidBusiness), name='PeppeHub', p_iva='498484894', address='via Salimberi 1', cap='00321', iban="846541515121",phone="065454554" ,email="techub@mail.it", pec="techub@pec.it", fax="0645454545")
             BusinessDao.updateBusinessById(businessUpdate)
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:

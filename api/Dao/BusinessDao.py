@@ -110,18 +110,25 @@ class BusinessDao:
     def createBusiness(business: NewBusinessModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
+        uuid = uuid4()
         cursor.execute(
-            f"INSERT INTO azienda(id_azienda,nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{uuid4()}','{business.name}','{business.p_iva}','{business.address}','{business.cap}','{business.iban}','{business.phone}','{business.email}','{business.pec}','{business.fax}');")
+            f"INSERT INTO azienda(id_azienda,nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{uuid}','{business.name}','{business.p_iva}','{business.address}','{business.cap}','{business.iban}','{business.phone}','{business.email}','{business.pec}','{business.fax}');")
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return business
+        return uuid
 
     @staticmethod
     def updateBusinessById(business: BusinessModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE azienda SET nome = '{business.name}', p_iva ='{business.p_iva}', iban = '{business.iban}', indirizzo ='{business.address}' , cap ='{business.cap}', telefono ='{business.phone}', email ='{business.email}', pec ='{business.pec}' , fax ='{business.fax}' WHERE id_azienda = {business.id_business};")
+        sql = """UPDATE azienda 
+        SET `nome` = %s, `p_iva` =%s, `iban` = %s,
+        `indirizzo` =%s , `cap` =%s, `telefono` =%s,
+        `email` =%s, `pec` =%s , `fax` =%s
+        WHERE `id_azienda` = %s;"""
+        val = (business.name, business.p_iva , business.iban, business.address, business.cap, business.phone, business.email, business.pec, business.fax, business.id_business)
+        cursor.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()

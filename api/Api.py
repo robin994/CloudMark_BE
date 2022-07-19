@@ -83,9 +83,9 @@ async def filter_by_business(business : BusinessModel):
 async def create_business(business : BusinessModel):
     return BusinessDao.createBusiness(business)  
 
-# @app.post("/business/update", tags=["business"])
-# async def update_business(business : BusinessModel):
-#     return BusinessDao.updateBusinessById(business)      
+@app.post("/business/update", tags=["business"])
+async def update_business(business : BusinessModel):
+    return BusinessDao.updateBusinessById(business)      
 
 @app.post("/business/delete", tags=["business"])
 async def delete_business(id_business):
