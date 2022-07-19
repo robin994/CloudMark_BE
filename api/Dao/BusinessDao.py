@@ -1,6 +1,6 @@
 from uuid import UUID, uuid4
 from DB.DBUtility import DBUtility
-from Model.BusinessModel import BusinessModel
+from Model.BusinessModel import BusinessModel, NewBusinessModel
 from mysql.connector.connection import MySQLConnection
 from Model.CallBackResponse import CallBackResponse
 from mysql.connector.cursor import MySQLCursor
@@ -81,7 +81,7 @@ class BusinessDao:
     @staticmethod
     def getBusinessByID(id_azienda: UUID):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        business = BusinessModel()
+        business = NewBusinessModel()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
             f"SELECT id_azienda, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM azienda WHERE id_azienda ='{id_azienda}'")
