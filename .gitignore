@@ -105,5 +105,6 @@ venv.bak/
 
 DbCredentialCloudmark.json
 DbLocalCredential.json
+DbLocalCredential.py
 
 .vscode
