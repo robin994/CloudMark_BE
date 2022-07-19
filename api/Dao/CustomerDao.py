@@ -14,15 +14,18 @@ from api.Model.CustomerModel import NewCustomerModel
 class CustomerDao:
 
     @staticmethod
-    def getCustomerByID(id_customer: UUID):
+    def getCustomerByID(id_customer):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        customer = CustomerModel()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"SELECT id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM cliente WHERE id_cliente ='{id_customer}'")
+        sql= "SELECT * FROM cliente WHERE id_cliente = %s"
+        val = (id_customer,)
+        cursor.execute(sql, val)
         record = cursor.fetchone()
+        if connection.is_connected():
+            connection.close()
+        
         if(record is None):
-            return customer
+            return {}
         else:
             customer = CustomerModel(
                 id_customer=record[0],
@@ -36,10 +39,7 @@ class CustomerDao:
                 pec=record[8],
                 fax=record[9]
             )
-        if connection.is_connected():
-            connection.close()
-
-        return record
+            return customer
 
     @staticmethod
     def getAllCustomers():
@@ -47,7 +47,7 @@ class CustomerDao:
         lista_customer = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(
-            "SELECT id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax FROM cliente")
+            "SELECT * FROM cliente")
         records = cursor.fetchall()
         for row in records:
             customer = CustomerModel(
@@ -72,18 +72,21 @@ class CustomerDao:
     def createCustomer(customer: NewCustomerModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
+        uuid = uuid4()
         cursor.execute(
-            f"INSERT INTO cliente(id_cliente,nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{uuid4()}','{customer.name}','{customer.p_iva}','{customer.address}','{customer.cap}','{customer.iban}','{customer.phone}','{customer.email}','{customer.pec}','{customer.fax}');")
+            f"INSERT INTO cliente(id_cliente,nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{uuid}','{customer.name}','{customer.p_iva}','{customer.address}','{customer.cap}','{customer.iban}','{customer.phone}','{customer.email}','{customer.pec}','{customer.fax}');")
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return customer
+        return uuid
 
     @staticmethod
-    def deleteCustomerByID(id_customer: UUID):
+    def deleteCustomerByID(id_customer: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(f"DELETE FROM cliente WHERE id_cliente = {id_customer}")
+        sql = "DELETE FROM `cliente` WHERE `id_cliente` = %s"
+        val = (id_customer,)
+        cursor.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -94,46 +97,46 @@ class CustomerDao:
     def updateCustomerByID(customer: CustomerModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(f"UPDATE cliente SET nome = '{customer.name}', p_iva ='{customer.p_iva}', iban = '{customer.iban}', indirizzo ='{customer.address}' , cap ='{customer.cap}', telefono ='{customer.phone}', email ='{customer.email}', pec ='{customer.pec}' , fax ='{customer.fax}' WHERE id_cliente = '{customer.id_customer}';")
+        sql = """UPDATE cliente 
+        SET `nome` = %s, `p_iva` =%s, `iban` = %s,
+        `indirizzo` =%s , `cap` =%s, `telefono` =%s,
+        `email` =%s, `pec` =%s , `fax` =%s
+        WHERE `id_cliente` = %s;"""
+        val = (customer.name, customer.p_iva, customer.iban, customer.address, customer.cap, customer.phone, customer.email, customer.pec, customer.fax, customer.id_customer)
+        cursor.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
         return customer.id_customer
 
     @staticmethod
-    def getCustomerByBusinessID(id_business: UUID):
+    def getCustomerByBusinessID(id_business):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         lista_customer = dict()
-        try:
-            cursor.execute(
-                f"SELECT C.id_cliente, C.nome, C.p_iva, C.indirizzo, C.cap, C.iban, C.telefono, C.email, C.pec, C.fax FROM cliente C, azienda A, azienda_cliente AC WHERE C.id_cliente = AC.id_cliente and AC.id_azienda = A.id_azienda and A.id_azienda = {id_business};")
-            records = cursor.fetchall()
-            if records is None:
-                response = CallBackResponse(
-                    esitoChiamata="OK", numeroRisultati=0, error="Id Azienda non presente")
-                lista_customer['response'] = response
-            else:
-                for row in records:
-                    customer = CustomerModel(
-                        id_customer=row[0],
-                        name=row[1],
-                        p_iva=row[2],
-                        address=row[3],
-                        cap=row[4],
-                        iban=row[5],
-                        phone=row[6],
-                        email=row[7],
-                        pec=row[8],
-                        fax=row[9]
+        sql = "SELECT C.id_cliente, C.nome, C.p_iva, C.indirizzo, C.cap, C.iban, C.telefono, C.email, C.pec, C.fax FROM cliente C, azienda A, azienda_cliente AC WHERE C.id_cliente = AC.id_cliente and AC.id_azienda = A.id_azienda and A.id_azienda = %s;"
+        val = (id_business)
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
+        if connection.is_connected():
+                connection.close()
+        if records is None:
+            return {}
+        else:
+            for row in records:
+                customer = CustomerModel(
+                    id_customer=row[0],
+                    name=row[1],
+                    p_iva=row[2],
+                    address=row[3],
+                    cap=row[4],
+                    iban=row[5],
+                    phone=row[6],
+                    email=row[7],
+                    pec=row[8],
+                    fax=row[9]
                     )
                 lista_customer[row[0]] = customer
-        except Error as e:
-            response = CallBackResponse(
-                esitoChiamata="KO", numeroRisultati=0, error=f"'{e}'")
-            lista_customer['response'] = response
-        finally:
-            if connection.is_connected():
-                connection.close()
+            
 
         return lista_customer
