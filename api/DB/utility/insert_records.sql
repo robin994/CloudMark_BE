@@ -8,6 +8,8 @@ INSERT INTO `tipo_contratto`(id_tipo_contratto,nome_tipo_contratto, descrizione)
 
 INSERT INTO `dipendente` VALUES ('124e4567-e85b-1fd3-a456-333322233412','bruno','rossi','123','696',1,'brunorossi@gmail.com','1234');
 
+INSERT INTO `dipendente` VALUES ('12555467-e85b-1fd3-a456-333322233412','andrea','verdi','143','446',1,'andrea@gmail.com','14444');
+
 INSERT INTO `tipo_account`(id_tipo_account,nome_tipo_account, lista_funzioni_del_profilo) VALUES (1,'administrator','admin'),(2,'dipendente','user');
 
 INSERT INTO `commessa` VALUES ('124e4567-e44f-1fd3-a456-330002223341', null, '123e4567-e89b-12d3-a456-426614174000', '124e4567-e85b-1fd3-a456-426614474000', '2022-01-01', '2022-03-30');

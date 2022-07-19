@@ -4,6 +4,7 @@ from uuid import uuid4
 from api.Dao.TestDao.TestAD import test_account_dao
 from api.Dao.TestDao.TestBD import test_business_dao
 from api.Dao.TestDao.TestCONTRACT import test_contract_dao
+from api.Dao.TestDao.TestPRESENCE import test_presence_dao
 
 
 class test:
@@ -12,7 +13,8 @@ class test:
     logging_level = logging.WARNING
     # test_account_dao.main(logging_level)
     # test_business_dao.main(logging_level)
-    test_contract_dao.main(logging_level)
+    # test_contract_dao.main(logging_level)
+    test_presence_dao.main(logging_level)
     
 
     # ###### TEST BusinessDao ######
