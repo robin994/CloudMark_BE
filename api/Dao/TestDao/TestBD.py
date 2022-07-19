@@ -12,7 +12,7 @@ class test_business_dao:
 
         try:
             total += 1
-            logging.info(BusinessDao.getAllBusiness())
+            BusinessDao.getAllBusiness()
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:
             logging.error("BusinessDao getAllBusiness not passed")
@@ -32,7 +32,7 @@ class test_business_dao:
         
         try:
             total += 1
-            BusinessDao.getBusinessByID(uuidBusiness)
+            BusinessDao.getBusinessByID(str(uuidBusiness))
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("BusinessDao getBusinessByID not passed")
@@ -49,7 +49,8 @@ class test_business_dao:
 
         try:
             total += 1
-            logging.info(BusinessDao.filterByBusiness('m'))
+            toSearch : BusinessModel = BusinessModel(name= "m",p_iva= "",address="",cap= "",iban= "",phone= "",email= "",pec= "",fax= "",id_business= "")
+            logging.info(BusinessDao.filterByBusiness(toSearch))
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:
             logging.error("BusinessDao filterByBusiness not passed")
