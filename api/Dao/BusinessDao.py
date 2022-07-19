@@ -46,8 +46,11 @@ class BusinessDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         lista_business = dict()
-        sql = """SELECT * FROM azienda WHERE `nome` LIKE %s AND `p_iva` LIKE %s AND `indirizzo` LIKE %s AND `cap` LIKE %s 
-        AND `iban` LIKE %s AND `telefono` LIKE %s AND `email` LIKE %s AND `pec` LIKE %s AND `fax` LIKE %s"""
+        sql = """SELECT * FROM azienda 
+        WHERE `nome` LIKE %s AND `p_iva` 
+        LIKE %s AND `indirizzo` LIKE %s AND `cap` 
+        LIKE %s AND `iban` LIKE %s AND `telefono` 
+        LIKE %s AND `email` LIKE %s AND `pec` LIKE %s AND `fax` LIKE %s"""
         val = ('%'+bus.name+'%', '%'+bus.p_iva, '%'+bus.address+'%', '%'+bus.cap+'%', '%' +
                bus.iban+'%', '%'+bus.phone+'%', '%'+bus.email+'%', '%'+bus.pec+'%', '%'+bus.fax+'%')
         cursor.execute(sql, val)
@@ -70,10 +73,8 @@ class BusinessDao:
                     pec=record[8],
                     fax=record[9]
                 )
-                response = CallBackResponse(
-                    esitoChiamata="Ok", numeroRisultati=1).dict(exclude_none=True)
                 lista_business[record[0]] = business
-                lista_business['response'] = response
+
         if connection.is_connected():
             connection.close()
         return lista_business
