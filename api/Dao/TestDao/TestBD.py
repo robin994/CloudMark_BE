@@ -23,7 +23,7 @@ class test_business_dao:
         try:
             total += 1
             uuidBusiness = BusinessDao.createBusiness(businessCreate)
-            logging.debug("Acccount Create:" + str(uuidBusiness))
+            logging.debug("BusinessDao createBusiness:" + str(uuidBusiness))
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("BusinessDao createBusiness not passed")

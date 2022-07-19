@@ -1,38 +1,16 @@
 import logging
-import os
 from unicodedata import name
 from uuid import uuid4
-from xml.dom.minicompat import EmptyNodeList
-from AccountDao import AccountDao
-from Model.AccountModel import AccountModel, NewAccountModel
-from BusinessDao import BusinessDao
-from Model.BusinessModel import BusinessModel
-from CustomerDao import CustomerDao
-from Model.CustomerModel import CustomerModel
-from EmployeeDAO import EmployeeDAO
-from Model.EmployeeModel import EmployeeModel
-from OrderDao import OrderDao
-from Model.CommessaModel import CommessaModel
-from PresenceDao import PresenceDao
-from Model.PresenceModel import PresenceModel
-from AccountTypeDao import AccountTypeDao
-from Model.AccountType import AccountType
-from ContractTypeDAO import ContractTypeDAO
-from Model.ContractType import ContractType
-from PresenceTypeDao import PresenceTypeDao
-from Model.PresenceType import PresenceType
 from api.Dao.TestDao.TestAD import test_account_dao
 from api.Dao.TestDao.TestBD import test_business_dao
 
-from api.Model.EmployeeModel import NewEmployeeModel
-from api.Model.UserModel import UserModel
 
 class test:
   def main():
     
     logging_level = logging.WARNING
     test_account_dao.main(logging_level)
-    test_business_dao.main(logging_level)
+    #test_business_dao.main(logging_level)
 
     # ###### TEST BusinessDao ######
     # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2

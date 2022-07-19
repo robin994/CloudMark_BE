@@ -41,7 +41,7 @@ class test_account_dao:
    try:
      total += 1
      session = AccountDao.getSession(UserModel(user='Franco', password='aaaa') )
-     logging.debug("sesssion: "+session)
+     logging.debug("sesssion: "+ str(session))
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio getSession not passed")
