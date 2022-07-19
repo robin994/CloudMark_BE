@@ -5,7 +5,7 @@ from Dao.TipoAccountDao import TipoAccountDao
 from Dao.BusinessDao import BusinessDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.AccountDao import AccountDao
-from Dao.CommessaDAO import CommessaDAO
+from Dao.OrderDao import OrderDao
 from fastapi import FastAPI
 from Dao.CustomerDao import CustomerDao
 from api.Model.CustomerModel import CustomerModel
@@ -49,7 +49,7 @@ async def create_account(account : NewAccountModel):
     return AccountDao.createAccount(account)
 
 @app.patch("/account/update", tags=["account"])
-async def create_account(account : AccountModel, session: str):
+async def update_account(account : AccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
 @app.post("/account/login", tags=["account"])
@@ -90,7 +90,7 @@ async def delete_business(id_business):
 
 @app.get("/orders", tags=["orders"])
 async def get_all_orders():
-    return CommessaDAO.getAllOrders()
+    return OrderDao.getAllOrders()
     
 # @app.get("/presence")
 # async def getAllPresence():

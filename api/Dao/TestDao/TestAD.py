@@ -15,48 +15,54 @@ class test_account_dao:
      total += 1
      AccountDao.getAllAccounts()
      counter += 1
-   except(RuntimeError, TypeError, NameError):
+   except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio getAllAccounts not passed")
+     logging.exception(e)
      
    accountCreate = NewAccountModel(user="Franco", password='aaaa', abilitato=1, id_tipoAccount=1)
        
    try:
      total += 1
      uuidAccount = AccountDao.createAccount(accountCreate)
-     logging.debug("Acccount Createte :" + uuidAccount)
+     logging.debug("Acccount Create:" + str(uuidAccount))
      counter += 1
-   except(RuntimeError, TypeError, NameError):
+   except(RuntimeError, TypeError, NameError) as e:
      logging.error("AccountDaio createAccount not passed")
+     logging.exception(e)
    
    try:
      total += 1
      AccountDao.getAccountByID('e55917e1-0e9f-40b2-92ae-c880328aa110')
      counter += 1
-   except(RuntimeError, TypeError, NameError):
+   except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio getAccountByID not passed")
+     logging.exception(e)
      
    try:
      total += 1
      session = AccountDao.getSession(UserModel(user='Franco', password='aaaa') )
      logging.debug("sesssion: "+session)
      counter += 1
-   except(RuntimeError, TypeError, NameError):
+   except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio getSession not passed")
+     logging.exception(e)
 
    try:
      total += 1
      accountUpdate = AccountModel(id_account=str(uuidAccount), user="Beppe", password='aaaa', abilitato=1, id_tipoAccount=1)
      AccountDao.updateAccount(accountUpdate, session)
      counter += 1
-   except(RuntimeError, TypeError, NameError):
+   except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio updateAccountByID not passed")
+     logging.exception(e)
    
    try:
      total += 1
      AccountDao.deleteAccountByID(uuidAccount)
      counter += 1
-   except(RuntimeError, TypeError, NameError):
+   except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio deleteAccountByID not passed")
+     logging.exception(e)
    logging.warning("Test AccountDao, completati con successo %d / %d", counter, total)
  
  
