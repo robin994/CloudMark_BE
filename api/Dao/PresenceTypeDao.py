@@ -23,7 +23,7 @@ class PresenceTypeDao:
         return typePresenceList
 
     @staticmethod
-    def getPresenceTypeabyId(idPresenceType: int):
+    def getPresenceTypebyId(idPresenceType: int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         typePresence = PresenceType()
         cursore: MySQLCursor = connection.cursor()

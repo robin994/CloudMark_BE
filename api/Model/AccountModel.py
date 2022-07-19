@@ -5,8 +5,8 @@ from pydantic import BaseModel
 class NewAccountModel(BaseModel):
     user: Optional[str]
     password: Optional[str]
-    abilitate: Optional[int]
-    id_accountType: Optional[int]
+    abilitato: Optional[int]
+    id_tipoAccount: Optional[int]
 
 
 class AccountModel(NewAccountModel):

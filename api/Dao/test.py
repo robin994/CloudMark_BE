@@ -1,5 +1,6 @@
 import logging
 import os
+from unicodedata import name
 from uuid import uuid4
 from xml.dom.minicompat import EmptyNodeList
 from AccountDao import AccountDao
@@ -14,11 +15,11 @@ from OrderDao import OrderDao
 from Model.CommessaModel import CommessaModel
 from PresenceDao import PresenceDao
 from Model.PresenceModel import PresenceModel
-from TipoAccountDao import TipoAccountDao
+from AccountTypeDao import AccountTypeDao
 from Model.AccountType import AccountType
-from TipoContrattoDAO import TipoContrattoDAO
+from ContractTypeDAO import ContractTypeDAO
 from Model.ContractType import ContractType
-from TipoPresenzaDao import TipoPresenzaDao
+from PresenceTypeDao import PresenceTypeDao
 from Model.PresenceType import PresenceType
 from api.Dao.TestDao.TestAD import test_account_dao
 
@@ -85,34 +86,34 @@ class test:
     # logging.info(PresenceDao.updatePresenceByIDEmployeeAndDate(presenceUpdate))
     # logging.info(PresenceDao.deletePresenceByPK(1, '2022-01-03', 1))
 # 
-    # # ######  TEST PresenceTypeDao  ######
-    # # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    # logging.info(TipoAccountDao.getAllTipoAccount())
-    # logging.info(TipoAccountDao.getTipoAccountByIdTipoAccount(1))
-    # tipoAccountCreate = TipoAccount(nomeTipoAccount="provupdate",funzioneProfilo="ciaoo")
-    # tipoAccountUpdate = TipoAccount(id_tipoAccount=3, nomeTipoAccount="provupdate",funzioneProfilo="provaupdate")
-    # logging.info(TipoAccountDao.createTipoAccount(tipoAccountCreate))
-    # logging.info(TipoAccountDao.updateTipoAccount(tipoAccountUpdate))
-    # logging.info(TipoAccountDao.deleteTipoAccount(3))
+    # ######  TEST PresenceTypeDao  ######
+    # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
+    # logging.info(AccountTypeDao.getAllAccountsType())
+    # logging.info(AccountTypeDao.getAccountTypeById(1))
+    # tipoAccountCreate = AccountType(name="provupdate",function="ciaoo")
+    # tipoAccountUpdate = AccountType(id_tipoAccount=3, name="provupdate",function="provaupdate")
+    # logging.info(AccountTypeDao.createAccountType(tipoAccountCreate))
+    # logging.info(AccountTypeDao.updateAccountType(tipoAccountUpdate))
+    # logging.info(AccountTypeDao.deleteAccountType(3))
     #   # ###### TEST TipoContrattoDAO ######
     #  # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
-    # logging.info(TipoContrattoDAO.getAllTipoContratto())
-    # logging.info(TipoContrattoDAO.getTipoContrattoByID(1))
-    # contrattoCreate = TipoContratto(name='determinato', info='txt')
-    # contrattoUpdate = TipoContratto(id_tipoContratto=2, name='determinato', info='text')
-    # logging.info(TipoContrattoDAO.createTipoContratto(contrattoCreate))
-    # logging.info(TipoContrattoDAO.updateTipoContrattoById(contrattoUpdate))
-    # logging.info(TipoContrattoDAO.deleteTipoContrattoById(2))
-# 
-    # # ########  TESTING tipoPresenzaDAO  ########## 
-    # #  # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2   
-    # logging.info(TipoPresenzaDao.getAllTipoPresenza())
-    # logging.info(TipoPresenzaDao.getTipoPresenzabyIdTipoPresenza(1))
-    # tipoPresenza = TipoPresenza(nomeTipoPresenza="provapresenza",percentualeMaggiorazione= 20,pagaOraria=10)
-    # logging.info(TipoPresenzaDao.createTipoPresenza(tipoPresenza))
-    # tipoPresenzaDaAggiornare = TipoPresenza(id_tipoPresenza=5, nomeTipoPresenza="provapresenza",percentualeMaggiorazione= 40,pagaOraria=10)
-    # logging.info(TipoPresenzaDao.updateTipoPresenza(tipoPresenzaDaAggiornare))
-    # logging.info(TipoPresenzaDao.deleteTipoPresenza(5))
+    # logging.info(ContractTypeDAO.getAllContractsType())
+    # logging.info(ContractTypeDAO.getContractTypeByID(1))
+    # contrattoCreate = ContractType(name='determinato', info='txt')
+    # contrattoUpdate = ContractType(id_contractType=2, name='determinato', info='text')
+    # logging.info(ContractTypeDAO.createContractType(contrattoCreate))
+    # logging.info(ContractTypeDAO.updateContractTypeById(contrattoUpdate))
+    # logging.info(ContractTypeDAO.deleteContractTypeById(2))
+
+    # ########  TESTING tipoPresenzaDAO  ########## 
+    #  # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2   
+    # logging.info(PresenceTypeDao.getAllPresenceType())
+    # logging.info(PresenceTypeDao.getPresenceTypebyId(1))
+    # tipoPresenza = PresenceType(name="provapresenza",percentageIncrease= 20,hourlyPay=10)
+    # logging.info(PresenceTypeDao.createPresenceType(tipoPresenza))
+    # tipoPresenzaDaAggiornare = PresenceType(id_tipoPresenza=5, nomeTipoPresenza="provapresenza",percentageIncrease= 40,hourlyPay=10)
+    # logging.info(PresenceTypeDao.updatePresenceType(tipoPresenzaDaAggiornare))
+    # logging.info(PresenceTypeDao.deletePresenceType(5))
 
 if __name__ == "__main__":
    test.main()

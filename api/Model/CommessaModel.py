@@ -6,7 +6,6 @@ from uuid import UUID
 
 
 class NewCommessaModel(BaseModel):
-    id_order: UUID
     description: Optional[str]
     id_customer: Optional[UUID]
     id_business: Optional[UUID]
