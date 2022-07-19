@@ -128,12 +128,12 @@ async def delete_business(id_business:str):
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
-@app.get("/customer/{business_uuid}", tags=["customer"])
+@app.post("/customer/{business_uuid}", tags=["customer"])
 async def get_all_customer_by_business_id(business_uuid):
     return CustomerDao.getCustomerByBusinessID(business_uuid)    
 
-@app.get("/customer/{uuid}", tags=["customer"])
-async def get__by_id(uuid):
+@app.post("/customer/{uuid}", tags=["customer"])
+async def get_by_id(uuid):
     return CustomerDao.getCustomerByID(uuid)  
 
 @app.post("/customer/create", tags=["customer"])
