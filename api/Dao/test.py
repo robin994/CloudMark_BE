@@ -9,6 +9,7 @@ from api.Dao.TestDao.TestOD import test_order_dao
 from api.Dao.TestDao.TestCONTRACT import test_contract_dao
 from api.Dao.TestDao.TestPRESENCE import test_presence_dao
 from api.Dao.TestDao.TestPresenceType import test_presence_type_dao
+from api.Dao.TestDao.TestED import test_employee_dao
 
 
 class test:
@@ -22,6 +23,7 @@ class test:
     test.addResults(test_contract_dao.main(logging_level), results)
     test.addResults(test_customer_dao.main(logging_level), results)
     test.addResults(test_presence_type_dao.main(logging_level), results)
+    test.addResults(test_employee_dao.main(logging_level))
 
     if results["counter"] == results["total"]:
       logging.warning("Congratulazioni test completati con successo")
