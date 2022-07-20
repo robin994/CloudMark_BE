@@ -238,3 +238,5 @@ class EmployeeDAO:
         if connection.is_connected():
             connection.close()
         return all_last_work
+    
+    
