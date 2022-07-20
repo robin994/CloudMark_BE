@@ -62,7 +62,8 @@ class test_customer_dao:
             logging.error("CustomerDao deleteCustomerByID not passed")
             logging.exception(e)
         
-        logging.warning("Test CustomerDao, completati con successo %d / %d", counter, total)            
+        logging.warning("Test CustomerDao, completati con successo %d / %d", counter, total)
+        return dict(totals = total, counters = counter)            
 
 if __name__ == "__main__":
    test_customer_dao.main()         
