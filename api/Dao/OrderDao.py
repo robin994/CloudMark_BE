@@ -98,3 +98,32 @@ class OrderDao:
             connection.close()
 
         return ""
+    
+    @staticmethod
+    def getOrderByEmplyee(id_employee):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        order_employee = dict()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """SELECT c.id_commessa, c.descrizione, c.id_cliente, c.id_azienda, c.data_inizio, c.data_fine
+                FROM commessa c, dipendente d, commessa_dipendente cd 
+                WHERE c.id_commessa = cd.id_commessa AND cd.id_dipendente = cd.id_dipendente AND d.id_dipendente = %s"""
+        val = ([id_employee])
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
+        if connection.is_connected():
+                connection.close()
+        if records is None:
+            return {}
+        else:
+            for row in records:
+                order = OrderModel(
+                    id_order=row[0],
+                    description=row[1],
+                    id_customer=row[2],
+                    id_business=row[3],
+                    startDate=row[4],
+                    endDate=row[5]
+                )
+                order_employee[row[0]] = order
+        print(order_employee)
+        return order_employee
