@@ -194,6 +194,10 @@ async def get_all_presence_type():
 async def get_presence_type_by_id(id_presence):
     return PresenceTypeDao.getPresenceTypebyId(id_presence)
 
+@app.post("/type/presence/create", tags=["Type"])
+async def create_presence_type(presence = PresenceType):
+    return PresenceTypeDao.createPresenceType(presence)    
+
 @app.patch("/type/presence/update", tags=["Type"])
 async def update_presence_type_by_id(presence_type: PresenceType):
     return PresenceTypeDao.updatePresenceType(presence_type)
