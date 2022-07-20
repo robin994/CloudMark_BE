@@ -1,7 +1,6 @@
 from uuid import UUID, uuid4
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-import sqlalchemy
 from Model.OrderModel import OrderModel, NewOrderModel
 from DB.DBUtility import DBUtility
 
