@@ -64,6 +64,7 @@ class test_account_dao:
      logging.error("AccountDaio deleteAccountByID not passed")
      logging.exception(e)
    logging.warning("Test AccountDao, completati con successo %d / %d", counter, total)
+   return dict(totals = total, counters = counter)
  
  
  
