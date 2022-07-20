@@ -33,17 +33,6 @@ class test:
     resutls["counter"] += test["counters"]
     resutls["total"] += test["totals"]
     return resutls
-      
-   
-    # ########  TESTING tipoPresenzaDAO  ########## 
-    #  # in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2   
-    # logging.info(PresenceTypeDao.getAllPresenceType())
-    # logging.info(PresenceTypeDao.getPresenceTypebyId(1))
-    # tipoPresenza = PresenceType(name="provapresenza",percentageIncrease= 20,hourlyPay=10)
-    # logging.info(PresenceTypeDao.createPresenceType(tipoPresenza))
-    # tipoPresenzaDaAggiornare = PresenceType(id_tipoPresenza=5, nomeTipoPresenza="provapresenza",percentageIncrease= 40,hourlyPay=10)
-    # logging.info(PresenceTypeDao.updatePresenceType(tipoPresenzaDaAggiornare))
-    # logging.info(PresenceTypeDao.deletePresenceType(5))
 
 if __name__ == "__main__":
    test.main()

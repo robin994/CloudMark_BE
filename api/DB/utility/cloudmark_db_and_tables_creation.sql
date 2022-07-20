@@ -106,14 +106,14 @@ CREATE TABLE `tipo_presenza` (
 
 DROP TABLE IF EXISTS `presenza`;
 CREATE TABLE `presenza` (
+  `id_presenza` varchar(80) NOT NULL,
   `id_dipendente`varchar(80) NOT NULL,
   `data` date NOT NULL,
   `id_tipo_presenza` int NOT NULL,
   `id_commessa` varchar(80) NOT NULL,
   `ore` int DEFAULT NULL,
-  PRIMARY KEY (`id_dipendente`,`data`,`id_tipo_presenza`),
-  KEY `id_tipo_presenza` (`id_tipo_presenza`),
-  KEY `id_commessa` (`id_commessa`),
+  PRIMARY KEY (`id_presenza`,`id_dipendente`),
+  KEY `id_dipendente` (`id_dipendente`),
   CONSTRAINT `presenza_ibfk_1` FOREIGN KEY (`id_dipendente`) REFERENCES `dipendente` (`id_dipendente`),
   CONSTRAINT `presenza_ibfk_2` FOREIGN KEY (`id_tipo_presenza`) REFERENCES `tipo_presenza` (`id_tipo_presenza`),
   CONSTRAINT `presenza_ibfk_3` FOREIGN KEY (`id_commessa`) REFERENCES `commessa` (`id_commessa`)
