@@ -65,6 +65,7 @@ class test_business_dao:
             logging.exception(e)
         
         logging.warning("Test BusinessDao, completati con successo %d / %d", counter, total)
+        return dict(totals = total, counters = counter)
 
 if __name__ == "__main__":
    test_business_dao.main() 
