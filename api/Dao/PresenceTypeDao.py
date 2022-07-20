@@ -11,7 +11,7 @@ class PresenceTypeDao:
         typePresenceList = list()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            "select tp.id_tipoPresenza, tp.nome_tipoPresenza, tp.perc_maggiorazione_paga_oraria, tp.paga_oraria from tipopresenza tp")
+            "select * from tipo_presenza")
         records = cursore.fetchall()
         for row in records:
             tipoPresenza = PresenceType(
@@ -28,7 +28,7 @@ class PresenceTypeDao:
         typePresence = PresenceType()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"select tp.id_tipoPresenza, tp.nome_tipoPresenza, tp.perc_maggiorazione_paga_oraria, tp.paga_oraria from tipopresenza tp where tp.id_tipoPresenza = '{idPresenceType}'")
+            f"select * from tipo_presenza tp where tp.id_tipo_presenza = '{idPresenceType}'")
         record = cursore.fetchone()
         if(record is None):
             return typePresence
@@ -45,7 +45,7 @@ class PresenceTypeDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"Insert into tipopresenza(nome_tipoPresenza,perc_maggiorazione_paga_oraria,paga_oraria) values('{typePresence.name}','{typePresence.percentageIncrease}','{typePresence.hourlyPay}')")
+            f"Insert into tipo_presenza(nome_tipo_presenza,perc_maggiorazione_paga_oraria,paga_oraria) values('{typePresence.name}','{typePresence.percentageIncrease}','{typePresence.hourlyPay}')")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -57,7 +57,7 @@ class PresenceTypeDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"update tipopresenza set nome_tipoPresenza = '{typePresence.name}', perc_maggiorazione_paga_oraria = '{typePresence.percentageIncrease}', paga_oraria = '{typePresence.hourlyPay}' where id_tipoPresenza = {typePresence.id_presenceType};")
+            f"update tipo_presenza set nome_tipo_presenza = '{typePresence.name}', perc_maggiorazione_paga_oraria = '{typePresence.percentageIncrease}', paga_oraria = '{typePresence.hourlyPay}' where id_tipo_presenza = {typePresence.id_presenceType};")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -69,7 +69,7 @@ class PresenceTypeDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"delete from tipopresenza where id_tipoPresenza = {id_presenceType};")
+            f"delete from tipo_presenza where id_tipo_presenza = {id_presenceType};")
         connection.commit()
         if connection.is_connected():
             connection.close()

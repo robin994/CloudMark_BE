@@ -12,9 +12,10 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from api.Model.ContractType import ContractType
 from api.Dao.AccountTypeDao import AccountTypeDao
-from api.Model.CustomerModel import CustomerModel
-from api.Model.BusinessModel import BusinessModel
+from api.Model.CustomerModel import CustomerModel, NewCustomerModel
+from api.Model.BusinessModel import BusinessModel, NewBusinessModel
 from api.Model.AccountModel import AccountModel, NewAccountModel
+from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.UserModel import UserModel
 from api.Model.EmployeeModel import EmployeeModel
 
@@ -75,20 +76,24 @@ async def jwt_verify(token: str):
 async def get_all_business():
     return BusinessDao.getAllBusiness()
 
+@app.get("/business/{uuid}", tags=["business"])
+async def get_business_by_id(uuid):
+    return BusinessDao.getBusinessByID(uuid)
+
 @app.post("/business/", tags=["business"])
 async def filter_by_business(business : BusinessModel):
     return BusinessDao.filterByBusiness(business)
 
 @app.post("/business/create", tags=["business"])
-async def create_business(business : BusinessModel):
+async def create_business(business : NewBusinessModel):
     return BusinessDao.createBusiness(business)  
 
-# @app.post("/business/update", tags=["business"])
-# async def update_business(business : BusinessModel):
-#     return BusinessDao.updateBusinessById(business)      
+@app.post("/business/update", tags=["business"])
+async def update_business(business : BusinessModel):
+    return BusinessDao.updateBusinessById(business)      
 
 @app.post("/business/delete", tags=["business"])
-async def delete_business(id_business):
+async def delete_business(id_business:str):
     return BusinessDao.deleteBusinessById(id_business)
 
 #Endpoint - Commessa
@@ -96,6 +101,22 @@ async def delete_business(id_business):
 @app.get("/orders", tags=["orders"])
 async def get_all_orders():
     return OrderDao.getAllOrders()
+
+@app.get("/orders/{uuid}", tags=["orders"])
+async def get_order_by_id(uuid):
+    return OrderDao.getOrderByID(uuid)
+
+@app.post("/orders/create", tags=["orders"])
+async def create_business(business : NewOrderModel):
+    return OrderDao.createOrder(business)  
+
+@app.post("/orders/update", tags=["orders"])
+async def update_business(business : OrderModel):
+    return OrderDao.updateOrderById(business)      
+
+@app.post("/orders/delete", tags=["orders"])
+async def delete_business(id_business:str):
+    return OrderDao.deleteOrderByID(id_business)
     
 # @app.get("/presence")
 # async def getAllPresence():
@@ -107,17 +128,25 @@ async def get_all_orders():
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
-# @app.get("/customer/byBusinessId", tags=["customer"])
-# async def get_all_customer_by_business_id():
-#     return CustomerDao.getCustomerByBusinessID()    
+@app.post("/customer/{business_uuid}", tags=["customer"])
+async def get_all_customer_by_business_id(business_uuid):
+    return CustomerDao.getCustomerByBusinessID(business_uuid)    
+
+@app.post("/customer/{uuid}", tags=["customer"])
+async def get_by_id(uuid):
+    return CustomerDao.getCustomerByID(uuid)  
 
 @app.post("/customer/create", tags=["customer"])
-async def create_customer(customer : CustomerModel):
+async def create_customer(customer : NewCustomerModel):
     return CustomerDao.createCustomer(customer)
 
 @app.post("/customer/delete", tags=["customer"])
-async def delete_customer(id_customer):
+async def delete_customer(id_customer: str):
     return CustomerDao.deleteCustomerByID(id_customer)
+
+@app.patch("/customer/update", tags=["customer"])
+async def update_customer_by_id(customer: CustomerModel):
+    return CustomerDao.deleteCustomerByID(customer)
 
 # Endpoint - Employee
 

@@ -16,4 +16,4 @@ class NewCustomerModel(BaseModel):
 
 
 class CustomerModel(NewCustomerModel):
-    id_customer: UUID
+    id_customer: str

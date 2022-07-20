@@ -16,4 +16,4 @@ class NewBusinessModel(BaseModel):
 
 
 class BusinessModel(NewBusinessModel):
-    id_business: UUID
+    id_business: Optional[str]
