@@ -14,4 +14,4 @@ class NewEmployeeModel(BaseModel):
 
 
 class EmployeeModel(NewEmployeeModel):
-    id_employee: UUID
+    id_employee: str

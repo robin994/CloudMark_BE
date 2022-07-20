@@ -2,12 +2,14 @@ import logging
 from unicodedata import name
 from uuid import uuid4
 from api.Dao.TestDao.TestAD import test_account_dao
+from api.Dao.TestDao.TestAccountType import test_account_type_dao
 from api.Dao.TestDao.TestBD import test_business_dao
 from api.Dao.TestDao.TestCustomer import test_customer_dao
 from api.Dao.TestDao.TestOD import test_order_dao
 from api.Dao.TestDao.TestCONTRACT import test_contract_dao
 from api.Dao.TestDao.TestPRESENCE import test_presence_dao
 from api.Dao.TestDao.TestPresenceType import test_presence_type_dao
+from api.Dao.TestDao.TestED import test_employee_dao
 
 
 class test:
@@ -20,6 +22,9 @@ class test:
     test.addResults(test_order_dao.main(logging_level), results)
     test.addResults(test_contract_dao.main(logging_level), results)
     test.addResults(test_customer_dao.main(logging_level), results)
+    test.addResults(test_presence_type_dao.main(logging_level), results)
+    test.addResults(test_employee_dao.main(logging_level), results)
+    test_account_type_dao.main(logging_level)  
 
     if results["counter"] == results["total"]:
       logging.warning("Congratulazioni test completati con successo")
@@ -33,6 +38,9 @@ class test:
     resutls["counter"] += test["counters"]
     resutls["total"] += test["totals"]
     return resutls
+      
+   
+   
 
 if __name__ == "__main__":
    test.main()

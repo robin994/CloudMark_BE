@@ -54,6 +54,7 @@ class test_presence_type_dao:
             logging.exception(e)
 
         logging.warning("Test PresenceTypeDao, completati con successo %d / %d", counter, total)
+        return dict(totals = total, counters = counter)   
 
 
 if __name__ == "__main__":

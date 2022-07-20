@@ -52,7 +52,7 @@ class AccountTypeDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"Insert into tipo_account(nome_tipoAccount,lista_funzioni_del_profilo) values('{accountType.accountTypeName}','{accountType.function}')")
+            f"Insert into tipo_account(nome_tipo_account,lista_funzioni_del_profilo) values('{accountType.accountTypeName}','{accountType.function}')")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -64,7 +64,7 @@ class AccountTypeDao:
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(
-            f"update tipo_account set nome_tipoAccount='{accountType.accountTypeName}', lista_funzioni_del_profilo = '{accountType.function}' where id_tipo_account = '{accountType.id_account_type}'")
+            f"update tipo_account set nome_tipo_account='{accountType.accountTypeName}', lista_funzioni_del_profilo = '{accountType.function}' where id_tipo_account = '{accountType.id_account_type}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
