@@ -1,7 +1,7 @@
 import logging
 from unicodedata import name
 from PresenceDao import PresenceDao
-from Model.PresenceModel import PresenceModel
+from Model.PresenceModel import PresenceModel,NewPresenceModel
 
 class test_presence_dao:
     def main(*args):
@@ -19,11 +19,11 @@ class test_presence_dao:
             logging.error("PresenceDao getAllBPresences not passed")
             logging.exception(e)
             
-        createPresence = PresenceModel(id_employee="12555467-e85b-1fd3-a456-333322233412",date_presence="2022-05-05",id_tipoPresenza =2, id_order="124e4567-e44f-1fd3-a456-330002223341",hours=5)
+        createPresence = NewPresenceModel(id_employee="12555467-e85b-1fd3-a456-333322233412",date_presence="2022-06-05",id_tipoPresenza =2, id_order="124e4567-e44f-1fd3-a456-330002223341",hours=5)
         
         try:
             total += 1
-            PresenceDao.createPresence(createPresence)
+            uuidPresence = PresenceDao.createPresence(createPresence)
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("PresenceDao createPresence not passed")
@@ -32,7 +32,7 @@ class test_presence_dao:
             
         try:
             total += 1
-            PresenceDao.getPresenceByPrimaryKey(createPresence.id_employee,createPresence.date_presence,createPresence.id_tipoPresenza)
+            PresenceDao.getPresenceByPrimaryKey(str(uuidPresence),createPresence.id_employee)
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:
             logging.error("PresenceDao getPresenceByPK not passed")
@@ -49,7 +49,7 @@ class test_presence_dao:
        
         try:
             total += 1 
-            PresenceDao.deletePresenceByPK(id_employee=createPresence.id_employee,datePresence=createPresence.date_presence,id_typePresence=createPresence.id_tipoPresenza)
+            PresenceDao.deletePresenceByPK(str(uuidPresence),str(createPresence.id_employee))
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:
             logging.error("PresenceDao deletePresence not passed")

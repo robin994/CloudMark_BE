@@ -16,7 +16,7 @@ INSERT INTO `commessa` VALUES ('124e4567-e44f-1fd3-a456-330002223341', null, '12
 
 INSERT INTO `tipo_presenza`(id_tipo_presenza,nome_tipo_presenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES (1,'orario standard',0,NULL),(2,'assenza',0,NULL),(3,'festivo',30,NULL),(4,'malattia',0,NULL);
 
-INSERT INTO `presenza` VALUES ('124e4567-e85b-1fd3-a456-333322233412','2022-01-01',3,'124e4567-e44f-1fd3-a456-330002223341',50);
+INSERT INTO `presenza` VALUES ('221e4567-e85b-1fd3-a456-333000003412','124e4567-e85b-1fd3-a456-333322233412','2022-01-01',3,'124e4567-e44f-1fd3-a456-330002223341',50);
 
 INSERT INTO `azienda_cliente` VALUES ('124e4567-e85b-1fd3-a456-426614474000','123e4567-e89b-12d3-a456-426614174000');
 
