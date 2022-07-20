@@ -30,7 +30,7 @@ class test_employee_dao:
         #     logging.error("EmployeeDao getEmployeesByID not passed")
         #     logging.exception(e)
          
-        employee_create = EmployeeModel(
+        employee_create = NewEmployeeModel(
             first_name="Marco",
             last_name="Rossi",
             cf="MSS1234",
@@ -52,54 +52,55 @@ class test_employee_dao:
            
            
         # CREATEEMPLOYEE
-        # try:
-        #     total += 1
-        #     uuidEmployee = EmployeeDAO.createEmployee(employee_create)
-        #     counter += 1
-        # except(RuntimeError, TypeError, NameError) as e:
-        #     logging.error("EmployeeDao createEmployee not passed")
-        #     logging.exception(e)
+        try:
+            total += 1
+            uuidEmployee = EmployeeDAO.createEmployee(employee_create)
+            counter += 1
+        except(RuntimeError, TypeError, NameError) as e:
+            logging.error("EmployeeDao createEmployee not passed")
+            logging.exception(e)
             
         
         # UPDATEEMPLOYEEBYID   
-        # try:
-        #     employee_update = EmployeeModel(
-        #         id_employee="124e4567-e85b-1fd3-a456-333322233412",
-        #         first_name="Giorgino",
-        #         last_name="Giovannino",
-        #         cf="72211",
-        #         iban="45612",
-        #         id_contractType=1,
-        #         email="giorgiogiovanni@jojo.snuff",
-        #         phoneNumber="0001112222"
-        #     )
+        try:
+            employee_update = EmployeeModel(
+                id_employee="124e4567-e85b-1fd3-a456-333322233412",
+                first_name="Giorgino",
+                last_name="Giovannino",
+                cf="72211",
+                iban="45612",
+                id_contractType=1,
+                email="giorgiogiovanni@jojo.snuff",
+                phoneNumber="0001112222"
+            )
             
-        #     total += 1
-        #     EmployeeDAO.updateEmployeeByID(employee_update)
-        #     counter += 1
-        # except(RuntimeError, TypeError, NameError) as e:
-        #     logging.error("EmployeeDao updateEmployeeByID not passed")
-        #     logging.exception(e)
-        
-            
-        # DELETEEMPLOYEEBYID
-        # try:
-        #     total += 1
-        #     EmployeeDAO.deleteEmployeeByID(uuidEmployee)
-        #     counter += 1
-        # except(RuntimeError, TypeError, NameError) as e:
-        #     logging.error("EmployeeDao deleteEmployeeByID not passed")
-        #     logging.exception(e)
-        
-        
+            total += 1
+            EmployeeDAO.updateEmployeeByID(employee_update)
+            counter += 1
+        except(RuntimeError, TypeError, NameError) as e:
+            logging.error("EmployeeDao updateEmployeeByID not passed")
+            logging.exception(e)
+       
         # FILTERBYEMPLOYEE
         try:
             total += 1
-            EmployeeDAO.filterByEmployee('m', '124e4567-e85b-1fd3-a456-426614474000')
+            EmployeeDAO.filterByEmployee(employee_update, '124e4567-e85b-1fd3-a456-426614474000')
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("EmployeeDao filterByEmployee not passed")
             logging.exception(e)
+            
+        # DELETEEMPLOYEEBYID
+        try:
+            total += 1
+            EmployeeDAO.deleteEmployeeByID(uuidEmployee)
+            counter += 1
+        except(RuntimeError, TypeError, NameError) as e:
+            logging.error("EmployeeDao deleteEmployeeByID not passed")
+            logging.exception(e)
+        
+        
+
         
         
         # GETEMPLOYEEBYSURNAME
@@ -141,7 +142,9 @@ class test_employee_dao:
         #     logging.error("EmployeeDao getEmployeesByLastWork not passed")
         #     logging.exception(e)
             
-        # logging.warning("Test EmployeeDao, completati con successo %d / %d", counter, total)
+        logging.warning("Test EmployeeDao, completati con successo %d / %d", counter, total)
+        return dict(totals = total, counters = counter)   
+        
             
 if __name__=="__main__":
     test_employee_dao.main()
