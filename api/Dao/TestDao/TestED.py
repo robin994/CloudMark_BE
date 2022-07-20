@@ -11,7 +11,7 @@ class test_employee_dao:
         counter = 0
         
         
-        # GETALLEMPLOYEES
+        # # GETALLEMPLOYEES
         # try:
         #     total += 1
         #     EmployeeDAO.getAllEmployees()
@@ -71,13 +71,23 @@ class test_employee_dao:
         #     logging.exception(e)
             
 
-        # GETEMPLOYEESBYBUSINESS
+        # # GETEMPLOYEESBYBUSINESS
+        # try:
+        #     total += 1
+        #     EmployeeDAO.getEmployeesByBusiness('124e4567-e85b-1fd3-a456-426614474000')
+        #     counter += 1
+        # except(RuntimeError, TypeError, NameError) as e:
+        #     logging.error("EmployeeDao getEmployeesByBusiness not passed")
+        #     logging.exception(e)
+            
+            
+        # GETEMPLOYEESBYACCOUNT
         try:
             total += 1
-            EmployeeDAO.getEmployeesByBusiness('124e4567-e85b-1fd3-a456-426614474000')
+            EmployeeDAO.getEmployeesByAccount('e55917e1-0e9f-40b2-92ae-c880328aa110')
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
-            logging.error("EmployeeDao getEmployeesByLastWork not passed")
+            logging.error("EmployeeDao getEmployeesByAccount not passed")
             logging.exception(e)
         
        
