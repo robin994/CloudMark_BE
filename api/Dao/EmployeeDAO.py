@@ -1,5 +1,7 @@
+import email
 from unicodedata import name
 import uuid
+import cffi
 from jwt import PyJWK
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
@@ -153,4 +155,34 @@ class EmployeeDAO:
             connection.close()
         return all_last_work
     
-    
+    @staticmethod
+    def getEmployeesByBusiness(id_business: UUID):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        # employee_business = dict()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """SELECT d.id_dipendente, d.nome, d.cognome, d.cf, d.iban, d.id_tipo_contratto, d.email, d.telefono 
+                FROM dipendente d, azienda a, dipendente_azienda da 
+                WHERE d.id_dipendente = da.id_dipendente AND da.id_azienda = a.id_azienda AND a.id_azienda = %s"""
+        val = (id_business)
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
+        print(records)
+        # if connection.is_connected():
+        #         connection.close()
+        # if records is None:
+        #     return {}
+        # else:
+        #     for row in records:
+        #         employee = EmployeeModel(
+        #             id_employee=row[0],
+        #             first_name=row[1],
+        #             last_name=row[2],
+        #             cf=row[3],
+        #             iban=row[4],
+        #             id_contractType=row[5],
+        #             email=row[6],
+        #             phoneNumber=row[7]
+        #         )
+        #         employee_business[row[0]] = employee
+                
+        # return employee_business
