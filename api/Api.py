@@ -117,6 +117,10 @@ async def update_business(business : OrderModel):
 @app.post("/orders/delete", tags=["orders"])
 async def delete_business(id_business:str):
     return OrderDao.deleteOrderByID(id_business)
+
+@app.get("/orders/employee/{id_employee}", tags=["orders"])
+async def get_order_by_employee(id_employee):
+    return OrderDao.getOrderByEmplyee(id_employee)
     
 # @app.get("/presence")
 # async def getAllPresence():
@@ -161,6 +165,14 @@ async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
 @app.get("/employee/lastwork", tags=["employee"])
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
+
+@app.get("/employee/business/{id_business}", tags=["employee"])
+async def get_employees_by_business(id_business):
+    return EmployeeDAO.getEmployeesByBusiness(id_business)
+
+@app.get("/employee/account/{id_account}", tags=["employee"])
+async def get_employees_by_account(id_account):
+    return EmployeeDAO.getEmployeesByAccount(id_account)
 
 # Endpoint - AccountType
 
