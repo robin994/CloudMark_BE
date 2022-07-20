@@ -3,13 +3,15 @@ from unicodedata import name
 from uuid import uuid4
 from api.Dao.TestDao.TestAD import test_account_dao
 from api.Dao.TestDao.TestBD import test_business_dao
+from api.Dao.TestDao.TestED import test_employee_dao
 
 
 class test:
   def main():
     
     logging_level = logging.WARNING
-    test_account_dao.main(logging_level)
+    # test_account_dao.main(logging_level)
+    test_employee_dao.main(logging_level)
     #test_business_dao.main(logging_level)
 
     # ###### TEST BusinessDao ######
@@ -32,17 +34,12 @@ class test:
     # logging.info(CustomerDao.getCustomerByBusinessID('errore'))
     # gging.info(CustomerDao.updateCustomerByID(customerUpdate))
     # logging.info(CustomerDao.deleteCustomerByID(2))
+    
     #   # ###### TEST EmployeeDAO ######
     # # in console mi aspetto 9 record. Il primo torna tutti i record della tabella, il secondo il record con ID=1, il terzo ritorna il record con cognome = rossi, il quarto il record con nome = mario && cognome = rossi, il quinto il record con CF = 123, il sesto ritorna il record inserito nella table, il settimo il record aggiornato, l'ottavo conferma l'eliminazione del dipendente con ID = 2, il nono ritorna la lista dei dipendenti in forze all'azienda
-    # logging.info(EmployeeDAO.getAllEmployees())
-    # logging.info(EmployeeDAO.getEmployeesByID(1))
     # logging.info(EmployeeDAO.getEmployeeBySurname('rossi'))
     # logging.info(EmployeeDAO.getEmployeeByNameSurname('mario','rossi'))
     # logging.info(EmployeeDAO.getEmployeeByCF('123'))
-    # employeeCreate = NewEmployeeModel(nome="Franco", cognome="Baresi", cf="1234", iban="0001", id_tipoContratto=1, email="francobaresimilan@gmail.com", telefono='123456789')
-    # employeeUpdate = EmployeeModel(id_employee="2", nome="Beppe", cognome="Baresi", cf="1234", iban="0001", id_tipoContratto=1, email="francobaresi6@gmail.com", telefono='123456789')
-    # logging.info(EmployeeDAO.createEmployee(employeeCreate))
-    # logging.info(EmployeeDAO.updateEmployeeByID(employeeUpdate))
     # logging.info(EmployeeDAO.deleteEmployeeByID(2))
     # logging.info(EmployeeDAO.getEmployeesByLastWork())
 # 
