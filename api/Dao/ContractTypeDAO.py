@@ -1,6 +1,7 @@
+from uuid import UUID, uuid4
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from Model.ContractType import ContractType
+from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from DB.DBUtility import DBUtility
 
 
@@ -14,65 +15,70 @@ class ContractTypeDAO:
             "SELECT id_tipo_contratto, nome_tipo_contratto, descrizione FROM tipo_contratto;")
         records = cursor.fetchall()
         for row in records:
-            tipoContratto = ContractType(
-                id_contractType=row[0], name=row[1], info=row[2]
+            tipoContratto = ContractTypeModel(
+                id_contract_type=row[0], name=row[1], info=row[2]
             )
             contractTypeList.append(tipoContratto)
         if connection.is_connected():
             connection.close()
 
-        return contractTypeList
+        return {"response": contractTypeList}
 
     @staticmethod
-    def getContractTypeByID(id_contractType: int):
+    def getContractTypeByID(id_contractType: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        contractType = ContractType()
+        contractType = ContractTypeModel()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"SELECT id_tipo_contratto, nome_tipo_contratto, descrizione FROM tipo_contratto WHERE id_tipo_contratto = {id_contractType};")
+        query = "SELECT id_tipo_contratto, nome_tipo_contratto, descrizione FROM tipo_contratto WHERE id_tipo_contratto = %s;"
+        val = (str(id_contractType), )
+        cursor.execute(query, val)
         record = cursor.fetchone()
         if(record is None):
             return contractType
         else:
-            contractType = ContractType(
-                name=record[0], info=record[1])
+            contractType = ContractTypeModel(
+                id_contract_type=record[0], name=record[1], info=record[2])
         if connection.is_connected():
             connection.close()
 
-        return contractType
+        return {"response": contractType}
 
     @staticmethod
-    def createContractType(contractType: ContractType):
+    def createContractType(contractType: NewContractTypeModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"INSERT INTO tipo_contratto(nome_tipo_contratto, descrizione) VALUES('{contractType.name}','{contractType.info}')")
+        uuid = uuid4()
+        query = "INSERT INTO tipo_contratto(id_tipo_contratto, nome_tipo_contratto, descrizione) VALUES(%s, %s, %s);"
+        val = (str(uuid), contractType.name, contractType.info)
+        cursor.execute(query, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return contractType
+        return {"response": uuid}
 
     @staticmethod
-    def updateContractTypeById(contractType: ContractType):
+    def updateContractTypeById(contractType: ContractTypeModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"UPDATE tipo_contratto SET nome_tipo_contratto = '{contractType.name}', descrizione = '{contractType.info}' WHERE id_tipo_contratto = '{contractType.id_contractType}';")
+        query = "UPDATE tipo_contratto SET nome_tipo_contratto = %s, descrizione = %s WHERE id_tipo_contratto = %s;"
+        val = (contractType.name, contractType.info, contractType.id_contract_type)
+        cursor.execute(query, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return contractType
+        return {"response": contractType}
 
     @staticmethod
-    def deleteContractTypeById(id_contractType: int):
+    def deleteContractTypeById(id_contractType):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"delete from tipo_contratto where id_tipo_contratto = '{id_contractType}';")
+        query = "DELETE FROM tipo_contratto WHERE id_tipo_contratto = %s;"
+        val = (str(id_contractType), )
+        cursor.execute(query, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return f"TipoContratto con id = {id_contractType} eliminato"
+        return {"response": id_contractType}

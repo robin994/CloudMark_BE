@@ -1,7 +1,7 @@
 import logging
-from unicodedata import name
+from api.Model.ContractType import ContractTypeModel
 from ContractTypeDAO import ContractTypeDAO
-from Model.ContractType import ContractType
+from Model.ContractType import NewContractTypeModel
 
 class test_contract_dao:
     def main(*args):
@@ -19,11 +19,11 @@ class test_contract_dao:
             logging.error("TypeContractDao getAllBusiness not passed")
             logging.exception(e)
             
-        contractTypeCreate = ContractType(id_contractType=4,name="chiamata",info="aaa")
+        contractTypeCreate = NewContractTypeModel(name="chiamata",info="aaa")
         
         try:
             total += 1
-            ContractTypeDAO.createContractType(contractTypeCreate)
+            CType = ContractTypeDAO.createContractType(contractTypeCreate)
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("TypeContractDao createContract not passed")
@@ -32,7 +32,8 @@ class test_contract_dao:
             
         try:
             total += 1
-            ContractTypeDAO.getContractTypeByID(contractTypeCreate.id_contractType)
+            uuid = str(CType["response"])
+            ContractTypeDAO.getContractTypeByID(uuid)
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:
             logging.error("TypeContractDao getContractTypeByID not passed")
@@ -40,7 +41,7 @@ class test_contract_dao:
             
         try:
             total += 1
-            contractToUpdate = ContractType(id_contractType= contractTypeCreate.id_contractType,name="JOBS ACT",info = "CDM") 
+            contractToUpdate = ContractTypeModel(id_contract_type=uuid,name="JOBS ACT",info = "CDM") 
             ContractTypeDAO.updateContractTypeById(contractToUpdate)
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:
@@ -49,7 +50,7 @@ class test_contract_dao:
        
         try:
             total += 1 
-            ContractTypeDAO.deleteContractTypeById(contractToUpdate.id_contractType)
+            ContractTypeDAO.deleteContractTypeById(uuid)
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:
             logging.error("TypeContractDao getContractTypeByID not passed")
