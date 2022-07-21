@@ -1,4 +1,5 @@
 from uuid import  uuid4
+from api.Dao.CallBackResponse import CallBackResponse
 
 from api.Model.CustomerModel import NewCustomerModel
 from DB.DBUtility import DBUtility
@@ -19,11 +20,12 @@ class CustomerDao:
         val = (id_customer,)
         cursor.execute(sql, val)
         record = cursor.fetchone()
+        customer = []
         if connection.is_connected():
             connection.close()
         
         if(record is None):
-            return {}
+                    return {}
         else:
             customer = CustomerModel(
                 id_customer=record[0],
@@ -37,7 +39,10 @@ class CustomerDao:
                 pec=record[8],
                 fax=record[9]
             )
-            return {"response": customer}
+        if CallBackResponse.success(customer):
+            return {"response": customer} 
+        
+        
 
     @staticmethod
     def getAllCustomers():
@@ -63,8 +68,8 @@ class CustomerDao:
             lista_customer[row[0]] = customer
         if connection.is_connected():
             connection.close()
-
-        return {"response": lista_customer}
+        if CallBackResponse.success(lista_customer):
+            return {"response": lista_customer}
 
     @staticmethod
     def createCustomer(customer: NewCustomerModel):
@@ -76,7 +81,8 @@ class CustomerDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return {"response": uuid}
+        if CallBackResponse.success(uuid):
+            return {"response": uuid}
 
     @staticmethod
     def deleteCustomerByID(id_customer: str):
@@ -88,8 +94,8 @@ class CustomerDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-
-        return {"response": id_customer}
+        if CallBackResponse.success(id_customer):
+            return {"response": id_customer}
 
     @staticmethod
     def updateCustomerByID(customer: CustomerModel):
@@ -105,7 +111,8 @@ class CustomerDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return {"response": customer.id_customer}
+        if CallBackResponse.success(customer.id_customer):
+            return {"response": customer.id_customer}
 
     @staticmethod
     def getCustomerByBusinessID(id_business):
@@ -136,4 +143,5 @@ class CustomerDao:
                     )
                 lista_customer[row[0]] = customer
 
-        return {"response": lista_customer}
+        if CallBackResponse.success(lista_customer):
+            return {"response": lista_customer}

@@ -8,3 +8,4 @@ class CallBackResponseModel(BaseModel):
     lenght: Optional[int]
     description: Optional[str]
     error: Optional[str]
+    

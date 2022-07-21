@@ -1,3 +1,4 @@
+from ast import Call
 import logging
 from uuid import UUID, uuid4
 
@@ -6,6 +7,8 @@ from Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
+
+from api.Dao.CallBackResponse import CallBackResponse
 
 # testati e funzionanti
 
@@ -33,7 +36,8 @@ class EmployeeDAO:
             lista_employee[row[0]] = employee
         if connection.is_connected():
             connection.close()
-        return {"response": lista_employee}
+        if CallBackResponse.success(lista_employee):
+            return {"response": lista_employee}
 
     @staticmethod
     def getEmployeesByID(id_employee):
@@ -60,7 +64,8 @@ class EmployeeDAO:
         if connection.is_connected():
             connection.close()
         logging.debug(employee)
-        return {"response": employee_by_id}
+        if CallBackResponse.success(employee_by_id):
+            return {"response": employee_by_id}
     
     @staticmethod
     def createEmployee(employee: NewEmployeeModel):
@@ -70,7 +75,8 @@ class EmployeeDAO:
         cursor.execute(
             f"INSERT INTO dipendente(id_dipendente,nome, cognome, cf, iban, id_tipo_contratto, email, telefono) VALUES ('{uuid}','{employee.first_name}', '{employee.last_name}', '{employee.cf}', '{employee.iban}', '{employee.id_contractType}', '{employee.email}', '{employee.phoneNumber}');")
         connection.commit()
-        return {'response':uuid}
+        if CallBackResponse.success(uuid):
+            return {'response':uuid}
 
     @staticmethod
     def updateEmployeeByID(employee: EmployeeModel):
@@ -87,10 +93,11 @@ class EmployeeDAO:
         update_employee[employee.id_employee] = employee
         if connection.is_connected():
             connection.close()
-        if update_employee:
-            return {"response": update_employee}
-        else:
-            return {"response": ""}
+        if CallBackResponse.success(update_employee):
+            if update_employee:
+                return {"response": update_employee}
+            else:
+                return CallBackResponse.bad_request(update_employee)
 
     @staticmethod
     def deleteEmployeeByID(id_employee: UUID):
@@ -134,7 +141,8 @@ class EmployeeDAO:
                 lista_employee[record[0]] = employee
         if connection.is_connected():
             connection.close()
-        return {"response": lista_employee}
+        if CallBackResponse.success(lista_employee):
+            return {"response": lista_employee}
 
     @staticmethod
     def getEmployeesByLastWork():
@@ -159,7 +167,8 @@ class EmployeeDAO:
             all_last_work[f"{record[0]}_{record[1]}"] = last_work
         if connection.is_connected():
             connection.close()
-        return {"response": all_last_work}
+        if CallBackResponse.success(all_last_work):
+            return {"response": all_last_work}
     
     @staticmethod
     def getEmployeesByBusiness(id_business):
@@ -189,7 +198,8 @@ class EmployeeDAO:
                     phoneNumber=row[7]
                 )
                 employee_business[row[0]] = employee
-        return {"response": employee_business}
+        if CallBackResponse.success(employee_business):
+            return {"response": employee_business}
     
     @staticmethod
     def getEmployeesByAccount(id_account):
@@ -219,4 +229,5 @@ class EmployeeDAO:
                     phoneNumber=row[7]
                 )
                 employee_account[row[0]] = employee
-        return {"response": employee_account}
+        if CallBackResponse.success(employee_account):
+            return {"response": employee_account}
