@@ -46,7 +46,7 @@ class test_employee_dao:
         # GETEMPLOYEESBYID 
         try:
             total += 1
-            EmployeeDAO.getEmployeesByID(uuidEmployee)
+            EmployeeDAO.getEmployeesByID(uuidEmployee['response'])
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("EmployeeDao getEmployeesByID not passed")
@@ -55,7 +55,7 @@ class test_employee_dao:
         # UPDATEEMPLOYEEBYID   
         try:
             employee_update = EmployeeModel(
-                id_employee="124e4567-e85b-1fd3-a456-333322233412",
+                id_employee=uuidEmployee['response'],
                 first_name="Giorgino",
                 last_name="Giovannino",
                 cf="72211",
@@ -105,7 +105,7 @@ class test_employee_dao:
         # DELETEEMPLOYEEBYID
         try:
             total += 1
-            EmployeeDAO.deleteEmployeeByID(uuidEmployee)
+            EmployeeDAO.deleteEmployeeByID(uuidEmployee['response'])
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("EmployeeDao deleteEmployeeByID not passed")

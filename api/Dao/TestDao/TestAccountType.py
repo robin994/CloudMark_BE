@@ -55,5 +55,5 @@ class test_account_type_dao:
         #     logging.error("TypeAccountDao deleteAccountType not passed")
         #     logging.exception(e)
 
-        logging.warning("Test TypeAccountDao, completati con successo %d / %d", counter, total)    
-        return dict(totals = total, counters = counter)
+        logging.warning("Test TypeAccountDao, completati con successo %d / %d", counter, total)
+        return dict(totals = total, counters = counter)       

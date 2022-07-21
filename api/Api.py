@@ -158,7 +158,7 @@ async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
 @app.post('/employee/', tags=["employee"] )
-async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
+async def filter_by_employee(Employee : EmployeeModel, idAzienda: str):
     return EmployeeDAO.filterByEmployee(Employee, idAzienda)
 
 @app.get("/employee/lastwork", tags=["employee"])
