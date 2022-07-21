@@ -18,7 +18,7 @@ class CallBackResponse:
     def genericResponse(res=None, error= None, description = None):
         return CallBackResponseModel(
             data = res,
-            lenght = len(res) if hasattr(res,'__len__') else 1,
+            lenght = len(res) if hasattr(res,'__len__') else None,
             error = error,
             description = description
         )
