@@ -1,7 +1,6 @@
 import email
 from unicodedata import name
 import uuid
-import cffi
 from jwt import PyJWK
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
