@@ -73,7 +73,7 @@ class AccountDao:
         sql = "INSERT INTO account(id_account,user, abilitato, id_tipo_account, password) VALUES(%s, %s, %s, %s, %s)"
         uuid = uuid4()
         val = (str(uuid), account.user, account.abilitato,
-               account.id_tipoAccount, key_from_password_hashed)
+               account.id_tipo_account, key_from_password_hashed)
         cursor.execute(sql, val)
         connection.commit()
         cursor.execute(
