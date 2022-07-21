@@ -8,7 +8,7 @@ from api.Dao.AccountTypeDao import AccountTypeDao
 from api.Model.AccountModel import AccountModel, NewAccountModel
 from api.Model.BusinessModel import BusinessModel, NewBusinessModel
 from api.Model.CustomerModel import CustomerModel, NewCustomerModel
-from api.Model.EmployeeModel import EmployeeModel
+from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.UserModel import UserModel
 from Dao.AccountDao import AccountDao
@@ -157,9 +157,9 @@ async def update_customer_by_id(customer: CustomerModel):
 async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
-@app.post('/employee/', tags=["employee"] )
-async def filter_by_employee(Employee : EmployeeModel, idAzienda: str):
-    return EmployeeDAO.filterByEmployee(Employee, idAzienda)
+@app.post('/employee/', tags=["employee"])
+async def filter_by_employee(employee : NewEmployeeModel, idAzienda: str):
+    return EmployeeDAO.filterByEmployee(employee, idAzienda)
 
 @app.get("/employee/lastwork", tags=["employee"])
 async def get_employees_by_last_work():
@@ -172,6 +172,22 @@ async def get_employees_by_business(id_business):
 @app.get("/employee/account/{id_account}", tags=["employee"])
 async def get_employees_by_account(id_account):
     return EmployeeDAO.getEmployeesByAccount(id_account)
+
+@app.get("/employee/{id_business}", tags=["employee"])
+async def get_employees_by_id(id_business):
+    return EmployeeDAO.getEmployeesByID(id_business)
+
+@app.post('/employee/create', tags=["employee"])
+async def create_employee(employee : NewEmployeeModel):
+    return EmployeeDAO.createEmployee(employee)
+
+@app.post('/employee/update', tags=["employee"])
+async def update_employee_by_id(employee : EmployeeModel):
+    return EmployeeDAO.updateEmployeeByID(employee)
+
+@app.post('/employee/delete', tags=["employee"])
+async def delete_employee_by_id(id_employee: str):
+    return EmployeeDAO.deleteEmployeeByID(id_employee)
 
 # Endpoint - AccountType
 

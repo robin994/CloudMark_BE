@@ -32,12 +32,13 @@ class EmployeeDAO:
             lista_employee[row[0]] = employee
         if connection.is_connected():
             connection.close()
-        return lista_employee
+        return {"response": lista_employee}
 
     @staticmethod
     def getEmployeesByID(id_employee: UUID):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         employee = NewEmployeeModel()
+        employee_by_id = dict()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute("""SELECT id_dipendente, nome, cognome, cf, iban, id_tipo_contratto, email, telefono FROM dipendente WHERE id_dipendente = '{id_employee}';""")
         record = cursor.fetchone()
@@ -54,10 +55,11 @@ class EmployeeDAO:
                 email=record[6],
                 phoneNumber=record[7]
             )
+            employee_by_id[employee[id_employee]] = employee
         if connection.is_connected():
             connection.close()
         print(employee)
-        return employee
+        return {"response": employee_by_id}
     
     @staticmethod
     def createEmployee(employee: NewEmployeeModel):
@@ -72,6 +74,7 @@ class EmployeeDAO:
     @staticmethod
     def updateEmployeeByID(employee: EmployeeModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
+        update_employee = dict()
         cursor: MySQLCursor = connection.cursor()
         sql = """UPDATE dipendente 
                 SET nome=%s, cognome=%s, cf=%s, iban=%s, id_tipo_contratto=%s, email=%s, telefono=%s
@@ -79,9 +82,13 @@ class EmployeeDAO:
         val = (employee.first_name, employee.last_name, employee.cf, employee.iban, employee.id_contractType, employee.email, employee.phoneNumber, employee.id_employee)
         cursor.execute(sql, val)
         connection.commit()
+        update_employee[employee.id_employee] = employee
         if connection.is_connected():
             connection.close()
-        return employee
+        if update_employee:
+            return {"response": update_employee}
+        else:
+            return {"response": ""}
 
     @staticmethod
     def deleteEmployeeByID(id_employee: UUID):
@@ -92,9 +99,11 @@ class EmployeeDAO:
         connection.commit()
         if connection.is_connected():
             connection.close()
+        
+        return  {"response": id_employee}
 
     @staticmethod
-    def filterByEmployee(emp: EmployeeModel, idAzienda: str):
+    def filterByEmployee(emp: NewEmployeeModel, idAzienda: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         lista_employee = dict()
@@ -123,7 +132,7 @@ class EmployeeDAO:
                 lista_employee[record[0]] = employee
         if connection.is_connected():
             connection.close()
-        return lista_employee
+        return {"response": lista_employee}
 
     @staticmethod
     def getEmployeesByLastWork():
@@ -148,7 +157,7 @@ class EmployeeDAO:
             all_last_work[f"{record[0]}_{record[1]}"] = last_work
         if connection.is_connected():
             connection.close()
-        return all_last_work
+        return {"response": all_last_work}
     
     @staticmethod
     def getEmployeesByBusiness(id_business):
@@ -178,7 +187,7 @@ class EmployeeDAO:
                     phoneNumber=row[7]
                 )
                 employee_business[row[0]] = employee
-        return employee_business
+        return {"response": employee_business}
     
     @staticmethod
     def getEmployeesByAccount(id_account):
@@ -208,5 +217,4 @@ class EmployeeDAO:
                     phoneNumber=row[7]
                 )
                 employee_account[row[0]] = employee
-        print(employee_account)
-        return employee_account
+        return {"response": employee_account}
