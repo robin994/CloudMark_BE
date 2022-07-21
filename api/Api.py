@@ -224,18 +224,18 @@ async def delete_account_type(id_type_account: str):
 async def get_all_contract_type():
     return ContractTypeDAO.getAllContractsType()
 
-@app.get("/type/contract/{id_contract}", tags=["Type"])
+@app.get("/type/contract/{id_contract}", tags=["Type Contract"])
 async def get_contract_type_by_id(id_contract_type):
     return ContractTypeDAO.getContractTypeByID(id_contract_type)
 
-@app.post("/type/contract/create", tags=["Type"])
+@app.post("/type/contract/create", tags=["Type Contract"])
 async def create_contract_type(contractType: NewContractTypeModel):
     return ContractTypeDAO.createContractType(contractType)
 
-@app.post("/type/contract/update", tags=["Type"])
+@app.post("/type/contract/update", tags=["Type Contract"])
 async def update_contract_type_by_id(contractType: ContractTypeModel):
     return ContractTypeDAO.updateContractTypeById(contractType)
 
-@app.post("/type/contract/delete", tags=["Type"])
+@app.post("/type/contract/delete", tags=["Type Contract"])
 async def delete_contract_type_by_id(id_contract_type):
     return ContractTypeDAO.deleteContractTypeById(id_contract_type)
