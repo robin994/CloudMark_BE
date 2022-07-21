@@ -32,7 +32,7 @@ class AccountDao:
                 id_account=row[0],
                 user=row[1],
                 abilitato=row[2],
-                id_tipoAccount=row[3]
+               id_tipo_account=row[3]
             )
             lista_account[row[0]] = account
         if connection.is_connected():
@@ -56,7 +56,7 @@ class AccountDao:
                 id_account=record[0],
                 user=record[1],
                 abilitato=record[2],
-                id_tipoAccount=record[3]
+               id_tipo_account=record[3]
             )
         if connection.is_connected():
             connection.close()
