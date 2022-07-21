@@ -61,7 +61,7 @@ class AccountDao:
         if connection.is_connected():
             connection.close()
 
-        return account
+        return {"response":account}
 
     @staticmethod
     def createAccount(account: NewAccountModel):
@@ -85,7 +85,7 @@ class AccountDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return uuid
+        return {"response":uuid}
 
     @staticmethod
     def deleteAccountByID(id_account: UUID):
@@ -96,7 +96,7 @@ class AccountDao:
         if connection.is_connected():
             connection.close()
 
-        return f"Account con id = {id_account} eliminato"
+        return {"response":id_account}
 
     @staticmethod
     def updateAccount(account: AccountModel, session_encoded: str):                 
@@ -105,8 +105,10 @@ class AccountDao:
             cursor : MySQLCursor = connection.cursor()
             sql = "UPDATE `account` SET `user`=%s   WHERE `id_account`= %s;"
             val = (account.user , account.id_account)
+            account_updated = AccountDao.getAccountByID(account.id_account)
             cursor.execute(sql ,val)
             connection.commit()
+            return {"response":account_updated}
         
     
     @staticmethod
@@ -154,10 +156,10 @@ class AccountDao:
                 algorithms=['HS256'],
                 options=jwt_options
             )
-            return True
+            return {"response": "True"}
         except Exception as err:
             print(str(err))
-            return False
+            return {"response": "False"}
 
 def checkPassword(User: UserModel):
     password_to_check = User.password
@@ -178,11 +180,11 @@ def checkPassword(User: UserModel):
     )
 
     if new_key == key:
-        return True
+        return {"response": "True"}
     else:
-        return False
+        return {"response": "False"}
 
 def hashPassword(password: str):
     salt = os.urandom(32)
     key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
-    return salt + key
+    return {"response": salt + key}
