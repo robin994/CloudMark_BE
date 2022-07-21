@@ -1,4 +1,6 @@
 from fastapi.middleware.cors import CORSMiddleware
+from api.Model.ContractType import NewContractTypeModel
+from api.Model.AccountType import AccountType
 # from Dao.TipoPresenzaDao import TipoPresenzaDao
 from Dao.AccountTypeDao import AccountTypeDao
 # from Dao.PresenceDao import PresenceDao
@@ -10,7 +12,7 @@ from fastapi import FastAPI
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
-from api.Model.ContractType import ContractType
+from api.Model.ContractType import ContractTypeModel
 from api.Dao.AccountTypeDao import AccountTypeDao
 from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.BusinessModel import BusinessModel, NewBusinessModel
@@ -29,14 +31,11 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    
     #lista di origins a cui è permesso fare richieste cross-origin
     allow_origins=origins,
     allow_credentials=True,
-    
     #Lista di tutti i tipi di chiamate che il FE può effettuare (POST, GET, PUT, PATCH), * indica tutte.
     allow_methods=["*"],
-    
     #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
     allow_headers=["*"],
 )
@@ -178,8 +177,18 @@ async def get_tipo_account_by_id(id_account):
 async def get_all_contract_type():
     return ContractTypeDAO.getAllContractsType()
 
-@app.post("/type/contract/{id_contract}", tags=["Type"])
-async def get_contract_type_by_id(id_contract):
-    return ContractTypeDAO.getContractTypeByID(id_contract)
+@app.get("/type/contract/{id_contract}", tags=["Type"])
+async def get_contract_type_by_id(id_contract_type):
+    return ContractTypeDAO.getContractTypeByID(id_contract_type)
 
+@app.post("/type/contract/create", tags=["Type"])
+async def create_contract_type(contractType: NewContractTypeModel):
+    return ContractTypeDAO.createContractType(contractType)
 
+@app.post("/type/contract/update", tags=["Type"])
+async def update_contract_type_by_id(contractType: ContractTypeModel):
+    return ContractTypeDAO.updateContractTypeById(contractType)
+
+@app.post("/type/contract/delete", tags=["Type"])
+async def delete_contract_type_by_id(id_contract_type):
+    return ContractTypeDAO.deleteContractTypeById(id_contract_type)
