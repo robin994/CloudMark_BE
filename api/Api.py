@@ -10,6 +10,7 @@ from fastapi import FastAPI
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
+from api.Model.AccountType import AccountType, NewAccountType
 from api.Model.ContractType import ContractType
 from api.Dao.AccountTypeDao import AccountTypeDao
 from api.Model.CustomerModel import CustomerModel, NewCustomerModel
@@ -132,7 +133,7 @@ async def get_order_by_employee(id_employee):
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
-@app.post("/customer/{business_uuid}", tags=["customer"])
+@app.post("/customer/business/{business_uuid}", tags=["customer"])
 async def get_all_customer_by_business_id(business_uuid):
     return CustomerDao.getCustomerByBusinessID(business_uuid)    
 
@@ -176,21 +177,33 @@ async def get_employees_by_account(id_account):
 
 # Endpoint - AccountType
 
-@app.get("/type/account", tags=["Type"])
+@app.get("/type/account", tags=["Type Account"])
 async def get_all_tipo_account():
     return AccountTypeDao.getAllAccountsType()
 
-@app.post("/type/account/{id_account}", tags=["Type"])
+@app.post("/type/account/{id_account}", tags=["Type Account"])
 async def get_tipo_account_by_id(id_account):
     return AccountTypeDao.getAccountTypeById(id_account)
 
+@app.post("/create", tags=["Type Account"])
+async def create_account_type(accountType: NewAccountType):
+    return AccountTypeDao.createAccountType(accountType)
+
+@app.post("/update", tags=["Type Account"])
+async def update_account_type(accountType: AccountType):
+    return AccountTypeDao.updateAccountType(accountType)
+
+@app.post("/delete", tags=["Type Account"])
+async def delete_account_type(id_type_account: str):
+    return AccountTypeDao.deleteAccountType(id_type_account)
+
 # Endpoint - ContractType
 
-@app.get("/type/contract", tags=["Type"])
+@app.get("/type/contract", tags=["Type Contract"])
 async def get_all_contract_type():
     return ContractTypeDAO.getAllContractsType()
 
-@app.post("/type/contract/{id_contract}", tags=["Type"])
+@app.post("/type/contract/{id_contract}", tags=["Type Contract"])
 async def get_contract_type_by_id(id_contract):
     return ContractTypeDAO.getContractTypeByID(id_contract)
 
