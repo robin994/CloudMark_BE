@@ -1,3 +1,4 @@
+import logging
 from uuid import UUID, uuid4
 
 from DB.DBUtility import DBUtility
@@ -35,30 +36,30 @@ class EmployeeDAO:
         return {"response": lista_employee}
 
     @staticmethod
-    def getEmployeesByID(id_employee: UUID):
+    def getEmployeesByID(id_employee):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        employee = NewEmployeeModel()
-        employee_by_id = dict()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute("""SELECT id_dipendente, nome, cognome, cf, iban, id_tipo_contratto, email, telefono FROM dipendente WHERE id_dipendente = '{id_employee}';""")
+        employee = {}
+        employee_by_id = {}
+        sql = "SELECT * FROM dipendente WHERE id_dipendente = %s;"
+        val = (str(id_employee),)
+        cursor.execute(sql, val)
         record = cursor.fetchone()
-        if record is None:
-            return employee
-        else:
-            employee = NewEmployeeModel(
-                id_employee=record[0],
-                first_name=record[1],
-                last_name=record[2],
-                cf=record[3],
-                iban=record[4],
-                id_contractType=record[5],
-                email=record[6],
-                phoneNumber=record[7]
-            )
-            employee_by_id[employee[id_employee]] = employee
+        if record is not None:
+            employee = {
+                "id_employee":record[0],
+                "first_name":record[1],
+                "last_name":record[2],
+                "cf":record[3],
+                "iban":record[4],
+                "id_contractType":int(record[5]),
+                "email":record[6],
+                "phoneNumber":record[7]
+            }
+            employee_by_id[employee["id_employee"]] = employee
         if connection.is_connected():
             connection.close()
-        print(employee)
+        logging.debug(employee)
         return {"response": employee_by_id}
     
     @staticmethod
@@ -79,6 +80,7 @@ class EmployeeDAO:
         sql = """UPDATE dipendente 
                 SET nome=%s, cognome=%s, cf=%s, iban=%s, id_tipo_contratto=%s, email=%s, telefono=%s
                 WHERE id_dipendente=%s;"""
+        employee = EmployeeModel(employee)
         val = (employee.first_name, employee.last_name, employee.cf, employee.iban, employee.id_contractType, employee.email, employee.phoneNumber, employee.id_employee)
         cursor.execute(sql, val)
         connection.commit()

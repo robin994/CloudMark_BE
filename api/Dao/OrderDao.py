@@ -1,3 +1,4 @@
+import logging
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
@@ -126,5 +127,5 @@ class OrderDao:
                     endDate=row[5]
                 )
                 order_employee[row[0]] = order
-        print(order_employee)
+        logging.debug(order_employee)
         return order_employee

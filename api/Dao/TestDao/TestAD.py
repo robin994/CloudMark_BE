@@ -35,7 +35,7 @@ class test_account_dao:
    try:
      total += 1
      uuid = str(uuidAccount["response"])
-     print(uuid)
+     logging.debug(uuid)
      AccountDao.getAccountByID(uuid)
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:

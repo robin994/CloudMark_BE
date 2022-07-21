@@ -3,7 +3,7 @@ from uuid import UUID, uuid4
 from api.Model.BusinessModel import NewBusinessModel
 from DB.DBUtility import DBUtility
 from Model.BusinessModel import BusinessModel, NewBusinessModel
-from Model.CallBackResponse import CallBackResponse
+from api.Dao.CallBackResponse import CallBackResponse
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -38,8 +38,7 @@ class BusinessDao:
         if connection.is_connected():
             connection.close()
 
-        return lista_business
-
+        return CallBackResponse.success(lista_business)
     @staticmethod
     def filterByBusiness(bus: BusinessModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()

@@ -1,8 +1,7 @@
 import logging
 
-from api.Model import EmployeeModel
-from api.Model.EmployeeModel import NewEmployeeModel
 from EmployeeDAO import EmployeeDAO
+from Model.EmployeeModel import NewEmployeeModel
 
 
 class test_employee_dao:
@@ -32,8 +31,7 @@ class test_employee_dao:
             email="marcorossi@gmail.com",
             phoneNumber="33344445555"
         )
-        
-         
+                
         # CREATEEMPLOYEE
         try:
             total += 1
@@ -46,7 +44,7 @@ class test_employee_dao:
         # GETEMPLOYEESBYID 
         try:
             total += 1
-            EmployeeDAO.getEmployeesByID(uuidEmployee['response'])
+            employee_update = EmployeeDAO.getEmployeesByID(uuidEmployee['response'])
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("EmployeeDao getEmployeesByID not passed")
@@ -54,19 +52,9 @@ class test_employee_dao:
     
         # UPDATEEMPLOYEEBYID   
         try:
-            employee_update = EmployeeModel(
-                id_employee=uuidEmployee['response'],
-                first_name="Giorgino",
-                last_name="Giovannino",
-                cf="72211",
-                iban= "45612",
-                id_contractType=1,
-                email="giorgiogiovanni@jojo.snuff",
-                phoneNumber="0001112222"
-            )
           
             total += 1
-            EmployeeDAO.updateEmployeeByID(employee_update)
+            EmployeeDAO.updateEmployeeByID(employee_update["response"])
             counter += 1
         except(RuntimeError, TypeError, NameError) as e:
             logging.error("EmployeeDao updateEmployeeByID not passed")

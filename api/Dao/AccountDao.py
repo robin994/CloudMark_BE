@@ -158,7 +158,7 @@ class AccountDao:
             )
             return {"response": "True"}
         except Exception as err:
-            print(str(err))
+            logging.error(err)
             return {"response": "False"}
 
 def checkPassword(User: UserModel):
