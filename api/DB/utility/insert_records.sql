@@ -4,11 +4,11 @@ INSERT INTO `azienda` VALUES ('124e4567-e85b-1fd3-a456-426614474000','markup','3
 
 INSERT into `cliente` VALUES ('123e4567-e89b-12d3-a456-426614174000', 'pippo', 'aaabbbcccdd','via antani 12', '00123', 'IT94L0300203280726346848123','06987654321','pippi@mail.it','pippo@pec.it','06987654321');
 
-INSERT INTO `tipo_contratto`(id_tipo_contratto,nome_tipo_contratto, descrizione) VALUES (1,'indeterminato',NULL),(2,'determinato',NULL);
+INSERT INTO `tipo_contratto`(id_tipo_contratto,nome_tipo_contratto, descrizione) VALUES ('198ef11d-cf73-4245-8469-2ddfa9979acf','indeterminato',NULL),('52fbe812-08f6-11ed-861d-0242ac120002','determinato',NULL);
 
-INSERT INTO `dipendente` VALUES ('124e4567-e85b-1fd3-a456-333322233412','bruno','rossi','123','696',1,'brunorossi@gmail.com','1234');
+INSERT INTO `dipendente` VALUES ('124e4567-e85b-1fd3-a456-333322233412','bruno','rossi','123','696','198ef11d-cf73-4245-8469-2ddfa9979acf','brunorossi@gmail.com','1234');
 
-INSERT INTO `dipendente` VALUES ('12555467-e85b-1fd3-a456-333322233412','andrea','verdi','143','446',1,'andrea@gmail.com','14444');
+INSERT INTO `dipendente` VALUES ('12555467-e85b-1fd3-a456-333322233412','andrea','verdi','143','446','52fbe812-08f6-11ed-861d-0242ac120002','andrea@gmail.com','14444');
 
 INSERT INTO `tipo_account`(id_tipo_account,nome_tipo_account, lista_funzioni_del_profilo) VALUES (1,'administrator','admin'),(2,'dipendente','user');
 

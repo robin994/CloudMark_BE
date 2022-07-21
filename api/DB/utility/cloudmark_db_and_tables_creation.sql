@@ -35,10 +35,10 @@ CREATE TABLE `cliente` (
 
 DROP TABLE IF EXISTS `tipo_contratto`;
 CREATE TABLE `tipo_contratto` (
-  `id_tipo_contratto` int NOT NULL AUTO_INCREMENT,
+  `id_tipo_contratto` varchar(80) NOT NULL,
   `nome_tipo_contratto` varchar(45) NOT NULL,
   `descrizione` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_tipo_contratto`)
+  PRIMARY KEY (`id_tipo_contratto`, `nome_tipo_contratto`)
 );
 
 DROP TABLE IF EXISTS `dipendente`;
@@ -48,7 +48,7 @@ CREATE TABLE `dipendente` (
   `cognome` varchar(45) DEFAULT NULL,
   `cf` varchar(16) NOT NULL,
   `iban` varchar(45) NOT NULL,
-  `id_tipo_contratto` int NOT NULL,
+  `id_tipo_contratto` varchar(80) NOT NULL,
   `email` varchar(90) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_dipendente`),
