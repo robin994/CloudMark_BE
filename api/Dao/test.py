@@ -24,7 +24,7 @@ class test:
     test.addResults(test_customer_dao.main(logging_level), results)
     test.addResults(test_presence_type_dao.main(logging_level), results)
     test.addResults(test_employee_dao.main(logging_level), results)
-    test_account_type_dao.main(logging_level)  
+    test.addResults(test_account_type_dao.main(logging_level), results) 
 
     if results["counter"] == results["total"]:
       logging.warning("Congratulazioni test completati con successo")
