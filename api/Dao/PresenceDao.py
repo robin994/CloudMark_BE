@@ -10,7 +10,7 @@ from mysql.connector.cursor import MySQLCursor
 
 class PresenceDao:
     @staticmethod
-    def getPresenceByPrimaryKey(presenceId : str,employeeId : int):
+    def getPresenceByPrimaryKey(presenceId : str, employeeId : int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         query = "SELECT id_presenza, id_dipendente, data, id_tipo_presenza, id_commessa, ore FROM presenza WHERE id_presenza = %s AND id_dipendente=%s;"
@@ -31,7 +31,7 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
 
-        return presence
+        return {"presence": presence}
 
     @staticmethod
     def getAllPresence():
@@ -54,7 +54,7 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
 
-        return lista_presence
+        return {"response": lista_presence}
 
     @staticmethod
     def createPresence(presence: NewPresenceModel):
@@ -73,7 +73,8 @@ class PresenceDao:
              return uuid
         if connection.is_connected():
             connection.close()
-        return record[0]
+            
+        return {"response": record[0]}
 
     @staticmethod
     def updatePresenceByIDEmployeeAndDate(presence: PresenceModel):
@@ -86,12 +87,12 @@ class PresenceDao:
                    ore = %s
                    WHERE id_presenza = %s AND id_dipendente = %s;"""
         val = (presence.date_presence,presence.id_tipoPresenza,presence.id_order,presence.hours,presence.id_presence,presence.id_employee)
-        cursor.execute(query,val)
+        cursor.execute(query, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
 
-        return presence
+        return {"response": presence}
 
     @staticmethod
     def deletePresenceByPK(id_presence:str,id_employee:str):
@@ -105,4 +106,4 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
 
-        return f"Presenza con id_presenza= {id_presence}"
+        return {"response": id_presence}

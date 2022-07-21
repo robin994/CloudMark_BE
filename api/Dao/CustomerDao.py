@@ -37,7 +37,7 @@ class CustomerDao:
                 pec=record[8],
                 fax=record[9]
             )
-            return customer
+            return {"response": customer}
 
     @staticmethod
     def getAllCustomers():
@@ -64,7 +64,7 @@ class CustomerDao:
         if connection.is_connected():
             connection.close()
 
-        return lista_customer
+        return {"response": lista_customer}
 
     @staticmethod
     def createCustomer(customer: NewCustomerModel):
@@ -76,7 +76,7 @@ class CustomerDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return uuid
+        return {"response": uuid}
 
     @staticmethod
     def deleteCustomerByID(id_customer: str):
@@ -89,7 +89,7 @@ class CustomerDao:
         if connection.is_connected():
             connection.close()
 
-        return f"Cliente con id = {id_customer} eliminato"
+        return {"response": id_customer}
 
     @staticmethod
     def updateCustomerByID(customer: CustomerModel):
@@ -105,7 +105,7 @@ class CustomerDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return customer.id_customer
+        return {"response": customer.id_customer}
 
     @staticmethod
     def getCustomerByBusinessID(id_business):
@@ -135,6 +135,5 @@ class CustomerDao:
                     fax=row[9]
                     )
                 lista_customer[row[0]] = customer
-            
 
-        return lista_customer
+        return {"response": lista_customer}

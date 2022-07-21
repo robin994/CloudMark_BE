@@ -1,17 +1,9 @@
-from fastapi.middleware.cors import CORSMiddleware
-from api.Model.ContractType import ContractTypeModel, NewContractTypeModel
-from api.Model.AccountType import AccountType
-# from Dao.TipoPresenzaDao import TipoPresenzaDao
-from Dao.AccountTypeDao import AccountTypeDao
-# from Dao.PresenceDao import PresenceDao
-from Dao.BusinessDao import BusinessDao
-from Dao.EmployeeDAO import EmployeeDAO
-from Dao.AccountDao import AccountDao
-from Dao.OrderDao import OrderDao
 from fastapi import FastAPI
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
+from api.Dao.PresenceDao import PresenceDao
+from api.Model.PresenceModel import PresenceModel
 from api.Model.AccountType import AccountType, NewAccountType
 from fastapi.middleware.cors import CORSMiddleware
 from api.Dao.AccountTypeDao import AccountTypeDao
@@ -20,6 +12,7 @@ from api.Model.BusinessModel import BusinessModel, NewBusinessModel
 from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
+from api.Model.PresenceModel import NewPresenceModel
 from api.Model.UserModel import UserModel
 from Dao.AccountDao import AccountDao
 from Dao.AccountTypeDao import AccountTypeDao
@@ -38,11 +31,14 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
+    
     #lista di origins a cui è permesso fare richieste cross-origin
     allow_origins=origins,
     allow_credentials=True,
+    
     #Lista di tutti i tipi di chiamate che il FE può effettuare (POST, GET, PUT, PATCH), * indica tutte.
     allow_methods=["*"],
+    
     #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
     allow_headers=["*"],
 )
@@ -224,18 +220,28 @@ async def delete_account_type(id_type_account: str):
 async def get_all_contract_type():
     return ContractTypeDAO.getAllContractsType()
 
-@app.get("/type/contract/{id_contract}", tags=["Type Contract"])
-async def get_contract_type_by_id(id_contract_type):
-    return ContractTypeDAO.getContractTypeByID(id_contract_type)
+@app.post("/type/contract/{id_contract}", tags=["Type Contract"])
+async def get_contract_type_by_id(id_contract):
+    return ContractTypeDAO.getContractTypeByID(id_contract)
 
-@app.post("/type/contract/create", tags=["Type Contract"])
-async def create_contract_type(contractType: NewContractTypeModel):
-    return ContractTypeDAO.createContractType(contractType)
+# Endpoint - Presence
 
-@app.post("/type/contract/update", tags=["Type Contract"])
-async def update_contract_type_by_id(contractType: ContractTypeModel):
-    return ContractTypeDAO.updateContractTypeById(contractType)
+@app.get("/presence/{id_presence}/{id_employee}", tags=["Presence"])
+async def get_presence_by_primary_key(id_presence, id_employee):
+    return PresenceDao.getPresenceByPrimaryKey(id_presence, id_employee)
 
-@app.post("/type/contract/delete", tags=["Type Contract"])
-async def delete_contract_type_by_id(id_contract_type):
-    return ContractTypeDAO.deleteContractTypeById(id_contract_type)
+@app.get("/presence/all", tags=["Presence"])
+async def get_all_presence():
+    return PresenceDao.getAllPresence()
+
+@app.post("/presence/create", tags=["Presence"])
+async def create_presence(presence: NewPresenceModel):
+    return PresenceDao.createPresence(presence)
+
+@app.post("/presence/update", tags=["Presence"])
+async def update_presence(presence: PresenceModel):
+    return PresenceDao.updatePresenceByIDEmployeeAndDate(presence)
+
+@app.post("/presence/delete", tags=["Presence"])
+async def update_presence(id_presence, id_employee):
+    return PresenceDao.deletePresenceByPK(id_presence, id_employee)

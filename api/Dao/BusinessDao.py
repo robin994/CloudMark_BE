@@ -3,7 +3,7 @@ from uuid import UUID, uuid4
 from api.Model.BusinessModel import NewBusinessModel
 from DB.DBUtility import DBUtility
 from Model.BusinessModel import BusinessModel, NewBusinessModel
-from api.Dao.CallBackResponse import CallBackResponse
+# from Model.CallBackResponseModel import CallBackResponse
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -38,7 +38,8 @@ class BusinessDao:
         if connection.is_connected():
             connection.close()
 
-        return CallBackResponse.success(lista_business)
+        return {"response": lista_business}
+
     @staticmethod
     def filterByBusiness(bus: BusinessModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
@@ -53,25 +54,22 @@ class BusinessDao:
                bus.iban+'%', '%'+bus.phone+'%', '%'+bus.email+'%', '%'+bus.pec+'%', '%'+bus.fax+'%')
         cursor.execute(sql, val)
         records = cursor.fetchall()
-        if records is None:
-            response = CallBackResponse(
-                esitoChiamata="OK", numeroRisultati=0, error="")
-            lista_business['response'] = response
-        else:
-            for record in records:
-                business = BusinessModel(
-                    id_business=record[0],
-                    name=record[1],
-                    p_iva=record[2],
-                    address=record[3],
-                    cap=record[4],
-                    iban=record[5],
-                    phone=record[6],
-                    email=record[7],
-                    pec=record[8],
-                    fax=record[9]
-                )
-                lista_business[record[0]] = business
+        # if records is None:
+        # else:
+        for record in records:
+            business = BusinessModel(
+                id_business=record[0],
+                name=record[1],
+                p_iva=record[2],
+                address=record[3],
+                cap=record[4],
+                iban=record[5],
+                phone=record[6],
+                email=record[7],
+                pec=record[8],
+                fax=record[9]
+            )
+            lista_business[record[0]] = business
 
         if connection.is_connected():
             connection.close()
@@ -118,7 +116,7 @@ class BusinessDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return uuid
+        return {"responce": uuid}
 
     @staticmethod
     def updateBusinessById(business: BusinessModel):
@@ -134,7 +132,7 @@ class BusinessDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return business
+        return {"responce": business}
 
     @staticmethod
     def deleteBusinessById(id_business: UUID):
@@ -146,6 +144,4 @@ class BusinessDao:
         if connection.is_connected():
             connection.close()
 
-        return f"Azienda con id = {id_business} eliminata"
-
-    
+        return {"responce": id_business}
