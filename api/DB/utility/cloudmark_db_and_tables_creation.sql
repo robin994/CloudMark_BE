@@ -63,7 +63,7 @@ CREATE TABLE `tipo_account` (
   `id_tipo_account` varchar(80) NOT NULL,
   `nome_tipo_account` varchar(45) NOT NULL,
   `lista_funzioni_del_profilo` text,
-  PRIMARY KEY (`id_tipo_account`)
+  PRIMARY KEY (`id_tipo_account`,`nome_tipo_account`)
 );
 
 

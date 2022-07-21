@@ -56,3 +56,4 @@ class test_account_type_dao:
         #     logging.exception(e)
 
         logging.warning("Test TypeAccountDao, completati con successo %d / %d", counter, total)    
+        return dict(totals = total, counters = counter)
