@@ -1,6 +1,8 @@
 import logging
+
 from BusinessDao import BusinessDao
 from Model.BusinessModel import BusinessModel, NewBusinessModel
+
 
 class test_business_dao:
     def main(*args):

@@ -1,7 +1,7 @@
+from DB.DBUtility import DBUtility
+from Model.ContractType import ContractType
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from Model.ContractType import ContractType
-from DB.DBUtility import DBUtility
 
 
 class ContractTypeDAO:

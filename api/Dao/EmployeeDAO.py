@@ -1,16 +1,11 @@
-import email
-from unicodedata import name
-import uuid
-import cffi
-from jwt import PyJWK
+from uuid import UUID, uuid4
+
+from DB.DBUtility import DBUtility
+from Model.EmployeeModel import EmployeeModel, NewEmployeeModel
+from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from uuid import UUID, uuid4
-from Model.EmployeeModel import EmployeeModel, NewEmployeeModel
-from Model.EmployeeBusinessModel import EmployeeBusinessModel
-from DB.DBUtility import DBUtility
-from Model.CallBackResponse import CallBackResponse
-from Model.LastWorkModel import LastWorkModel
+
 # testati e funzionanti
 
 

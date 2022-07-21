@@ -1,7 +1,8 @@
 import logging
-from unicodedata import name
+
 from ContractTypeDAO import ContractTypeDAO
 from Model.ContractType import ContractType
+
 
 class test_contract_dao:
     def main(*args):

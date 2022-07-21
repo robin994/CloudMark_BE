@@ -1,12 +1,10 @@
-from uuid import UUID, uuid4
-from Model.CallBackResponse import CallBackResponse
+from uuid import  uuid4
+
+from api.Model.CustomerModel import NewCustomerModel
 from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from mysql.connector.errors import Error
-
-from api.Model.CustomerModel import NewCustomerModel
 
 # testati e funzionanti
 

@@ -1,7 +1,9 @@
 import logging
+
 from AccountDao import AccountDao
-from Model.UserModel import UserModel
 from Model.AccountModel import AccountModel, NewAccountModel
+from Model.UserModel import UserModel
+
 
 class test_account_dao:
   def main(*args):
@@ -19,7 +21,7 @@ class test_account_dao:
      logging.error("AccountDaio getAllAccounts not passed")
      logging.exception(e)
      
-   accountCreate = NewAccountModel(user="Franco", password='aaaa', abilitato=1, id_tipoAccount=1) 
+   accountCreate = NewAccountModel(user="Franco", password='aaaa', abilitato=1,id_tipo_account=1) 
        
    try:
      total += 1
@@ -49,7 +51,7 @@ class test_account_dao:
 
    try:
      total += 1
-     accountUpdate = AccountModel(id_account=str(uuidAccount), user="Beppe", password='aaaa', abilitato=1, id_tipoAccount=1)
+     accountUpdate = AccountModel(id_account=str(uuidAccount), user="Beppe", password='aaaa', abilitato=1,id_tipo_account=1)
      AccountDao.updateAccount(accountUpdate, session)
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:

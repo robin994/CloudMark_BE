@@ -1,6 +1,8 @@
 import logging
+
 from CustomerDao import CustomerDao
 from Model.CustomerModel import CustomerModel, NewCustomerModel
+
 
 class test_customer_dao:
     def main(*args):

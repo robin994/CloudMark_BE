@@ -1,8 +1,9 @@
-from uuid import UUID, uuid4
+from uuid import uuid4
+
+from DB.DBUtility import DBUtility
+from Model.OrderModel import NewOrderModel, OrderModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from Model.OrderModel import OrderModel, NewOrderModel
-from DB.DBUtility import DBUtility
 
 # testati e funzionanti
 
