@@ -3,7 +3,6 @@ import json
 import logging
 import os
 from uuid import UUID, uuid4
-
 import jwt
 from api.Model.AccountModel import NewAccountModel
 from DB.DBUtility import DBUtility
