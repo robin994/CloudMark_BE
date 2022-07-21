@@ -4,6 +4,8 @@ from Model.PresenceType import PresenceType
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
+from api.Dao.CallBackResponse import CallBackResponse
+
 
 class PresenceTypeDao:
     @staticmethod
@@ -21,26 +23,25 @@ class PresenceTypeDao:
         if connection.is_connected():
             connection.close()
 
-        return typePresenceList
+        return CallBackResponse.success(typePresenceList)
 
     @staticmethod
     def getPresenceTypebyId(id_presence_type: int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        typePresence = PresenceType()
         cursore: MySQLCursor = connection.cursor()
         sql = "SELECT * FROM tipo_presenza tp WHERE tp.id_tipo_presenza = %s"
         val = (id_presence_type,)
         cursore.execute(sql, val)
         record = cursore.fetchone()
         if(record is None):
-            return typePresence
+            return CallBackResponse.bad_request()
         else:
             tipo_presenza = PresenceType(
                 id_presence_type=record[0], name=record[1], percentage_increase=record[2], hourly_pay=record[3])
         if connection.is_connected():
             connection.close()
 
-        return tipo_presenza
+        return CallBackResponse.success(tipo_presenza)
 
     @staticmethod
     def createPresenceType(typePresence: PresenceType):
@@ -53,7 +54,7 @@ class PresenceTypeDao:
         if connection.is_connected():
             connection.close()
 
-        return typePresence
+        return CallBackResponse.success(typePresence)
 
     @staticmethod
     def updatePresenceType(typePresence: PresenceType):
@@ -66,7 +67,7 @@ class PresenceTypeDao:
         if connection.is_connected():
             connection.close()
 
-        return typePresence
+        return CallBackResponse.success(typePresence)
 
     @staticmethod
     def deletePresenceType(id_presenceType: int):

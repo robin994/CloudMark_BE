@@ -7,11 +7,11 @@ class CallBackResponse:
         return CallBackResponse.genericResponse(res = response, lenght=response, error= None, description = description )
     
     @staticmethod
-    def error(error_message): 
+    def error(error_message = ''): 
         return CallBackResponse.genericResponse(res= None, lenght=None, error= "ERROR", description = error_message )
     
     @staticmethod
-    def bad_request(error_message , description): 
+    def bad_request(error_message = ''): 
         return CallBackResponse.genericResponse(res= None, lenght=None, error= "BAD REQUEST", description = error_message )
     
     @staticmethod

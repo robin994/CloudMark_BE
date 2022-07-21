@@ -3,6 +3,7 @@ from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.AccountType import AccountType
 from DB.DBUtility import DBUtility
+from api.Dao.CallBackResponse import CallBackResponse
 from api.Model.AccountType import NewAccountType
 
 # testati e funzionanti
@@ -26,7 +27,7 @@ class AccountTypeDao:
         if connection.is_connected():
             connection.close()
         
-        return {"response": lista_accountType}
+        return  CallBackResponse.success(lista_accountType)
 
     @staticmethod
     def getAccountTypeById(id_accountType: int):
@@ -37,7 +38,7 @@ class AccountTypeDao:
             f"SELECT * FROM tipo_account WHERE id_tipo_account = {id_accountType}")
         record = cursore.fetchone()
         if(record is None):
-            return accountType
+            return CallBackResponse.success(accountType)
         else:
             accountType = AccountType(
                 id_account_type=record[0],
@@ -46,7 +47,7 @@ class AccountTypeDao:
         if connection.is_connected():
             connection.close()
 
-        return {"response": accountType}
+        return CallBackResponse.success(accountType)
 
     @staticmethod
     def createAccountType(accountType: NewAccountType):
@@ -62,9 +63,9 @@ class AccountTypeDao:
         if connection.is_connected():
             connection.close()
         if uuid:
-            return {"response": uuid}
+            return CallBackResponse.success(uuid)
         else:
-            return {"response": ""}
+            return CallBackResponse.bad_request("")
 
     @staticmethod
     def updateAccountType(accountType: AccountType):
@@ -79,9 +80,9 @@ class AccountTypeDao:
         if connection.is_connected():
             connection.close()
         if account_type_update:
-            return {"response": account_type_update}
+            return CallBackResponse.success(account_type_update)
         else: 
-            return {"response": ""}
+            return CallBackResponse.success('')
 
     @staticmethod
     def deleteAccountType(id_account_type: int):
@@ -93,6 +94,6 @@ class AccountTypeDao:
         if connection.is_connected():
             connection.close()
         if id_account_type:
-            return {"response": id_account_type}
+            return CallBackResponse.success(id_account_type)
         else: 
-            return {"response": ""}
+            return CallBackResponse.success('')

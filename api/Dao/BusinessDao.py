@@ -1,4 +1,5 @@
 from uuid import UUID, uuid4
+from api.Dao.CallBackResponse import CallBackResponse
 
 from api.Model.BusinessModel import NewBusinessModel
 from DB.DBUtility import DBUtility
@@ -73,7 +74,7 @@ class BusinessDao:
 
         if connection.is_connected():
             connection.close()
-        return lista_business
+        return CallBackResponse.success(lista_business)
 
     @staticmethod
     def getBusinessByID(id_azienda):
@@ -87,7 +88,7 @@ class BusinessDao:
             connection.close()
 
         if(record is None):
-            return {}
+            CallBackResponse.bad_request('')
         else:
             business = BusinessModel(
                 id_business=record[0],
@@ -101,7 +102,7 @@ class BusinessDao:
                 pec=record[8],
                 fax=record[9]
             )
-            return business
+            return CallBackResponse.success(business)
 
 
     #     return record
@@ -116,7 +117,7 @@ class BusinessDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return {"responce": uuid}
+        return CallBackResponse.success(uuid)
 
     @staticmethod
     def updateBusinessById(business: BusinessModel):
@@ -130,9 +131,11 @@ class BusinessDao:
         val = (business.name, business.p_iva , business.iban, business.address, business.cap, business.phone, business.email, business.pec, business.fax, business.id_business)
         cursor.execute(sql, val)
         connection.commit()
+
+
         if connection.is_connected():
             connection.close()
-        return {"responce": business}
+        return CallBackResponse.success(business)
 
     @staticmethod
     def deleteBusinessById(id_business: UUID):
@@ -144,4 +147,4 @@ class BusinessDao:
         if connection.is_connected():
             connection.close()
 
-        return {"responce": id_business}
+        return CallBackResponse.success('')
