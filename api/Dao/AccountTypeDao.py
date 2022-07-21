@@ -1,8 +1,7 @@
-from unicodedata import name
+from DB.DBUtility import DBUtility
+from Model.AccountType import AccountType
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from Model.AccountType import AccountType
-from DB.DBUtility import DBUtility
 
 # testati e funzionanti
 

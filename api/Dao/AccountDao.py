@@ -1,16 +1,16 @@
-from uuid import UUID, uuid4
-from DB.DBUtility import DBUtility
-from Model.AccountModel import AccountModel
-from Model.UserModel import UserModel, SessionModel
-from mysql.connector.cursor import MySQLCursor
-from mysql.connector.connection import MySQLConnection
-import os
 import hashlib
-from dotenv import load_dotenv
-import jwt
 import logging
+import os
+from uuid import UUID, uuid4
 
+import jwt
 from api.Model.AccountModel import NewAccountModel
+from DB.DBUtility import DBUtility
+from dotenv import load_dotenv
+from Model.AccountModel import AccountModel
+from Model.UserModel import SessionModel, UserModel
+from mysql.connector.connection import MySQLConnection
+from mysql.connector.cursor import MySQLCursor
 
 # testati e funzionanti
 

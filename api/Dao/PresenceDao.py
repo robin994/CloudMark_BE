@@ -1,10 +1,9 @@
-from datetime import date
-from uuid import UUID, uuid4
-from winreg import QueryValueEx
-from Model.PresenceModel import PresenceModel,NewPresenceModel
+from uuid import uuid4
+
 from DB.DBUtility import DBUtility
-from mysql.connector.cursor import MySQLCursor
+from Model.PresenceModel import NewPresenceModel, PresenceModel
 from mysql.connector.connection import MySQLConnection
+from mysql.connector.cursor import MySQLCursor
 
 # testati e funzionanti
 

@@ -1,8 +1,9 @@
-from datetime import datetime
 import logging
+
+from Model.OrderModel import NewOrderModel
 from OrderDao import OrderDao
-from Model.OrderModel import NewOrderModel, OrderModel
-import datetime
+
+
 class test_order_dao:
   def main(*args):
     logging.getLogger().setLevel(args[0])

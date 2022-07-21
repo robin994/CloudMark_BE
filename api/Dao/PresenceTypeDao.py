@@ -1,7 +1,7 @@
+from DB.DBUtility import DBUtility
+from Model.PresenceType import PresenceType
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-from Model.PresenceType import PresenceType
-from DB.DBUtility import DBUtility
 
 
 class PresenceTypeDao:

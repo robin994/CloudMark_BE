@@ -1,6 +1,8 @@
 import logging
-from Model.AccountType import AccountType
+
 from AccountTypeDao import AccountTypeDao
+from Model.AccountType import AccountType
+
 
 class test_account_type_dao:
     def main(*args):

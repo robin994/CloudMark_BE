@@ -1,24 +1,20 @@
-from fastapi.middleware.cors import CORSMiddleware
-# from Dao.TipoPresenzaDao import TipoPresenzaDao
-from Dao.AccountTypeDao import AccountTypeDao
-# from Dao.PresenceDao import PresenceDao
-from Dao.BusinessDao import BusinessDao
-from Dao.EmployeeDAO import EmployeeDAO
-from Dao.AccountDao import AccountDao
-from Dao.OrderDao import OrderDao
 from fastapi import FastAPI
-from Dao.AccountTypeDao import AccountTypeDao
-from Dao.ContractTypeDAO import ContractTypeDAO
-from Dao.CustomerDao import CustomerDao
-from api.Model.ContractType import ContractType
+from fastapi.middleware.cors import CORSMiddleware
+
 from api.Dao.AccountTypeDao import AccountTypeDao
-from api.Model.CustomerModel import CustomerModel, NewCustomerModel
-from api.Model.BusinessModel import BusinessModel, NewBusinessModel
 from api.Model.AccountModel import AccountModel, NewAccountModel
+from api.Model.BusinessModel import BusinessModel, NewBusinessModel
+from api.Model.CustomerModel import CustomerModel, NewCustomerModel
+from api.Model.EmployeeModel import EmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.UserModel import UserModel
-from api.Model.EmployeeModel import EmployeeModel
-
+from Dao.AccountDao import AccountDao
+from Dao.AccountTypeDao import AccountTypeDao
+from Dao.BusinessDao import BusinessDao
+from Dao.ContractTypeDAO import ContractTypeDAO
+from Dao.CustomerDao import CustomerDao
+from Dao.EmployeeDAO import EmployeeDAO
+from Dao.OrderDao import OrderDao
 
 app = FastAPI()
 

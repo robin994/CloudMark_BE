@@ -1,7 +1,9 @@
 import logging
+
 from AccountDao import AccountDao
-from Model.UserModel import UserModel
 from Model.AccountModel import AccountModel, NewAccountModel
+from Model.UserModel import UserModel
+
 
 class test_account_dao:
   def main(*args):

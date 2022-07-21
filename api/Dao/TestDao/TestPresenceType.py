@@ -1,6 +1,8 @@
 import logging
-from PresenceTypeDao import PresenceTypeDao
+
 from Model.PresenceType import PresenceType
+from PresenceTypeDao import PresenceTypeDao
+
 
 class test_presence_type_dao:
     def main(*args):
