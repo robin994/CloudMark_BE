@@ -25,8 +25,8 @@ class AccountTypeDao:
             lista_accountType[row[0]] = tipoAccount
         if connection.is_connected():
             connection.close()
-
-        return lista_accountType
+        
+        return {"response": lista_accountType}
 
     @staticmethod
     def getAccountTypeById(id_accountType: int):
@@ -46,7 +46,7 @@ class AccountTypeDao:
         if connection.is_connected():
             connection.close()
 
-        return accountType
+        return {"response": accountType}
 
     @staticmethod
     def createAccountType(accountType: NewAccountType):
@@ -83,8 +83,6 @@ class AccountTypeDao:
         else: 
             return {"response": ""}
 
-        return accountType
-
     @staticmethod
     def deleteAccountType(id_account_type: int):
         connection: MySQLConnection = DBUtility.getLocalConnection()
@@ -94,5 +92,7 @@ class AccountTypeDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-
-        return {"response": id_account_type}
+        if id_account_type:
+            return {"response": id_account_type}
+        else: 
+            return {"response": ""}
