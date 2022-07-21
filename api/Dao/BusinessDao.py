@@ -55,8 +55,6 @@ class BusinessDao:
                bus.iban+'%', '%'+bus.phone+'%', '%'+bus.email+'%', '%'+bus.pec+'%', '%'+bus.fax+'%')
         cursor.execute(sql, val)
         records = cursor.fetchall()
-        # if records is None:
-        # else:
         for record in records:
             business = BusinessModel(
                 id_business=record[0],
