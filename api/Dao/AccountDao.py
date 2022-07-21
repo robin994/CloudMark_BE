@@ -42,16 +42,17 @@ class AccountDao:
         return lista_account
 
     @staticmethod
-    def getAccountByID(id_account: UUID):
+    def getAccountByID(id_account):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(
-            f"SELECT `id_account`, `user`, `abilitato`, `id_tipo_account` FROM account WHERE `id_account` = '{id_account}';")
+        query = "SELECT `id_account`, `user`, `abilitato`, `id_tipo_account` FROM account WHERE `id_account` = %s;"
+        val = (str(id_account),)
+        cursor.execute(query,val)
         record = cursor.fetchone()
         if(record is None):
             return ""
         else:
-            account = dict(
+            account = AccountModel(
                 id_account=record[0],
                 user=record[1],
                 abilitato=record[2],
@@ -87,7 +88,7 @@ class AccountDao:
         return {"response":uuid}
 
     @staticmethod
-    def deleteAccountByID(id_account: UUID):
+    def deleteAccountByID(id_account):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute(f"DELETE FROM `account` WHERE `id_account` = '{id_account}'")
@@ -186,4 +187,4 @@ def checkPassword(User: UserModel):
 def hashPassword(password: str):
     salt = os.urandom(32)
     key = hashlib.pbkdf2_hmac('sha256', password.encode('utf-8'), salt, 100000)
-    return {"response": salt + key}
+    return salt + key
