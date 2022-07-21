@@ -1,4 +1,5 @@
 import hashlib
+import json
 import logging
 import os
 from uuid import UUID, uuid4
@@ -121,7 +122,7 @@ class AccountDao:
             cursor.execute(f"SELECT id_account, user, abilitato, id_tipo_account FROM account WHERE user = '{User.user}';")
             record = cursor.fetchone()
             if(record is None):
-                return ''
+                return {"response":''}
             else:
                 session = SessionModel(
                     id_account=record[0],
@@ -135,9 +136,9 @@ class AccountDao:
 
             session_encoded = jwt.encode(
                 session.dict(), JWTPSW, algorithm="HS256")
-            return session_encoded
+            return {"response":session_encoded}
         else:
-            return None
+            return {"response":"id o password errati"}
         
     @staticmethod
     def jwt_verify(token):
