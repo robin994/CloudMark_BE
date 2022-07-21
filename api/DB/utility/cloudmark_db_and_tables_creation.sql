@@ -60,10 +60,10 @@ CREATE TABLE `dipendente` (
 
 DROP TABLE IF EXISTS `tipo_account`;
 CREATE TABLE `tipo_account` (
-  `id_tipo_account` int NOT NULL AUTO_INCREMENT,
+  `id_tipo_account` varchar(80) NOT NULL,
   `nome_tipo_account` varchar(45) NOT NULL,
   `lista_funzioni_del_profilo` text,
-  PRIMARY KEY (`id_tipo_account`)
+  PRIMARY KEY (`id_tipo_account`,`nome_tipo_account`)
 );
 
 
@@ -73,7 +73,7 @@ CREATE TABLE `account` (
   `user` varchar(45) NOT NULL,
   `password` VARBINARY(64) NOT NULL,
   `abilitato` tinyint(1) DEFAULT NULL,
-  `id_tipo_account` int NOT NULL,
+  `id_tipo_account` varchar(80) NOT NULL,
   PRIMARY KEY (`id_account`),
   UNIQUE KEY `user_UNIQUE` (`user`),
   KEY `id_tipoAccount` (`id_tipo_account`),
@@ -172,4 +172,3 @@ CREATE TABLE `saltini` (
   KEY `id_account` (`id_account`),
   CONSTRAINT `saltini_ibfk_1` FOREIGN KEY (`id_account`) REFERENCES `account` (`id_account`) ON DELETE CASCADE
 );
-

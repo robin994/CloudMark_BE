@@ -1,9 +1,10 @@
-from pydantic import BaseModel
 from typing import Optional
+
+from pydantic import BaseModel
 
 
 class PresenceType(BaseModel):
-    id_presenceType: Optional[int]
+    id_presence_type: Optional[int]
     name: Optional[str]
-    percentageIncrease: Optional[int]
-    hourlyPay: Optional[int]
+    percentage_increase: Optional[int]
+    hourly_pay: Optional[int]

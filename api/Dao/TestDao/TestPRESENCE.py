@@ -1,7 +1,8 @@
 import logging
-from unicodedata import name
+
+from Model.PresenceModel import NewPresenceModel, PresenceModel
 from PresenceDao import PresenceDao
-from Model.PresenceModel import PresenceModel,NewPresenceModel
+
 
 class test_presence_dao:
     def main(*args):

@@ -1,7 +1,9 @@
 import logging
+
 from AccountDao import AccountDao
-from Model.UserModel import UserModel
 from Model.AccountModel import AccountModel, NewAccountModel
+from Model.UserModel import UserModel
+
 
 class test_account_dao:
   def main(*args):
@@ -19,7 +21,7 @@ class test_account_dao:
      logging.error("AccountDaio getAllAccounts not passed")
      logging.exception(e)
      
-   accountCreate = NewAccountModel(user="Franco", password='aaaa', abilitato=1, id_tipoAccount=1) 
+   accountCreate = NewAccountModel(user="Franco", password='aaaa', abilitato=1,id_tipo_account="7e554b54-08f4-11ed-861d-0242ac120002") 
        
    try:
      total += 1
@@ -32,7 +34,9 @@ class test_account_dao:
    
    try:
      total += 1
-     AccountDao.getAccountByID('e55917e1-0e9f-40b2-92ae-c880328aa110')
+     uuid = str(uuidAccount["response"])
+     print(uuid)
+     AccountDao.getAccountByID(uuid)
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio getAccountByID not passed")
@@ -49,7 +53,7 @@ class test_account_dao:
 
    try:
      total += 1
-     accountUpdate = AccountModel(id_account=str(uuidAccount), user="Beppe", password='aaaa', abilitato=1, id_tipoAccount=1)
+     accountUpdate = AccountModel(id_account= uuid, user="Beppe", password='aaaa', abilitato=1,id_tipo_account=1)
      AccountDao.updateAccount(accountUpdate, session)
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:
@@ -58,7 +62,7 @@ class test_account_dao:
    
    try:
      total += 1
-     AccountDao.deleteAccountByID(uuidAccount)
+     AccountDao.deleteAccountByID(uuid)
      counter += 1
    except(RuntimeError, TypeError, NameError)  as e:
      logging.error("AccountDaio deleteAccountByID not passed")

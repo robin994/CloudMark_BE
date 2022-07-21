@@ -1,12 +1,13 @@
-from datetime import datetime
 import logging
+
+from Model.OrderModel import NewOrderModel
 from OrderDao import OrderDao
-from Model.OrderModel import NewOrderModel, OrderModel
-import datetime
+
+
 class test_order_dao:
   def main(*args):
     logging.getLogger().setLevel(args[0])
-    ##### TEST AccountDAO ######
+    ##### TEST OrderDAO ######
     #in console mi aspetto 5 info, il primo ritorna il dizionario contenente tutti i record della tabella, il secondo contiene il dizionario con il record con ID=1, il terzo è il record da inserire in tabella, il quarto è il record che vado ad aggiornare e il quinto mi ritorna la conferma del DELETE del record con ID=2
     total = 0
     counter = 0
@@ -36,6 +37,16 @@ class test_order_dao:
     except(RuntimeError, TypeError, NameError)  as e:
       logging.error("OrderDao getOrderByID not passed")
       logging.exception(e)
+      
+      
+    # GETORDERBYEMPLOYEE
+    try:
+        total += 1
+        OrderDao.getOrderByEmplyee('e55917e1-0e9f-40b2-92ae-c880328aa110')
+        counter += 1
+    except(RuntimeError, TypeError, NameError) as e:
+        logging.error("EmployeeDao getEmployeesByAccount not passed")
+        logging.exception(e)
 
     try:
       total += 1

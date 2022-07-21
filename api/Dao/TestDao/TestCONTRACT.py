@@ -3,6 +3,7 @@ from api.Model.ContractType import ContractTypeModel
 from ContractTypeDAO import ContractTypeDAO
 from Model.ContractType import NewContractTypeModel
 
+
 class test_contract_dao:
     def main(*args):
         logging.getLogger().setLevel(args[0])

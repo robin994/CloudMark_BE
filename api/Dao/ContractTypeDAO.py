@@ -1,8 +1,15 @@
+<<<<<<< HEAD
 from uuid import UUID, uuid4
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from DB.DBUtility import DBUtility
+=======
+from DB.DBUtility import DBUtility
+from Model.ContractType import ContractType
+from mysql.connector.connection import MySQLConnection
+from mysql.connector.cursor import MySQLCursor
+>>>>>>> de7c8bd1336457824e88a9af148b2692bcca429f
 
 
 class ContractTypeDAO:

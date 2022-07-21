@@ -1,5 +1,5 @@
 from fastapi.middleware.cors import CORSMiddleware
-from api.Model.ContractType import NewContractTypeModel
+from api.Model.ContractType import ContractTypeModel, NewContractTypeModel
 from api.Model.AccountType import AccountType
 # from Dao.TipoPresenzaDao import TipoPresenzaDao
 from Dao.AccountTypeDao import AccountTypeDao
@@ -12,15 +12,22 @@ from fastapi import FastAPI
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
-from api.Model.ContractType import ContractTypeModel
+from api.Model.AccountType import AccountType, NewAccountType
+from fastapi.middleware.cors import CORSMiddleware
 from api.Dao.AccountTypeDao import AccountTypeDao
-from api.Model.CustomerModel import CustomerModel, NewCustomerModel
-from api.Model.BusinessModel import BusinessModel, NewBusinessModel
 from api.Model.AccountModel import AccountModel, NewAccountModel
+from api.Model.BusinessModel import BusinessModel, NewBusinessModel
+from api.Model.CustomerModel import CustomerModel, NewCustomerModel
+from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.UserModel import UserModel
-from api.Model.EmployeeModel import EmployeeModel
-
+from Dao.AccountDao import AccountDao
+from Dao.AccountTypeDao import AccountTypeDao
+from Dao.BusinessDao import BusinessDao
+from Dao.ContractTypeDAO import ContractTypeDAO
+from Dao.CustomerDao import CustomerDao
+from Dao.EmployeeDAO import EmployeeDAO
+from Dao.OrderDao import OrderDao
 
 app = FastAPI()
 
@@ -116,6 +123,10 @@ async def update_business(business : OrderModel):
 @app.post("/orders/delete", tags=["orders"])
 async def delete_business(id_business:str):
     return OrderDao.deleteOrderByID(id_business)
+
+@app.get("/orders/employee/{id_employee}", tags=["orders"])
+async def get_order_by_employee(id_employee):
+    return OrderDao.getOrderByEmplyee(id_employee)
     
 # @app.get("/presence")
 # async def getAllPresence():
@@ -127,7 +138,7 @@ async def delete_business(id_business:str):
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
-@app.post("/customer/{business_uuid}", tags=["customer"])
+@app.post("/customer/business/{business_uuid}", tags=["customer"])
 async def get_all_customer_by_business_id(business_uuid):
     return CustomerDao.getCustomerByBusinessID(business_uuid)    
 
@@ -153,27 +164,63 @@ async def update_customer_by_id(customer: CustomerModel):
 async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
-@app.post('/employee/', tags=["employee"] )
-async def filter_by_employee(Employee : EmployeeModel, idAzienda: int):
-    return EmployeeDAO.filterByEmployee(Employee, idAzienda)
+@app.post('/employee/', tags=["employee"])
+async def filter_by_employee(employee : NewEmployeeModel, idAzienda: str):
+    return EmployeeDAO.filterByEmployee(employee, idAzienda)
 
 @app.get("/employee/lastwork", tags=["employee"])
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
 
+@app.get("/employee/business/{id_business}", tags=["employee"])
+async def get_employees_by_business(id_business):
+    return EmployeeDAO.getEmployeesByBusiness(id_business)
+
+@app.get("/employee/account/{id_account}", tags=["employee"])
+async def get_employees_by_account(id_account):
+    return EmployeeDAO.getEmployeesByAccount(id_account)
+
+@app.get("/employee/{id_business}", tags=["employee"])
+async def get_employees_by_id(id_business):
+    return EmployeeDAO.getEmployeesByID(id_business)
+
+@app.post('/employee/create', tags=["employee"])
+async def create_employee(employee : NewEmployeeModel):
+    return EmployeeDAO.createEmployee(employee)
+
+@app.post('/employee/update', tags=["employee"])
+async def update_employee_by_id(employee : EmployeeModel):
+    return EmployeeDAO.updateEmployeeByID(employee)
+
+@app.post('/employee/delete', tags=["employee"])
+async def delete_employee_by_id(id_employee: str):
+    return EmployeeDAO.deleteEmployeeByID(id_employee)
+
 # Endpoint - AccountType
 
-@app.get("/type/account", tags=["Type"])
+@app.get("/type/account", tags=["Type Account"])
 async def get_all_tipo_account():
     return AccountTypeDao.getAllAccountsType()
 
-@app.post("/type/account/{id_account}", tags=["Type"])
+@app.post("/type/account/{id_account}", tags=["Type Account"])
 async def get_tipo_account_by_id(id_account):
     return AccountTypeDao.getAccountTypeById(id_account)
 
+@app.post("/create", tags=["Type Account"])
+async def create_account_type(accountType: NewAccountType):
+    return AccountTypeDao.createAccountType(accountType)
+
+@app.post("/update", tags=["Type Account"])
+async def update_account_type(accountType: AccountType):
+    return AccountTypeDao.updateAccountType(accountType)
+
+@app.post("/delete", tags=["Type Account"])
+async def delete_account_type(id_type_account: str):
+    return AccountTypeDao.deleteAccountType(id_type_account)
+
 # Endpoint - ContractType
 
-@app.get("/type/contract", tags=["Type"])
+@app.get("/type/contract", tags=["Type Contract"])
 async def get_all_contract_type():
     return ContractTypeDAO.getAllContractsType()
 
