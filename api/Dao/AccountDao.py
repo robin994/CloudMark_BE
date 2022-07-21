@@ -3,6 +3,7 @@ import logging
 import os
 from uuid import uuid4
 import jwt
+from api.Dao.CallBackResponse import CallBackResponse
 from api.Model.AccountModel import NewAccountModel
 from DB.DBUtility import DBUtility
 from dotenv import load_dotenv
@@ -38,7 +39,7 @@ class AccountDao:
             logging.info("Chiudo la connessione")
         logging.info("ritorno lista account")
 
-        return lista_account
+        return CallBackResponse.success(lista_account)
 
     @staticmethod
     def getAccountByID(id_account):
@@ -60,8 +61,7 @@ class AccountDao:
         if connection.is_connected():
             connection.close()
 
-        return {"response":account}
-
+        return CallBackResponse.success(account)
     @staticmethod
     def createAccount(account: NewAccountModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
@@ -84,7 +84,7 @@ class AccountDao:
         connection.commit()
         if connection.is_connected():
             connection.close()
-        return {"response":uuid}
+        return CallBackResponse.success(uuid)
 
     @staticmethod
     def deleteAccountByID(id_account):
@@ -95,7 +95,7 @@ class AccountDao:
         if connection.is_connected():
             connection.close()
 
-        return {"response":id_account}
+        return CallBackResponse.success(id_account)
 
     @staticmethod
     def updateAccount(account: AccountModel, session_encoded: str):                 
@@ -107,7 +107,7 @@ class AccountDao:
             account_updated = AccountDao.getAccountByID(account.id_account)
             cursor.execute(sql ,val)
             connection.commit()
-            return {"response":account_updated}
+            return CallBackResponse.success(account_updated)
         
     
     @staticmethod
@@ -137,9 +137,9 @@ class AccountDao:
 
             session_encoded = jwt.encode(
                 session.dict(), JWTPSW, algorithm="HS256")
-            return {"response":session_encoded}
+            return CallBackResponse.success(session_encoded)
         else:
-            return {"response":"id o password errati"}
+            return CallBackResponse.bad_request("User o password")
         
     @staticmethod
     def jwt_verify(token):
@@ -155,10 +155,10 @@ class AccountDao:
                 algorithms=['HS256'],
                 options=jwt_options
             )
-            return {"response": "True"}
+            return  CallBackResponse.success("True")
         except Exception as err:
             logging.error(err)
-            return {"response": "False"}
+            return  CallBackResponse.success("False")
 
 def checkPassword(User: UserModel):
     password_to_check = User.password
@@ -179,9 +179,9 @@ def checkPassword(User: UserModel):
     )
 
     if new_key == key:
-        return {"response": "True"}
+        return  CallBackResponse.success("True")
     else:
-        return {"response": "False"}
+        return  CallBackResponse.success("False")
 
 def hashPassword(password: str):
     salt = os.urandom(32)

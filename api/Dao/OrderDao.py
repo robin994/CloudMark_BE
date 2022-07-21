@@ -6,6 +6,8 @@ from Model.OrderModel import NewOrderModel, OrderModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
+from api.Dao.CallBackResponse import CallBackResponse
+
 # testati e funzionanti
 
 
@@ -31,7 +33,7 @@ class OrderDao:
         if connection.is_connected():
             connection.close()
 
-        return lista_orders
+        return CallBackResponse.success(lista_orders)
 
     @staticmethod
     def getOrderByID(id_order: str):
@@ -43,7 +45,7 @@ class OrderDao:
         cursor.execute(sql, val)
         record = cursor.fetchone()
         if(record is None):
-            return order
+            CallBackResponse.success(order)
         else:
             order = OrderModel(
                 id_order=record[0],
@@ -55,7 +57,7 @@ class OrderDao:
         if connection.is_connected():
             connection.close()
 
-        return order
+        return CallBackResponse.success(order)
 
     @staticmethod
     def createOrder(order: NewOrderModel):
@@ -70,7 +72,7 @@ class OrderDao:
         if connection.is_connected():
             connection.close()
 
-        return uuid
+        return CallBackResponse.success(uuid)
 
     @staticmethod
     def updateOrderById(order: OrderModel):
@@ -86,7 +88,7 @@ class OrderDao:
         if connection.is_connected():
             connection.close()
 
-        return order
+        return CallBackResponse.success(order)
 
     @staticmethod
     def deleteOrderByID(id_order: str):
@@ -99,7 +101,7 @@ class OrderDao:
         if connection.is_connected():
             connection.close()
 
-        return ""
+        return CallBackResponse.success('')
     
     @staticmethod
     def getOrderByEmplyee(id_employee):
@@ -115,7 +117,7 @@ class OrderDao:
         if connection.is_connected():
                 connection.close()
         if records is None:
-            return {}
+            return CallBackResponse.bad_request()
         else:
             for row in records:
                 order = OrderModel(
@@ -128,4 +130,4 @@ class OrderDao:
                 )
                 order_employee[row[0]] = order
         logging.debug(order_employee)
-        return order_employee
+        return CallBackResponse.success(order_employee)

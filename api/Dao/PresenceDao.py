@@ -5,6 +5,8 @@ from Model.PresenceModel import NewPresenceModel, PresenceModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
+from api.Dao.CallBackResponse import CallBackResponse
+
 # testati e funzionanti
 
 
@@ -18,7 +20,7 @@ class PresenceDao:
         cursor.execute(query,val)
         record = cursor.fetchone()
         if(record is None):
-            return presence
+            return CallBackResponse.bad_request(presence)
         else:
             presence = PresenceModel(
                 id_presence= record[0],
@@ -31,7 +33,7 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
 
-        return {"presence": presence}
+        return CallBackResponse.success(presence)
 
     @staticmethod
     def getAllPresence():
@@ -54,7 +56,7 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
 
-        return {"response": lista_presence}
+        return CallBackResponse.success(lista_presence)
 
     @staticmethod
     def createPresence(presence: NewPresenceModel):
@@ -70,11 +72,11 @@ class PresenceDao:
             connection.commit()
             if connection.is_connected():
              connection.close()
-             return uuid
+             CallBackResponse.success(uuid)
         if connection.is_connected():
             connection.close()
             
-        return {"response": record[0]}
+        return CallBackResponse.success(record[0])
 
     @staticmethod
     def updatePresenceByIDEmployeeAndDate(presence: PresenceModel):
@@ -92,7 +94,7 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
 
-        return {"response": presence}
+        return CallBackResponse.success(presence)
 
     @staticmethod
     def deletePresenceByPK(id_presence:str,id_employee:str):
@@ -106,4 +108,4 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
 
-        return {"response": id_presence}
+        return CallBackResponse.success(id_presence)

@@ -3,6 +3,7 @@ from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from DB.DBUtility import DBUtility
+from api.Dao.CallBackResponse import CallBackResponse
 
 
 class ContractTypeDAO:
@@ -22,7 +23,7 @@ class ContractTypeDAO:
         if connection.is_connected():
             connection.close()
 
-        return {"response": contractTypeList}
+        return CallBackResponse.success(contractTypeList)
 
     @staticmethod
     def getContractTypeByID(id_contractType: str):
@@ -34,14 +35,14 @@ class ContractTypeDAO:
         cursor.execute(query, val)
         record = cursor.fetchone()
         if(record is None):
-            return contractType
+            return CallBackResponse.success(contractType)
         else:
             contractType = ContractTypeModel(
                 id_contract_type=record[0], name=record[1], info=record[2])
         if connection.is_connected():
             connection.close()
 
-        return {"response": contractType}
+        return CallBackResponse.success(contractType)
 
     @staticmethod
     def createContractType(contractType: NewContractTypeModel):
@@ -55,7 +56,7 @@ class ContractTypeDAO:
         if connection.is_connected():
             connection.close()
 
-        return {"response": uuid}
+        return CallBackResponse.success(uuid)
 
     @staticmethod
     def updateContractTypeById(contractType: ContractTypeModel):
@@ -68,7 +69,7 @@ class ContractTypeDAO:
         if connection.is_connected():
             connection.close()
 
-        return {"response": contractType}
+        return CallBackResponse.success(contractType)
 
     @staticmethod
     def deleteContractTypeById(id_contractType):
@@ -81,4 +82,4 @@ class ContractTypeDAO:
         if connection.is_connected():
             connection.close()
 
-        return {"response": id_contractType}
+        return CallBackResponse.success(id_contractType)
