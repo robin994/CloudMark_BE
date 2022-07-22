@@ -5,7 +5,7 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from api.Dao.PresenceDao import PresenceDao
 from api.Dao.PresenceTypeDao import PresenceTypeDao
-from api.Model.PresenceModel import PresenceModel
+from api.Model.PresenceModel import PresenceLoadModel, PresenceModel
 from api.Model.AccountType import AccountType, NewAccountType
 from fastapi.middleware.cors import CORSMiddleware
 from api.Dao.AccountTypeDao import AccountTypeDao
@@ -253,6 +253,11 @@ async def get_presence_by_primary_key(id_presence, id_employee):
 @app.get("/presence/all", tags=["Presence"])
 async def get_all_presence():
     return PresenceDao.getAllPresence()
+
+
+@app.post("/presence/{id_employee}/{year}/{month}", tags=["Presence"])
+async def get_month_year_presences(year, month, id_employee):
+    return PresenceDao.getMonthYearPresences(year, month, id_employee)
 
 @app.post("/presence/create", tags=["Presence"])
 async def create_presence(presence: NewPresenceModel):
