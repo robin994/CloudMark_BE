@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from api.Model.ContractType import NewContractTypeModel, ContractTypeModel
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
@@ -14,7 +15,7 @@ from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.PresenceModel import NewPresenceModel
-from api.Model.PresenceType import NewPresenceType, PresenceType
+from api.Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
 from api.Model.UserModel import UserModel
 from Dao.AccountDao import AccountDao
 from Dao.AccountTypeDao import AccountTypeDao
@@ -226,6 +227,18 @@ async def get_all_contract_type():
 async def get_contract_type_by_id(id_contract):
     return ContractTypeDAO.getContractTypeByID(id_contract)
 
+@app.post("/type/contract/create", tags=["Type Contract"])
+async def create_contract_type(contractType: NewContractTypeModel):
+    return ContractTypeDAO.createContractType(contractType)
+
+@app.post("/type/contract/update", tags=["Type Contract"])
+async def update_contract_type_by_ID(contractType: ContractTypeModel):
+    return ContractTypeDAO.updateContractTypeById(contractType)
+
+@app.post("/type/contract/delete", tags=["Type Contract"])
+async def delete_contract_type_by_ID(id_contract):
+    return ContractTypeDAO.deleteContractTypeById(id_contract)
+
 # Endpoint - Presence
 
 @app.get("/presence/{id_presence}/{id_employee}", tags=["Presence"])
@@ -259,11 +272,11 @@ async def get_presence_type_by_id(id_presence_type):
     return PresenceTypeDao.getPresenceTypebyId(id_presence_type)
 
 @app.post("/type/presence/create", tags=["Type Presence"])
-async def create_presence_type(typePresence: NewPresenceType):
+async def create_presence_type(typePresence: NewPresenceTypeModel):
     return PresenceTypeDao.createPresenceType(typePresence)
 
 @app.patch("/type/presence/update", tags=["Type Presence"])
-async def update_presence_type(typePresence: PresenceType):
+async def update_presence_type(typePresence: PresenceTypeModel):
     return PresenceTypeDao.updatePresenceType(typePresence)
 
 @app.post("/type/presence/delete", tags=["Type Presence"])

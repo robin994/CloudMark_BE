@@ -1,12 +1,12 @@
 from unicodedata import name
 from uuid import uuid4
 from DB.DBUtility import DBUtility
-from Model.PresenceType import PresenceType
+from Model.PresenceTypeModel import PresenceTypeModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
 from api.Dao.CallBackResponse import CallBackResponse
-from api.Model.PresenceType import NewPresenceType
+from api.Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
 
 
 class PresenceTypeDao:
@@ -19,7 +19,7 @@ class PresenceTypeDao:
             "SELECT * FROM tipo_presenza")
         records = cursore.fetchall()
         for row in records:
-            tipoPresenza = PresenceType(
+            tipoPresenza = PresenceTypeModel(
                 id_presence_type=row[0], name=row[1], percentage_increase=row[2], hourly_pay=row[3])
             typePresenceList.append(tipoPresenza)
         if connection.is_connected():
@@ -38,7 +38,7 @@ class PresenceTypeDao:
         if(record is None):
             return CallBackResponse.bad_request()
         else:
-            tipo_presenza = PresenceType(
+            tipo_presenza = PresenceTypeModel(
                 id_presence_type=record[0], name=record[1], percentage_increase=record[2], hourly_pay=record[3])
         if connection.is_connected():
             connection.close()
@@ -46,7 +46,7 @@ class PresenceTypeDao:
         return CallBackResponse.success(tipo_presenza)
 
     @staticmethod
-    def createPresenceType(typePresence: NewPresenceType):
+    def createPresenceType(typePresence: NewPresenceTypeModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         presence_type_create = dict()
         uuid_presence_type = uuid4()
@@ -62,7 +62,7 @@ class PresenceTypeDao:
         return CallBackResponse.success(presence_type_create)
 
     @staticmethod
-    def updatePresenceType(typePresence: PresenceType):
+    def updatePresenceType(typePresence: PresenceTypeModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         sql = "UPDATE tipo_presenza SET nome_tipo_presenza = %s, perc_maggiorazione_paga_oraria = %s, paga_oraria = %s WHERE id_tipo_presenza = %s"
