@@ -126,10 +126,6 @@ async def delete_order(id_order:str):
 @app.get("/orders/employee/{id_employee}", tags=["orders"])
 async def get_order_by_employee(id_employee):
     return OrderDao.getOrderByEmplyee(id_employee)
-    
-# @app.get("/presence")
-# async def getAllPresence():
-#     return PresenceDao.getAllPresence()
 
 # Endpoint - Customer
 
