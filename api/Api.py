@@ -112,16 +112,16 @@ async def get_order_by_id(uuid):
     return OrderDao.getOrderByID(uuid)
 
 @app.post("/orders/create", tags=["orders"])
-async def create_business(business : NewOrderModel):
-    return OrderDao.createOrder(business)  
+async def create_order(order : NewOrderModel):
+    return OrderDao.createOrder(order)  
 
 @app.post("/orders/update", tags=["orders"])
-async def update_business(business : OrderModel):
-    return OrderDao.updateOrderById(business)      
+async def update_order(order : OrderModel):
+    return OrderDao.updateOrderById(order)      
 
 @app.post("/orders/delete", tags=["orders"])
-async def delete_business(id_business:str):
-    return OrderDao.deleteOrderByID(id_business)
+async def delete_order(id_order:str):
+    return OrderDao.deleteOrderByID(id_order)
 
 @app.get("/orders/employee/{id_employee}", tags=["orders"])
 async def get_order_by_employee(id_employee):
