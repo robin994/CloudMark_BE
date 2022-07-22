@@ -97,7 +97,7 @@ CREATE TABLE `commessa` (
 
 DROP TABLE IF EXISTS `tipo_presenza`;
 CREATE TABLE `tipo_presenza` (
-  `id_tipo_presenza` int NOT NULL AUTO_INCREMENT,
+  `id_tipo_presenza` varchar(80) NOT NULL,
   `nome_tipo_presenza` varchar(45) NOT NULL,
   `perc_maggiorazione_paga_oraria` int DEFAULT NULL,
   `paga_oraria` int DEFAULT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE `presenza` (
   `id_presenza` varchar(80) NOT NULL,
   `id_dipendente`varchar(80) NOT NULL,
   `data` date NOT NULL,
-  `id_tipo_presenza` int NOT NULL,
+  `id_tipo_presenza` varchar(80) NOT NULL,
   `id_commessa` varchar(80) NOT NULL,
   `ore` int DEFAULT NULL,
   PRIMARY KEY (`id_presenza`,`id_dipendente`),
