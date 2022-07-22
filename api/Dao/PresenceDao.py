@@ -12,11 +12,11 @@ from api.Dao.CallBackResponse import CallBackResponse
 
 class PresenceDao:
     @staticmethod
-    def getPresenceByPrimaryKey(presenceId : str, employeeId : int):
+    def getPresenceByPrimaryKey(presenceId : str, employeeId : str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         query = "SELECT id_presenza, id_dipendente, data, id_tipo_presenza, id_commessa, ore FROM presenza WHERE id_presenza = %s AND id_dipendente=%s;"
-        val = (presenceId,employeeId)
+        val = (str(presenceId),str(employeeId))
         cursor.execute(query,val)
         record = cursor.fetchone()
         if(record is None):
@@ -66,6 +66,7 @@ class PresenceDao:
         val = (presence.id_employee,presence.date_presence,presence.id_order)
         cursor.execute(query,val)
         record = cursor.fetchone()
+        uuid = ''
         if(record is None):
             uuid = uuid4()
             cursor.execute(f"INSERT INTO presenza(id_presenza,id_dipendente, data, id_tipo_presenza, id_commessa, ore) VALUES ('{uuid}','{presence.id_employee}','{presence.date_presence}','{presence.id_tipoPresenza}','{presence.id_order}','{presence.hours}');")
@@ -76,7 +77,7 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
             
-        return CallBackResponse.success(record[0])
+        return CallBackResponse.success(uuid)
 
     @staticmethod
     def updatePresenceByIDEmployeeAndDate(presence: PresenceModel):
