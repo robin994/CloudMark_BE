@@ -5,7 +5,7 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from api.Dao.PresenceDao import PresenceDao
 from api.Dao.PresenceTypeDao import PresenceTypeDao
-from api.Model.PresenceModel import PresenceModel
+from api.Model.PresenceModel import LoadPresenceModel, PresenceModel
 from api.Model.AccountType import AccountType, NewAccountType
 from fastapi.middleware.cors import CORSMiddleware
 from api.Dao.AccountTypeDao import AccountTypeDao
@@ -56,11 +56,11 @@ async def get_all_accounts():
 async def get_accounts_by_uuid(uuid):
     return AccountDao.getAccountByID(uuid)
 
-@app.post("/account/signin", tags=["account"])
+@app.post("/account/signin/", tags=["account"])
 async def create_account(account : NewAccountModel):
     return AccountDao.createAccount(account)
 
-@app.patch("/account/update", tags=["account"])
+@app.patch("/account/update/", tags=["account"])
 async def update_account(account : AccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
@@ -72,7 +72,7 @@ async def reset_password(password : ResetPasswordModel):
 async def get_session(user : UserModel):
     return AccountDao.getSession(user)
 
-@app.post("/account/delete", tags=["account"])
+@app.post("/account/delete/", tags=["account"])
 async def delete_account(id_account):
     return AccountDao.deleteAccountByID(id_account)
 
@@ -94,15 +94,15 @@ async def get_business_by_id(uuid):
 async def filter_by_business(business : BusinessModel):
     return BusinessDao.filterByBusiness(business)
 
-@app.post("/business/create", tags=["business"])
+@app.post("/business/create/", tags=["business"])
 async def create_business(business : NewBusinessModel):
     return BusinessDao.createBusiness(business)  
 
-@app.post("/business/update", tags=["business"])
+@app.post("/business/update/", tags=["business"])
 async def update_business(business : BusinessModel):
     return BusinessDao.updateBusinessById(business)      
 
-@app.post("/business/delete", tags=["business"])
+@app.post("/business/delete/", tags=["business"])
 async def delete_business(id_business:str):
     return BusinessDao.deleteBusinessById(id_business)
 
@@ -116,15 +116,15 @@ async def get_all_orders():
 async def get_order_by_id(uuid):
     return OrderDao.getOrderByID(uuid)
 
-@app.post("/orders/create", tags=["orders"])
+@app.post("/orders/create/", tags=["orders"])
 async def create_order(order : NewOrderModel):
     return OrderDao.createOrder(order)  
 
-@app.post("/orders/update", tags=["orders"])
+@app.post("/orders/update/", tags=["orders"])
 async def update_order(order : OrderModel):
     return OrderDao.updateOrderById(order)      
 
-@app.post("/orders/delete", tags=["orders"])
+@app.post("/orders/delete/", tags=["orders"])
 async def delete_order(id_order:str):
     return OrderDao.deleteOrderByID(id_order)
 
@@ -184,15 +184,15 @@ async def get_employees_by_account(id_account):
 async def get_employees_by_id(id_business):
     return EmployeeDAO.getEmployeesByID(id_business)
 
-@app.post('/employee/create', tags=["employee"])
+@app.post('/employee/create/', tags=["employee"])
 async def create_employee(employee : NewEmployeeModel):
     return EmployeeDAO.createEmployee(employee)
 
-@app.post('/employee/update', tags=["employee"])
+@app.post('/employee/update/', tags=["employee"])
 async def update_employee_by_id(employee : EmployeeModel):
     return EmployeeDAO.updateEmployeeByID(employee)
 
-@app.post('/employee/delete', tags=["employee"])
+@app.post('/employee/delete/', tags=["employee"])
 async def delete_employee_by_id(id_employee: str):
     return EmployeeDAO.deleteEmployeeByID(id_employee)
 
@@ -206,19 +206,19 @@ async def create_new_account_employee(payload : NewAccountEmployeeModel):
 async def get_all_tipo_account():
     return AccountTypeDao.getAllAccountsType()
 
-@app.post("/type/account/{id_account}", tags=["Type Account"])
-async def get_tipo_account_by_id(id_account):
-    return AccountTypeDao.getAccountTypeById(id_account)
+@app.post("/type/account/{id_account_type}", tags=["Type Account"])
+async def get_tipo_account_by_id(id_account_type):
+    return AccountTypeDao.getAccountTypeById(id_account_type)
 
-@app.post("/create", tags=["Type Account"])
+@app.post("/type/account/create/", tags=["Type Account"])
 async def create_account_type(accountType: NewAccountType):
     return AccountTypeDao.createAccountType(accountType)
 
-@app.post("/update", tags=["Type Account"])
+@app.post("/type/account/update/", tags=["Type Account"])
 async def update_account_type(accountType: AccountType):
     return AccountTypeDao.updateAccountType(accountType)
 
-@app.post("/delete", tags=["Type Account"])
+@app.post("/type/account/delete/", tags=["Type Account"])
 async def delete_account_type(id_type_account):
     return AccountTypeDao.deleteAccountType(id_type_account)
 
@@ -254,16 +254,22 @@ async def get_presence_by_primary_key(id_presence, id_employee):
 async def get_all_presence():
     return PresenceDao.getAllPresence()
 
+@app.post("/presence/create/", tags=["Presence"])
+
+@app.post("/presence/load", tags=["Presence"])
+async def get_month_year_presences(load_presence_model: LoadPresenceModel):
+    return PresenceDao.getMonthYearPresences(load_presence_model)
+
 @app.post("/presence/create", tags=["Presence"])
 async def create_presence(presence: NewPresenceModel):
     return PresenceDao.createPresence(presence)
 
-@app.post("/presence/update", tags=["Presence"])
+@app.post("/presence/update/", tags=["Presence"])
 async def update_presence(presence: PresenceModel):
     return PresenceDao.updatePresenceByIDEmployeeAndDate(presence)
 
-@app.post("/presence/delete", tags=["Presence"])
-async def update_presence(id_presence, id_employee):
+@app.post("/presence/delete/", tags=["Presence"])
+async def delete_presence(id_presence, id_employee):
     return PresenceDao.deletePresenceByPK(id_presence, id_employee)
 
 # Endpoint - PresenceType
@@ -276,14 +282,14 @@ async def get_all_presence_type():
 async def get_presence_type_by_id(id_presence_type):
     return PresenceTypeDao.getPresenceTypebyId(id_presence_type)
 
-@app.post("/type/presence/create", tags=["Type Presence"])
+@app.post("/type/presence/create/", tags=["Type Presence"])
 async def create_presence_type(typePresence: NewPresenceTypeModel):
     return PresenceTypeDao.createPresenceType(typePresence)
 
-@app.patch("/type/presence/update", tags=["Type Presence"])
+@app.patch("/type/presence/update/", tags=["Type Presence"])
 async def update_presence_type(typePresence: PresenceTypeModel):
     return PresenceTypeDao.updatePresenceType(typePresence)
 
-@app.post("/type/presence/delete", tags=["Type Presence"])
+@app.post("/type/presence/delete/", tags=["Type Presence"])
 async def delete_presence_type(id_presence_type):
     return PresenceTypeDao.deletePresenceType(id_presence_type)
