@@ -1,6 +1,9 @@
+from datetime import date, datetime
 from typing import Optional
 
 from pydantic import BaseModel
+
+from api.Model.AccountModel import NewAccountModel
 
 
 class NewEmployeeModel(BaseModel):
@@ -15,3 +18,12 @@ class NewEmployeeModel(BaseModel):
 
 class EmployeeModel(NewEmployeeModel):
     id_employee: str
+
+class NewAccountEmployeeModel(BaseModel):
+    new_employee : NewEmployeeModel
+    new_account : NewAccountModel
+    id_business: str
+    start_date : date
+    end_date : date
+    serial_num : int
+    
