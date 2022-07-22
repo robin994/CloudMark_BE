@@ -3,6 +3,7 @@ from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from api.Dao.PresenceDao import PresenceDao
+from api.Dao.PresenceTypeDao import PresenceTypeDao
 from api.Model.PresenceModel import PresenceModel
 from api.Model.AccountType import AccountType, NewAccountType
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +14,7 @@ from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.PresenceModel import NewPresenceModel
+from api.Model.PresenceType import NewPresenceType, PresenceType
 from api.Model.UserModel import UserModel
 from Dao.AccountDao import AccountDao
 from Dao.AccountTypeDao import AccountTypeDao
@@ -245,3 +247,25 @@ async def update_presence(presence: PresenceModel):
 @app.post("/presence/delete", tags=["Presence"])
 async def update_presence(id_presence, id_employee):
     return PresenceDao.deletePresenceByPK(id_presence, id_employee)
+
+# Endpoint - PresenceType
+
+@app.get("/type/presence", tags=["Type Presence"])
+async def get_all_presence_type():
+    return PresenceTypeDao.getAllPresenceType()
+
+@app.get("/type/presence/id/{id_presence_type}", tags=["Type Presence"])
+async def get_presence_type_by_id(id_presence_type):
+    return PresenceTypeDao.getPresenceTypebyId(id_presence_type)
+
+@app.post("/type/presence/create", tags=["Type Presence"])
+async def create_presence_type(typePresence: NewPresenceType):
+    return PresenceTypeDao.createPresenceType(typePresence)
+
+@app.patch("/type/presence/update", tags=["Type Presence"])
+async def update_presence_type(typePresence: PresenceType):
+    return PresenceTypeDao.updatePresenceType(typePresence)
+
+@app.post("/type/presence/delete", tags=["Type Presence"])
+async def delete_presence_type(id_presence_type):
+    return PresenceTypeDao.deletePresenceType(id_presence_type)
