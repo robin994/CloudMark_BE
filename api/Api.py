@@ -14,7 +14,7 @@ from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.PresenceModel import NewPresenceModel
-from api.Model.PresenceType import NewPresenceType, PresenceType
+from api.Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
 from api.Model.UserModel import UserModel
 from Dao.AccountDao import AccountDao
 from Dao.AccountTypeDao import AccountTypeDao
@@ -259,11 +259,11 @@ async def get_presence_type_by_id(id_presence_type):
     return PresenceTypeDao.getPresenceTypebyId(id_presence_type)
 
 @app.post("/type/presence/create", tags=["Type Presence"])
-async def create_presence_type(typePresence: NewPresenceType):
+async def create_presence_type(typePresence: NewPresenceTypeModel):
     return PresenceTypeDao.createPresenceType(typePresence)
 
 @app.patch("/type/presence/update", tags=["Type Presence"])
-async def update_presence_type(typePresence: PresenceType):
+async def update_presence_type(typePresence: PresenceTypeModel):
     return PresenceTypeDao.updatePresenceType(typePresence)
 
 @app.post("/type/presence/delete", tags=["Type Presence"])

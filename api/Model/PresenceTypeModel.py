@@ -2,10 +2,10 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class NewPresenceType(BaseModel):
+class NewPresenceTypeModel(BaseModel):
     name: Optional[str]
     percentage_increase: Optional[int]
     hourly_pay: Optional[int]
 
-class PresenceType(NewPresenceType):
+class PresenceTypeModel(NewPresenceTypeModel):
     id_presence_type: str
