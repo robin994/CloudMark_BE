@@ -12,7 +12,7 @@ from api.Dao.AccountTypeDao import AccountTypeDao
 from api.Model.AccountModel import AccountModel, NewAccountModel
 from api.Model.BusinessModel import BusinessModel, NewBusinessModel
 from api.Model.CustomerModel import CustomerModel, NewCustomerModel
-from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
+from api.Model.EmployeeModel import EmployeeModel, NewAccountEmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.PresenceModel import NewPresenceModel
 from api.Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
@@ -194,6 +194,10 @@ async def update_employee_by_id(employee : EmployeeModel):
 @app.post('/employee/delete', tags=["employee"])
 async def delete_employee_by_id(id_employee: str):
     return EmployeeDAO.deleteEmployeeByID(id_employee)
+
+@app.post('/employee/create/account', tags=["employee"])
+async def create_new_account_employee(payload : NewAccountEmployeeModel):
+    return EmployeeDAO.createNewAccountEmployee(payload)
 
 # Endpoint - AccountType
 
