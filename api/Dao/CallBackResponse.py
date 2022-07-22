@@ -12,7 +12,7 @@ class CallBackResponse:
     
     @staticmethod
     def bad_request(error_message = ''): 
-        return CallBackResponse.genericResponse(res= None, status= "BAD REQUEST", description = error_message )
+        return CallBackResponse.genericResponse(res= None, status= "BAD_REQUEST", description = error_message )
     
     @staticmethod
     def genericResponse(res=None, status= None, description = None):
