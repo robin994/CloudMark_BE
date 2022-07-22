@@ -1,6 +1,6 @@
 import logging
 
-from Model.PresenceType import PresenceType
+from Model.PresenceTypeModel import PresenceTypeModel, NewPresenceTypeModel
 from PresenceTypeDao import PresenceTypeDao
 
 
@@ -20,7 +20,7 @@ class test_presence_type_dao:
             logging.error("PresenceTypeDao getAllPresenceType not passed")
             logging.exception(e)
 
-        createPresenceType = PresenceType(name="permesso",percentage_increase=0,hourly_pay=8)
+        createPresenceType = NewPresenceTypeModel(name="permesso",percentage_increase=0,hourly_pay=8)
 
         try:
             total += 1
@@ -40,7 +40,7 @@ class test_presence_type_dao:
 
         try:
             total += 1
-            presenceTypeUpdate = PresenceType(id_presence_type=1, name='orario standard', percentage_increase=0, hourly_pay=8)
+            presenceTypeUpdate = PresenceTypeModel(id_presence_type=1, name='orario standard', percentage_increase=0, hourly_pay=8)
             PresenceTypeDao.updatePresenceType(presenceTypeUpdate)
             counter += 1
         except(RuntimeError, TypeError, NameError)  as e:

@@ -85,7 +85,7 @@ class AccountTypeDao:
             return CallBackResponse.success('')
 
     @staticmethod
-    def deleteAccountType(id_account_type: int):
+    def deleteAccountType(id_account_type):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursore: MySQLCursor = connection.cursor()
         cursore.execute(

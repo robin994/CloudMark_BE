@@ -14,9 +14,9 @@ INSERT INTO `tipo_account`(id_tipo_account,nome_tipo_account, lista_funzioni_del
 
 INSERT INTO `commessa` VALUES ('124e4567-e44f-1fd3-a456-330002223341', null, '123e4567-e89b-12d3-a456-426614174000', '124e4567-e85b-1fd3-a456-426614474000', '2022-01-01', '2022-03-30');
 
-INSERT INTO `tipo_presenza`(id_tipo_presenza,nome_tipo_presenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES (1,'orario standard',0,NULL),(2,'assenza',0,NULL),(3,'festivo',30,NULL),(4,'malattia',0,NULL);
+INSERT INTO `tipo_presenza`(id_tipo_presenza,nome_tipo_presenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES ('ca34d37e-600c-452e-a8e4-2efb53161812','orario standard',0,NULL),('6dc55260-7150-4f76-8251-adc4c3fc15b4','assenza',0,NULL),('a8fd713d-36e8-440f-81e1-6e7314a3c417','festivo',30,NULL),('b867b283-38a0-4eb3-8df1-55ccb5f310df','malattia',0,NULL);
 
-INSERT INTO `presenza` VALUES ('221e4567-e85b-1fd3-a456-333000003412','124e4567-e85b-1fd3-a456-333322233412','2022-01-01',3,'124e4567-e44f-1fd3-a456-330002223341',50);
+INSERT INTO `presenza` VALUES ('221e4567-e85b-1fd3-a456-333000003412','124e4567-e85b-1fd3-a456-333322233412','2022-01-01','ca34d37e-600c-452e-a8e4-2efb53161812','124e4567-e44f-1fd3-a456-330002223341',50);
 
 INSERT INTO `azienda_cliente` VALUES ('124e4567-e85b-1fd3-a456-426614474000','123e4567-e89b-12d3-a456-426614174000');
 

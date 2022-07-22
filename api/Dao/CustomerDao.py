@@ -1,6 +1,5 @@
 from uuid import  uuid4
 from api.Dao.CallBackResponse import CallBackResponse
-
 from api.Model.CustomerModel import NewCustomerModel
 from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
@@ -25,7 +24,7 @@ class CustomerDao:
             connection.close()
         
         if(record is None):
-                    return {}
+            return {}
         else:
             customer = CustomerModel(
                 id_customer=record[0],
@@ -39,8 +38,8 @@ class CustomerDao:
                 pec=record[8],
                 fax=record[9]
             )
-        if CallBackResponse.success(customer):
-            return {"response": customer} 
+
+        return CallBackResponse.success(customer) 
         
         
 
@@ -68,51 +67,54 @@ class CustomerDao:
             lista_customer[row[0]] = customer
         if connection.is_connected():
             connection.close()
-        if CallBackResponse.success(lista_customer):
-            return {"response": lista_customer}
+
+        return CallBackResponse.success(lista_customer)
 
     @staticmethod
     def createCustomer(customer: NewCustomerModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        uuid = uuid4()
-        cursor.execute(
-            f"INSERT INTO cliente(id_cliente,nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES('{uuid}','{customer.name}','{customer.p_iva}','{customer.address}','{customer.cap}','{customer.iban}','{customer.phone}','{customer.email}','{customer.pec}','{customer.fax}');")
+        customer_create = dict()
+        uuid_create_customer = uuid4()
+        sql = """INSERT INTO cliente(id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+        val = (str(uuid_create_customer), customer.name, customer.p_iva, customer.address, customer.cap, customer.iban, customer.phone, customer.email, customer.pec, customer.fax)
+        cursor.execute(sql, val)
         connection.commit()
+        customer_create[uuid_create_customer] = customer
         if connection.is_connected():
             connection.close()
-        if CallBackResponse.success(uuid):
-            return {"response": uuid}
+
+        return CallBackResponse.success(customer_create)
 
     @staticmethod
     def deleteCustomerByID(id_customer: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         sql = "DELETE FROM `cliente` WHERE `id_cliente` = %s"
-        val = (id_customer,)
+        val = (str(id_customer),)
         cursor.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
-        if CallBackResponse.success(id_customer):
-            return {"response": id_customer}
+        
+        return CallBackResponse.success(id_customer)
 
     @staticmethod
     def updateCustomerByID(customer: CustomerModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         sql = """UPDATE cliente 
-        SET `nome` = %s, `p_iva` =%s, `iban` = %s,
-        `indirizzo` =%s , `cap` =%s, `telefono` =%s,
-        `email` =%s, `pec` =%s , `fax` =%s
-        WHERE `id_cliente` = %s;"""
+        SET `nome`=%s, `p_iva`=%s, `iban`=%s,
+        `indirizzo`=%s , `cap`=%s, `telefono`=%s,
+        `email`=%s, `pec`=%s , `fax`=%s
+        WHERE `id_cliente`=%s;"""
         val = (customer.name, customer.p_iva, customer.iban, customer.address, customer.cap, customer.phone, customer.email, customer.pec, customer.fax, customer.id_customer)
         cursor.execute(sql, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
-        if CallBackResponse.success(customer.id_customer):
-            return {"response": customer.id_customer}
+        
+        return CallBackResponse.success(customer.id_customer)
 
     @staticmethod
     def getCustomerByBusinessID(id_business):
@@ -143,5 +145,4 @@ class CustomerDao:
                     )
                 lista_customer[row[0]] = customer
 
-        if CallBackResponse.success(lista_customer):
-            return {"response": lista_customer}
+        return CallBackResponse.success(lista_customer)
