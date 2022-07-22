@@ -74,7 +74,7 @@ class EmployeeDAO:
         cursor.execute(
             f"INSERT INTO dipendente(id_dipendente,nome, cognome, cf, iban, id_tipo_contratto, email, telefono) VALUES ('{uuid}','{employee.first_name}', '{employee.last_name}', '{employee.cf}', '{employee.iban}', '{employee.id_contractType}', '{employee.email}', '{employee.phoneNumber}');")
         connection.commit()
-        CallBackResponse.success(uuid)
+        return CallBackResponse.success(uuid)
 
     @staticmethod
     def updateEmployeeByID(employee: EmployeeModel):

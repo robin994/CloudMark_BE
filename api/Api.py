@@ -64,7 +64,7 @@ async def create_account(account : NewAccountModel):
 async def update_account(account : AccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
-@app.patch("/account/reset_passowrd", tags=["password"])
+@app.patch("/account/reset_passowrd", tags=["account"])
 async def reset_password(password : ResetPasswordModel):
     return AccountDao.resetPassword(password)
 
