@@ -14,5 +14,9 @@ class NewPresenceModel(BaseModel):
 class PresenceModel(NewPresenceModel):
     id_presence : Optional[str]
 
+class LoadPresenceModel(BaseModel):
+  id_employee: str
+  year: int
+  month: int
 
     

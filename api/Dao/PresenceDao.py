@@ -6,7 +6,7 @@ from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
 from api.Dao.CallBackResponse import CallBackResponse
-from api.Model.PresenceModel import PresenceLoadModel
+from api.Model.PresenceModel import LoadPresenceModel
 
 # testati e funzionanti
 
@@ -112,15 +112,15 @@ class PresenceDao:
         return CallBackResponse.success(id_presence)
     
     @staticmethod
-    def getMonthYearPresences(year, month, id_employee):
+    def getMonthYearPresences(payload: LoadPresenceModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         lista_presence = list()
         sql = """
         SELECT * FROM presenza WHERE id_dipendente = %s MONTH(`data`) = %s AND YEAR(`data`) = %s;"""
-        val = (id_employee, month, year,)
+        val = (payload.id_employee, payload.month, payload.year,)
         cursor.execute(
-            sql, id_employee)
+            sql, val)
         records = cursor.fetchall()
         for row in records:
             presence = PresenceModel(
