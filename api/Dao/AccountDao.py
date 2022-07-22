@@ -2,13 +2,14 @@ import hashlib
 import logging
 import os
 from uuid import uuid4
+
 import jwt
 from api.Dao.CallBackResponse import CallBackResponse
 from api.Model.AccountModel import NewAccountModel
 from DB.DBUtility import DBUtility
 from dotenv import load_dotenv
 from Model.AccountModel import AccountModel
-from Model.UserModel import SessionModel, UserModel
+from Model.UserModel import ResetPasswordModel, SessionModel, UserModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -109,6 +110,34 @@ class AccountDao:
             connection.commit()
             return CallBackResponse.success(account_updated)
         
+    @staticmethod
+    def resetPassword(rt : ResetPasswordModel):
+        if AccountDao.jwt_verify(rt.session_admin):
+            connection : MySQLConnection = DBUtility.getLocalConnection()         
+            cursor : MySQLCursor = connection.cursor()
+            sql = """SELECT a.id_account 
+                    from account a 
+                    join account_dipendente ad on ad.id_account = a.id_account
+                    join dipendente d on ad.id_dipendente= d.id_dipendente
+                    where d.id_dipendente = %s"""
+            val = (rt.id_employee,)
+            cursor.execute(sql,val)
+            record = cursor.fetchone()
+            if (record is not None):
+               password_hashed = hashPassword(rt.password_employee)
+               salt_from_password_hashed = password_hashed[:32]
+               rt.password_employee = key_from_password_hashed = password_hashed[32:]
+               cursor : MySQLCursor = connection.cursor()
+               query = "UPDATE `account` SET `password`=%s where id_account = %s;"
+               val = (key_from_password_hashed,record[0],)
+               cursor.execute(query,val)
+               connection.commit()
+               sql = "UPDATE saltini SET salt = %s;"
+               val = (salt_from_password_hashed,)
+               cursor.execute(sql, val)
+               connection.commit()
+               return CallBackResponse.success(record[0])  
+            return CallBackResponse.bad_request("id utente non trovato")
     
     @staticmethod
     def getSession(User: UserModel):
@@ -139,7 +168,7 @@ class AccountDao:
                 session.dict(), JWTPSW, algorithm="HS256")
             return CallBackResponse.success(session_encoded)
         else:
-            return CallBackResponse.bad_request("User o password")
+            return CallBackResponse.bad_request("User o password errati")
         
     @staticmethod
     def jwt_verify(token):

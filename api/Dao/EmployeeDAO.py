@@ -7,8 +7,9 @@ from Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
-
+from api.Dao.AccountDao import AccountDao
 from api.Dao.CallBackResponse import CallBackResponse
+from api.Model.EmployeeModel import NewAccountEmployeeModel
 
 # testati e funzionanti
 
@@ -219,3 +220,23 @@ class EmployeeDAO:
                 )
                 employee_account[row[0]] = employee
         return CallBackResponse.success(employee_account)
+    
+    @staticmethod
+    def createNewAccountEmployee(payload: NewAccountEmployeeModel):
+        res_acc = AccountDao.createAccount(payload.new_account)
+        res_emp = EmployeeDAO.createEmployee(payload.new_employee)
+        
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        
+        sql = """INSERT INTO account_dipendente (`id_account`, `id_dipendente`) VALUES(%s, %s)"""
+        val = (res_acc["data"], res_emp["data"],)
+        cursor.execute(sql, val)
+        
+        sql = """INSERT INTO dipendente_azienda (`id_dipendente`, `id_azienda`, `data_inizio_rapporto`, `matricola`, `data_fine_rapporto`) VALUES(%s, %s,%s,%s,%s)"""
+        val = (res_emp["data"], payload.id_business, payload.start_date, payload.serial_num, payload.end_date)
+        cursor.execute(sql, val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+        return CallBackResponse.success(res_emp) 
