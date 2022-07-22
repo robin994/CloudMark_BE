@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from api.Model.ContractType import NewContractTypeModel, ContractTypeModel
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
@@ -225,6 +226,18 @@ async def get_all_contract_type():
 @app.post("/type/contract/{id_contract}", tags=["Type Contract"])
 async def get_contract_type_by_id(id_contract):
     return ContractTypeDAO.getContractTypeByID(id_contract)
+
+@app.post("/type/contract/create", tags=["Type Contract"])
+async def create_contract_type(contractType: NewContractTypeModel):
+    return ContractTypeDAO.createContractType(contractType)
+
+@app.post("/type/contract/update", tags=["Type Contract"])
+async def update_contract_type_by_ID(contractType: ContractTypeModel):
+    return ContractTypeDAO.updateContractTypeById(contractType)
+
+@app.post("/type/contract/delete", tags=["Type Contract"])
+async def delete_contract_type_by_ID(id_contract):
+    return ContractTypeDAO.deleteContractTypeById(id_contract)
 
 # Endpoint - Presence
 
