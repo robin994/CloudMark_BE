@@ -179,9 +179,9 @@ def checkPassword(User: UserModel):
     )
 
     if new_key == key:
-        return  CallBackResponse.success("True")
+        return  True
     else:
-        return  CallBackResponse.success("False")
+        return  False
 
 def hashPassword(password: str):
     salt = os.urandom(32)
