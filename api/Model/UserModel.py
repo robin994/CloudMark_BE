@@ -13,3 +13,8 @@ class SessionModel(BaseModel):
     user: Optional[str]
     abilitate: Optional[str]
     accountType: Optional[str]
+
+class ResetPasswordModel(BaseModel):
+    password_employee:Optional[str]
+    id_employee : Optional[str] 
+    session_admin : Optional[str]

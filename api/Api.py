@@ -13,7 +13,7 @@ from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.EmployeeModel import EmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.PresenceModel import NewPresenceModel
-from api.Model.UserModel import UserModel
+from api.Model.UserModel import ResetPasswordModel, UserModel
 from Dao.AccountDao import AccountDao
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.BusinessDao import BusinessDao
@@ -59,6 +59,10 @@ async def create_account(account : NewAccountModel):
 @app.patch("/account/update", tags=["account"])
 async def update_account(account : AccountModel, session: str):
     return AccountDao.updateAccount(account, session)
+
+@app.patch("/account/reset_passowrd", tags=["password"])
+async def reset_password(password : ResetPasswordModel):
+    return AccountDao.resetPassword(password)
 
 @app.post("/account/login", tags=["account"])
 async def get_session(user : UserModel):
