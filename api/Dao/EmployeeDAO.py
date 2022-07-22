@@ -84,14 +84,13 @@ class EmployeeDAO:
         sql = """UPDATE dipendente 
                 SET nome=%s, cognome=%s, cf=%s, iban=%s, id_tipo_contratto=%s, email=%s, telefono=%s
                 WHERE id_dipendente=%s;"""
-        employee = EmployeeModel(employee)
         val = (employee.first_name, employee.last_name, employee.cf, employee.iban, employee.id_contractType, employee.email, employee.phoneNumber, employee.id_employee)
         cursor.execute(sql, val)
         connection.commit()
         update_employee[employee.id_employee] = employee
         if connection.is_connected():
             connection.close()
-        CallBackResponse.success(update_employee)
+        return CallBackResponse.success(update_employee)
         
     @staticmethod
     def deleteEmployeeByID(id_employee: UUID):

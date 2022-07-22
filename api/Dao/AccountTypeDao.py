@@ -30,15 +30,15 @@ class AccountTypeDao:
         return  CallBackResponse.success(lista_accountType)
 
     @staticmethod
-    def getAccountTypeById(id_accountType: int):
+    def getAccountTypeById(id_accountType):
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        accountType = AccountType()
         cursore: MySQLCursor = connection.cursor()
-        cursore.execute(
-            f"SELECT * FROM tipo_account WHERE id_tipo_account = {id_accountType}")
+        query = "SELECT * FROM tipo_account WHERE id_tipo_account = %s;"
+        val = (id_accountType, )
+        cursore.execute(query, val)
         record = cursore.fetchone()
         if(record is None):
-            return CallBackResponse.success(accountType)
+            return CallBackResponse.bad_request()
         else:
             accountType = AccountType(
                 id_account_type=record[0],

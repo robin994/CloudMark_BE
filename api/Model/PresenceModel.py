@@ -7,7 +7,7 @@ from pydantic import BaseModel
 class NewPresenceModel(BaseModel):
     id_employee: Optional[str]
     date_presence: Optional[date]
-    id_tipoPresenza: Optional[int]
+    id_tipoPresenza: Optional[str]
     id_order: Optional[str]
     hours: Optional[int]
     

@@ -51,7 +51,7 @@ class BusinessDao:
         LIKE %s AND `indirizzo` LIKE %s AND `cap` 
         LIKE %s AND `iban` LIKE %s AND `telefono` 
         LIKE %s AND `email` LIKE %s AND `pec` LIKE %s AND `fax` LIKE %s"""
-        val = ('%'+bus.name+'%', '%'+bus.p_iva, '%'+bus.address+'%', '%'+bus.cap+'%', '%' +
+        val = ('%'+bus.name+'%', '%'+bus.p_iva+'%', '%'+bus.address+'%', '%'+bus.cap+'%', '%' +
                bus.iban+'%', '%'+bus.phone+'%', '%'+bus.email+'%', '%'+bus.pec+'%', '%'+bus.fax+'%')
         cursor.execute(sql, val)
         records = cursor.fetchall()
