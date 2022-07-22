@@ -39,7 +39,7 @@ class BusinessDao:
         if connection.is_connected():
             connection.close()
 
-        return {"response": lista_business}
+        return CallBackResponse.success(lista_business)
 
     @staticmethod
     def filterByBusiness(bus: BusinessModel):
