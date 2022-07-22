@@ -5,7 +5,7 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from api.Dao.PresenceDao import PresenceDao
 from api.Dao.PresenceTypeDao import PresenceTypeDao
-from api.Model.PresenceModel import PresenceModel
+from api.Model.PresenceModel import LoadPresenceModel, PresenceModel
 from api.Model.AccountType import AccountType, NewAccountType
 from fastapi.middleware.cors import CORSMiddleware
 from api.Dao.AccountTypeDao import AccountTypeDao
@@ -15,6 +15,7 @@ from api.Model.CustomerModel import CustomerModel, NewCustomerModel
 from api.Model.EmployeeModel import EmployeeModel, NewAccountEmployeeModel, NewEmployeeModel
 from api.Model.OrderModel import NewOrderModel, OrderModel
 from api.Model.PresenceModel import NewPresenceModel
+from api.Model.UserModel import ResetPasswordModel, UserModel
 from api.Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
 from api.Model.UserModel import UserModel
 from Dao.AccountDao import AccountDao
@@ -62,6 +63,10 @@ async def create_account(account : NewAccountModel):
 @app.patch("/account/update/", tags=["account"])
 async def update_account(account : AccountModel, session: str):
     return AccountDao.updateAccount(account, session)
+
+@app.patch("/account/reset_passowrd", tags=["account"])
+async def reset_password(password : ResetPasswordModel):
+    return AccountDao.resetPassword(password)
 
 @app.post("/account/login", tags=["account"])
 async def get_session(user : UserModel):
@@ -250,6 +255,12 @@ async def get_all_presence():
     return PresenceDao.getAllPresence()
 
 @app.post("/presence/create/", tags=["Presence"])
+
+@app.post("/presence/load", tags=["Presence"])
+async def get_month_year_presences(load_presence_model: LoadPresenceModel):
+    return PresenceDao.getMonthYearPresences(load_presence_model)
+
+@app.post("/presence/create", tags=["Presence"])
 async def create_presence(presence: NewPresenceModel):
     return PresenceDao.createPresence(presence)
 
