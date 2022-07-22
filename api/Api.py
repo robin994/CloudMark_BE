@@ -144,17 +144,17 @@ async def get_all_customer_by_business_id(business_uuid):
 async def get_by_id(uuid):
     return CustomerDao.getCustomerByID(uuid)  
 
-@app.post("/customer/create", tags=["customer"])
+@app.post("/customer/create/", tags=["customer"])
 async def create_customer(customer : NewCustomerModel):
     return CustomerDao.createCustomer(customer)
 
-@app.post("/customer/delete", tags=["customer"])
+@app.post("/customer/delete/", tags=["customer"])
 async def delete_customer(id_customer: str):
     return CustomerDao.deleteCustomerByID(id_customer)
 
-@app.patch("/customer/update", tags=["customer"])
+@app.post("/customer/update/", tags=["customer"])
 async def update_customer_by_id(customer: CustomerModel):
-    return CustomerDao.deleteCustomerByID(customer)
+    return CustomerDao.updateCustomerByID(customer)
 
 # Endpoint - Employee
 
@@ -213,7 +213,7 @@ async def update_account_type(accountType: AccountType):
     return AccountTypeDao.updateAccountType(accountType)
 
 @app.post("/delete", tags=["Type Account"])
-async def delete_account_type(id_type_account: str):
+async def delete_account_type(id_type_account):
     return AccountTypeDao.deleteAccountType(id_type_account)
 
 # Endpoint - ContractType
