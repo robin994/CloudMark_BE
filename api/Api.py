@@ -254,7 +254,9 @@ async def get_presence_by_primary_key(id_presence, id_employee):
 async def get_all_presence():
     return PresenceDao.getAllPresence()
 
-@app.post("/presence/create/", tags=["Presence"])
+@app.post("/presence/load_employee", tags=["Presence"])
+async def get_presences_by_employee(id_employee:str):
+    return PresenceDao.getPresencesByEmployee(id_employee)
 
 @app.post("/presence/load", tags=["Presence"])
 async def get_month_year_presences(load_presence_model: LoadPresenceModel):

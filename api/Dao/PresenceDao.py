@@ -137,4 +137,31 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(lista_presence)
+    
+    @staticmethod
+    def getPresencesByEmployee(id_employee : str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        lista_presence = list()
+        sql = """
+        SELECT * FROM presenza WHERE id_dipendente = %s;"""
+        val = (id_employee,)
+        cursor.execute(
+            sql, val)
+        records = cursor.fetchall()
+        for row in records:
+            presence = PresenceModel(
+                id_presence=row[0],
+                id_employee=row[1],
+                date_presence=row[2],
+                id_tipoPresenza=row[3],
+                id_order=row[4],
+                hours=row[5]
+            )
+            lista_presence.append(presence)
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success(lista_presence)
+    
 
