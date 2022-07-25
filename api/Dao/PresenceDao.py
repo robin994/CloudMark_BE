@@ -118,8 +118,8 @@ class PresenceDao:
         cursor: MySQLCursor = connection.cursor()
         lista_presence = list()
         sql = """
-        SELECT * FROM presenza WHERE id_dipendente = %s MONTH(`data`) = %s AND YEAR(`data`) = %s;"""
-        val = (payload.id_employee, payload.month, payload.year,)
+        SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(`data`) = %s AND YEAR(`data`) = %s;"""
+        val = (payload.id_employee, payload.month, payload.year)
         cursor.execute(
             sql, val)
         records = cursor.fetchall()

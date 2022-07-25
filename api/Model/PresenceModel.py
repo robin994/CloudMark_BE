@@ -16,7 +16,6 @@ class PresenceModel(NewPresenceModel):
 
 class LoadPresenceModel(BaseModel):
   id_employee: str
-  year: int
-  month: int
-
+  year: str
+  month: str
     
