@@ -6,3 +6,6 @@ cryptography==36.0.1
 python-dotenv==0.20.0
 uvicorn==0.18.2
 mysql-connector-python
+aiofiles==0.6.0
+python-multipart==0.0.5
+jinja2==2.11.2
