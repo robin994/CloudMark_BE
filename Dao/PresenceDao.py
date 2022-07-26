@@ -168,11 +168,12 @@ class PresenceDao:
     def insert_or_delete_presence(list_presence: NewPresencesModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        for payload in list_presence["presences"]:
-            sql = """SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(data) = %s AND YEAR(data) = %s;"""
-            val = (payload.id_employee, str(payload.date_presence)[5:7], str(payload.date_presence)[0:4])
-            cursor.execute(sql, val)
-            records = cursor.fetchall()
+        payload = list_presence.presences[0]
+        presence_employee_year_month = list()
+        sql = """SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(data) = %s AND YEAR(data) = %s;"""
+        val = (payload.id_employee, str(payload.date_presence)[5:7], str(payload.date_presence)[0:4])
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
 
         for row in records:
             presence = NewPresenceModel(
@@ -182,23 +183,16 @@ class PresenceDao:
                 id_order=row[4],
                 hours=row[5]
             )
-            list_presence.append(presence)
-
-        value = CallBackResponse.success(list_presence)
-        test = dict()
-        nobj = value.length;
-        for i in range(nobj):
-            test[str(value.data[i].date_presence)[8:10]] = value.data[i]
+            presence_employee_year_month.append(presence)
 
         delete = """DELETE FROM presenza WHERE id_dipendente = %s;"""
         id_del = (payload.id_employee, )
         cursor.execute(delete, id_del)
         connection.commit()
         if(payload.id_employee):
-            PresenceDao.createPresence(payload)
-
-
-        if connection.is_connected():
-            connection.close()
-
-        return test
+            for elem in list_presence.presences:
+                PresenceDao.createPresence(elem)
+            if connection.is_connected():
+                connection.close()
+            
+            return CallBackResponse.success(response={}, description="Record inserted/updated")

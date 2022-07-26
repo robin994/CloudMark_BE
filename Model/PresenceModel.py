@@ -20,4 +20,4 @@ class LoadPresenceModel(BaseModel):
   month: str
     
 class NewPresencesModel(BaseModel):
-    presnces: List[NewPresenceModel]
+    presences: List[NewPresenceModel]
