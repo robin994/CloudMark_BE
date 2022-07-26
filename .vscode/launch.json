@@ -11,7 +11,7 @@
       "module": "CreateCloudMark",
       "justMyCode": true,
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+        "PYTHONPATH": "${workspaceFolder}/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
       }
     },
     {
@@ -21,7 +21,7 @@
       "module": "InsertCloudMark",
       "justMyCode": true,
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+        "PYTHONPATH": "${workspaceFolder}/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
       }
     },
     {
@@ -30,11 +30,11 @@
       "request": "launch",
       "module": "uvicorn",
       "args": [
-        "Api:app",
+        "slack:app",
         "--reload"
       ],
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/api"
+        "PYTHONPATH": "${workspaceFolder}/"
       },
       "jinja": true,
       "justMyCode": true
@@ -46,7 +46,7 @@
       "module": "test",
       "justMyCode": true,
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/api/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+        "PYTHONPATH": "${workspaceFolder}/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
       }
     }
   ]
