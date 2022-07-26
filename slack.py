@@ -32,20 +32,20 @@ app = FastAPI()
 #     "https://cloudmark.herokuapp.com/",
 # ]
 # 
-app.add_middleware(
-    CORSMiddleware,
-    
-    #lista di origins a cui è permesso fare richieste cross-origin
-    allow_origins=origins,
-    allow_credentials=True,
-    
-    #Lista di tutti i tipi di chiamate che il FE può effettuare (POST, GET, PUT, PATCH), * indica tutte.
-    allow_methods=["*"],
-    
-    #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
-    allow_headers=["*"],
-)
-
+# app.add_middleware(
+#     CORSMiddleware,
+#     
+#     #lista di origins a cui è permesso fare richieste cross-origin
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     
+#     #Lista di tutti i tipi di chiamate che il FE può effettuare (POST, GET, PUT, PATCH), * indica tutte.
+#     allow_methods=["*"],
+#     
+#     #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
+#     allow_headers=["*"],
+# )
+# 
 #Endpoint - Account
 @app.get("/account", tags=["account"])
 async def get_all_accounts():
