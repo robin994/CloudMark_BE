@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
-from Model.PresenceModel import NewPresenceModel, PresenceModel
+from Model.PresenceModel import NewPresenceModel, NewPresencesModel, PresenceModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -165,14 +165,14 @@ class PresenceDao:
         return CallBackResponse.success(lista_presence)
     
     @staticmethod
-    def insert_or_delete_presence(payload: NewPresenceModel):
+    def insert_or_delete_presence(list_presence: NewPresencesModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        list_presence = list()
-        sql = """SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(data) = %s AND YEAR(data) = %s;"""
-        val = (payload.id_employee, str(payload.date_presence)[5:7], str(payload.date_presence)[0:4])
-        cursor.execute(sql, val)
-        records = cursor.fetchall()
+        for payload in list_presence["presences"]:
+            sql = """SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(data) = %s AND YEAR(data) = %s;"""
+            val = (payload.id_employee, str(payload.date_presence)[5:7], str(payload.date_presence)[0:4])
+            cursor.execute(sql, val)
+            records = cursor.fetchall()
 
         for row in records:
             presence = NewPresenceModel(

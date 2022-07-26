@@ -5,7 +5,7 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from Dao.PresenceDao import PresenceDao
 from Dao.PresenceTypeDao import PresenceTypeDao
-from Model.PresenceModel import LoadPresenceModel, PresenceModel
+from Model.PresenceModel import LoadPresenceModel, NewPresencesModel, PresenceModel
 from Model.AccountType import AccountType, NewAccountType
 from Dao.AccountTypeDao import AccountTypeDao
 from Model.AccountModel import AccountModel, NewAccountModel
@@ -274,7 +274,7 @@ async def delete_presence(id_presence, id_employee):
     return PresenceDao.deletePresenceByPK(id_presence, id_employee)
 
 @app.post("/prova", tags=["Presence"])
-async def provino(payload: NewPresenceModel):
+async def provino(payload: NewPresencesModel):
     return PresenceDao.insert_or_delete_presence(payload)
 
 # Endpoint - PresenceType
