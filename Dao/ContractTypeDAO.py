@@ -3,7 +3,7 @@ from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from DB.DBUtility import DBUtility
-from api.Dao.CallBackResponse import CallBackResponse
+from Dao.CallBackResponse import CallBackResponse
 
 
 class ContractTypeDAO:

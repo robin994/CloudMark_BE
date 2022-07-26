@@ -4,8 +4,8 @@ import os
 from uuid import uuid4
 
 import jwt
-from api.Dao.CallBackResponse import CallBackResponse
-from api.Model.AccountModel import NewAccountModel
+from Dao.CallBackResponse import CallBackResponse
+from Model.AccountModel import NewAccountModel
 from DB.DBUtility import DBUtility
 from dotenv import load_dotenv
 from Model.AccountModel import AccountModel

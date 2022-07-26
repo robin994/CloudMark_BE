@@ -1,7 +1,7 @@
 from uuid import UUID, uuid4
-from api.Dao.CallBackResponse import CallBackResponse
+from Dao.CallBackResponse import CallBackResponse
 
-from api.Model.BusinessModel import NewBusinessModel
+from Model.BusinessModel import NewBusinessModel
 from DB.DBUtility import DBUtility
 from Model.BusinessModel import BusinessModel, NewBusinessModel
 # from Model.CallBackResponseModel import CallBackResponse

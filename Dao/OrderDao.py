@@ -6,7 +6,7 @@ from Model.OrderModel import NewOrderModel, OrderModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
-from api.Dao.CallBackResponse import CallBackResponse
+from Dao.CallBackResponse import CallBackResponse
 
 # testati e funzionanti
 

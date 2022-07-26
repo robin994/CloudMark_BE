@@ -1,4 +1,4 @@
-from api.Model.CallBackResponseModel import CallBackResponseModel
+from Model.CallBackResponseModel import CallBackResponseModel
 
 class CallBackResponse:
        

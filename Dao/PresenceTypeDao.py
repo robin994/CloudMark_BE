@@ -5,8 +5,8 @@ from Model.PresenceTypeModel import PresenceTypeModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
-from api.Dao.CallBackResponse import CallBackResponse
-from api.Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
+from Dao.CallBackResponse import CallBackResponse
+from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
 
 
 class PresenceTypeDao:

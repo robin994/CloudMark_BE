@@ -1,23 +1,23 @@
 from fastapi import FastAPI
-from api.Model.ContractType import NewContractTypeModel, ContractTypeModel
+from Model.ContractType import NewContractTypeModel, ContractTypeModel
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
-from api.Dao.PresenceDao import PresenceDao
-from api.Dao.PresenceTypeDao import PresenceTypeDao
-from api.Model.PresenceModel import LoadPresenceModel, PresenceModel
-from api.Model.AccountType import AccountType, NewAccountType
-from fastapi.middleware.cors import CORSMiddleware
-from api.Dao.AccountTypeDao import AccountTypeDao
-from api.Model.AccountModel import AccountModel, NewAccountModel
-from api.Model.BusinessModel import BusinessModel, NewBusinessModel
-from api.Model.CustomerModel import CustomerModel, NewCustomerModel
-from api.Model.EmployeeModel import EmployeeModel, NewAccountEmployeeModel, NewEmployeeModel
-from api.Model.OrderModel import NewOrderModel, OrderModel
-from api.Model.PresenceModel import NewPresenceModel
-from api.Model.UserModel import ResetPasswordModel, UserModel
-from api.Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
-from api.Model.UserModel import UserModel
+from Dao.PresenceDao import PresenceDao
+from Dao.PresenceTypeDao import PresenceTypeDao
+from Model.PresenceModel import LoadPresenceModel, PresenceModel
+from Model.AccountType import AccountType, NewAccountType
+from fastmiddleware.cors import CORSMiddleware
+from Dao.AccountTypeDao import AccountTypeDao
+from Model.AccountModel import AccountModel, NewAccountModel
+from Model.BusinessModel import BusinessModel, NewBusinessModel
+from Model.CustomerModel import CustomerModel, NewCustomerModel
+from Model.EmployeeModel import EmployeeModel, NewAccountEmployeeModel, NewEmployeeModel
+from Model.OrderModel import NewOrderModel, OrderModel
+from Model.PresenceModel import NewPresenceModel
+from Model.UserModel import ResetPasswordModel, UserModel
+from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
+from Model.UserModel import UserModel
 from Dao.AccountDao import AccountDao
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.BusinessDao import BusinessDao

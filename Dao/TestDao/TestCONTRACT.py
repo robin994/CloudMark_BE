@@ -1,5 +1,5 @@
 import logging
-from api.Model.ContractType import ContractTypeModel
+from Model.ContractType import ContractTypeModel
 from ContractTypeDAO import ContractTypeDAO
 from Model.ContractType import NewContractTypeModel
 

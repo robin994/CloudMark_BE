@@ -3,8 +3,8 @@ from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 from Model.AccountType import AccountType
 from DB.DBUtility import DBUtility
-from api.Dao.CallBackResponse import CallBackResponse
-from api.Model.AccountType import NewAccountType
+from Dao.CallBackResponse import CallBackResponse
+from Model.AccountType import NewAccountType
 
 # testati e funzionanti
 
