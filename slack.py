@@ -7,7 +7,6 @@ from Dao.PresenceDao import PresenceDao
 from Dao.PresenceTypeDao import PresenceTypeDao
 from Model.PresenceModel import LoadPresenceModel, PresenceModel
 from Model.AccountType import AccountType, NewAccountType
-from fastmiddleware.cors import CORSMiddleware
 from Dao.AccountTypeDao import AccountTypeDao
 from Model.AccountModel import AccountModel, NewAccountModel
 from Model.BusinessModel import BusinessModel, NewBusinessModel
@@ -29,10 +28,10 @@ from Dao.OrderDao import OrderDao
 app = FastAPI()
 
 #Per risolvere il problema del cors policy indico su quale path si trova il FE (Modificare la porta in base alle impostazioni locali)
-origins = [
-    "https://cloudmark.herokuapp.com/",
-]
-
+# origins = [
+#     "https://cloudmark.herokuapp.com/",
+# ]
+# 
 app.add_middleware(
     CORSMiddleware,
     
