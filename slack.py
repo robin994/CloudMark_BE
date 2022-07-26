@@ -273,6 +273,10 @@ async def update_presence(presence: PresenceModel):
 async def delete_presence(id_presence, id_employee):
     return PresenceDao.deletePresenceByPK(id_presence, id_employee)
 
+@app.post("/prova", tags=["Presence"])
+async def provino(payload: NewPresenceModel):
+    return PresenceDao.insert_or_delete_presence(payload)
+
 # Endpoint - PresenceType
 
 @app.get("/type/presence", tags=["Type Presence"])

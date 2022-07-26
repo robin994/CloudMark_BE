@@ -164,4 +164,41 @@ class PresenceDao:
 
         return CallBackResponse.success(lista_presence)
     
+    @staticmethod
+    def insert_or_delete_presence(payload: NewPresenceModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        list_presence = list()
+        sql = """SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(data) = %s AND YEAR(data) = %s;"""
+        val = (payload.id_employee, str(payload.date_presence)[5:7], str(payload.date_presence)[0:4])
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
 
+        for row in records:
+            presence = NewPresenceModel(
+                id_employee=row[1],
+                date_presence=row[2],
+                id_tipoPresenza=row[3],
+                id_order=row[4],
+                hours=row[5]
+            )
+            list_presence.append(presence)
+
+        value = CallBackResponse.success(list_presence)
+        test = dict()
+        nobj = value.length;
+        for i in range(nobj):
+            test[str(value.data[i].date_presence)[8:10]] = value.data[i]
+
+        delete = """DELETE FROM presenza WHERE id_dipendente = %s;"""
+        id_del = (payload.id_employee, )
+        cursor.execute(delete, id_del)
+        connection.commit()
+        if(payload.id_employee):
+            PresenceDao.createPresence(payload)
+
+
+        if connection.is_connected():
+            connection.close()
+
+        return test
