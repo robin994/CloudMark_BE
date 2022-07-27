@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
-from Model.PresenceModel import NewPresenceModel, PresenceModel
+from Model.PresenceModel import NewPresenceModel, NewPresencesModel, PresenceModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -164,4 +164,35 @@ class PresenceDao:
 
         return CallBackResponse.success(lista_presence)
     
+    @staticmethod
+    def insert_or_delete_presence(list_presence: NewPresencesModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        payload = list_presence.presences[0]
+        presence_employee_year_month = list()
+        sql = """SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(data) = %s AND YEAR(data) = %s;"""
+        val = (payload.id_employee, str(payload.date_presence)[5:7], str(payload.date_presence)[0:4])
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
 
+        for row in records:
+            presence = NewPresenceModel(
+                id_employee=row[1],
+                date_presence=row[2],
+                id_tipoPresenza=row[3],
+                id_order=row[4],
+                hours=row[5]
+            )
+            presence_employee_year_month.append(presence)
+
+        delete = """DELETE FROM presenza WHERE id_dipendente = %s;"""
+        id_del = (payload.id_employee, )
+        cursor.execute(delete, id_del)
+        connection.commit()
+        if(payload.id_employee):
+            for elem in list_presence.presences:
+                PresenceDao.createPresence(elem)
+            if connection.is_connected():
+                connection.close()
+            
+            return CallBackResponse.success(list_presence.presences, description="Record inserted/updated")

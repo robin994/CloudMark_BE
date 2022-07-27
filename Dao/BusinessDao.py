@@ -146,3 +146,34 @@ class BusinessDao:
             connection.close()
 
         return CallBackResponse.success('')
+    
+    @staticmethod
+    def getBusinessByCustomerID(id_cliente):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        lista_customer = dict()
+        sql = "SELECT * FROM cliente C, azienda A, azienda_cliente AC WHERE C.id_cliente = AC.id_cliente and AC.id_azienda = A.id_azienda and C.id_cliente = %s;"
+        val = (id_cliente,)
+        cursor.execute(sql, val)
+        records = cursor.fetchall()
+        if connection.is_connected():
+                connection.close()
+        if records is None:
+            return {}
+        else:
+            for row in records:
+                customer = BusinessModel(
+                    id_business=row[0],
+                    name=row[1],
+                    p_iva=row[2],
+                    address=row[3],
+                    cap=row[4],
+                    iban=row[5],
+                    phone=row[6],
+                    email=row[7],
+                    pec=row[8],
+                    fax=row[9]
+                    )
+                lista_customer[row[0]] = customer
+
+        return CallBackResponse.success(lista_customer)

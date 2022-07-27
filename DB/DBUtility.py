@@ -8,12 +8,19 @@ class DBUtility:
     def getLocalConnection():
 
         logging.info("creo la connessione")
-        with open('DB/DbLocalCredential.json') as f:
-         db = json.load(f)
-
+        db = dict()
+        db['endpoint'] = "localhost"
+        db['user'] = "root"
+        db['password'] = ""
+        db['database'] = "cloudmark"
+        try: 
+            with open('DB/DbLocalCredential.json') as f:
+                db = json.load(f)
+        except:
+            logging.info("File non trovato.")
          # Connessione a MySQL
         connessione = mysql.connector.connect(
-         # Params
+         # Params 
         host = db['endpoint'],
         user = db['user'],
         password = db['password'],
