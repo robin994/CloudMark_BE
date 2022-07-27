@@ -5,7 +5,7 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from Dao.PresenceDao import PresenceDao
 from Dao.PresenceTypeDao import PresenceTypeDao
-from Model.PresenceModel import LoadPresenceModel, PresenceModel
+from Model.PresenceModel import LoadPresenceModel, NewPresencesModel, PresenceModel
 from Model.AccountType import AccountType, NewAccountType
 from Dao.AccountTypeDao import AccountTypeDao
 from Model.AccountModel import AccountModel, NewAccountModel
@@ -24,12 +24,13 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.OrderDao import OrderDao
+# from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-#Per risolvere il problema del cors policy indico su quale path si trova il FE (Modificare la porta in base alle impostazioni locali)
+# #Per risolvere il problema del cors policy indico su quale path si trova il FE (Modificare la porta in base alle impostazioni locali)
 # origins = [
-#     "https://cloudmark.herokuapp.com/",
+#     "http://localhost:3000",
 # ]
 # 
 # app.add_middleware(
@@ -45,7 +46,7 @@ app = FastAPI()
 #     #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
 #     allow_headers=["*"],
 # )
-# 
+
 #Endpoint - Account
 @app.get("/account", tags=["account"])
 async def get_all_accounts():
@@ -104,6 +105,10 @@ async def update_business(business : BusinessModel):
 @app.post("/business/delete/", tags=["business"])
 async def delete_business(id_business:str):
     return BusinessDao.deleteBusinessById(id_business)
+
+@app.post("/business/customer/", tags=["business"])
+async def get_all_business_by_customer_id(customer_uuid):
+    return BusinessDao.getBusinessByCustomerID(customer_uuid)    
 
 #Endpoint - Commessa
 
@@ -272,6 +277,10 @@ async def update_presence(presence: PresenceModel):
 @app.post("/presence/delete/", tags=["Presence"])
 async def delete_presence(id_presence, id_employee):
     return PresenceDao.deletePresenceByPK(id_presence, id_employee)
+
+@app.post("/prova", tags=["Presence"])
+async def provino(payload: NewPresencesModel):
+    return PresenceDao.insert_or_delete_presence(payload)
 
 # Endpoint - PresenceType
 
