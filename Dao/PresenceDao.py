@@ -195,4 +195,4 @@ class PresenceDao:
             if connection.is_connected():
                 connection.close()
             
-            return CallBackResponse.success(response={}, description="Record inserted/updated")
+            return CallBackResponse.success(list_presence.presences, description="Record inserted/updated")
