@@ -24,12 +24,13 @@ from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.OrderDao import OrderDao
+# from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-#Per risolvere il problema del cors policy indico su quale path si trova il FE (Modificare la porta in base alle impostazioni locali)
+# #Per risolvere il problema del cors policy indico su quale path si trova il FE (Modificare la porta in base alle impostazioni locali)
 # origins = [
-#     "https://cloudmark.herokuapp.com/",
+#     "http://localhost:3000",
 # ]
 # 
 # app.add_middleware(
@@ -45,7 +46,7 @@ app = FastAPI()
 #     #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
 #     allow_headers=["*"],
 # )
-# 
+
 #Endpoint - Account
 @app.get("/account", tags=["account"])
 async def get_all_accounts():
