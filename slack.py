@@ -164,6 +164,10 @@ async def update_customer_by_id(customer: CustomerModel):
 async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
+@app.get("/employee/all/", tags=["employee"])
+async def get_all_employees_by_empty_key():
+    return EmployeeDAO.getAllEmployeesByEmptyKey()
+
 @app.post('/employee/', tags=["employee"])
 async def filter_by_employee(employee : NewEmployeeModel, idAzienda: str):
     return EmployeeDAO.filterByEmployee(employee, idAzienda)
