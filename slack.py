@@ -162,9 +162,9 @@ async def delete_customer(id_customer: str):
 async def update_customer_by_id(customer: CustomerModel):
     return CustomerDao.updateCustomerByID(customer)
 
-@app.post("/customer/accountID/", tags=["customer"])
-async def get_customer_name_by_account_id(accountID: str):
-    return CustomerDao.getCustomerNameByAccountId(accountID)
+@app.get("/customer/{employeeID}", tags=["customer"])
+async def get_customer_name_by_account_id(employeeID: str):
+    return CustomerDao.getCustomerNameByAccountId(employeeID)
 
 # Endpoint - Employee
 
