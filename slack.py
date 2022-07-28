@@ -1,30 +1,30 @@
+import json
 from fastapi import FastAPI
-from Model.ContractType import NewContractTypeModel, ContractTypeModel
-from Dao.AccountTypeDao import AccountTypeDao
-from Dao.ContractTypeDAO import ContractTypeDAO
-from Dao.CustomerDao import CustomerDao
-from Dao.PresenceDao import PresenceDao
-from Dao.PresenceTypeDao import PresenceTypeDao
-from Model.PresenceModel import LoadPresenceModel, NewPresencesModel, PresenceModel
-from Model.AccountType import AccountType, NewAccountType
-from Dao.AccountTypeDao import AccountTypeDao
-from Model.AccountModel import AccountModel, NewAccountModel
-from Model.BusinessModel import BusinessModel, NewBusinessModel
-from Model.CustomerModel import CustomerModel, NewCustomerModel
-from Model.EmployeeModel import EmployeeModel, NewAccountEmployeeModel, NewEmployeeModel
-from Model.OrderModel import NewOrderModel, OrderModel
-from Model.PresenceModel import NewPresenceModel
-from Model.UserModel import ResetPasswordModel, UserModel
-from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
-from Model.UserModel import UserModel
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
+
 from Dao.AccountDao import AccountDao
 from Dao.AccountTypeDao import AccountTypeDao
 from Dao.BusinessDao import BusinessDao
+from Dao.CallBackResponse import CallBackResponse
 from Dao.ContractTypeDAO import ContractTypeDAO
 from Dao.CustomerDao import CustomerDao
 from Dao.EmployeeDAO import EmployeeDAO
 from Dao.OrderDao import OrderDao
-from fastapi.middleware.cors import CORSMiddleware
+from Dao.PresenceDao import PresenceDao
+from Dao.PresenceTypeDao import PresenceTypeDao
+from Model.AccountModel import AccountModel, NewAccountModel
+from Model.AccountType import AccountType, NewAccountType
+from Model.BusinessModel import BusinessModel, NewBusinessModel
+from Model.ContractType import ContractTypeModel, NewContractTypeModel
+from Model.CustomerModel import CustomerModel, NewCustomerModel
+from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
+                                 NewEmployeeModel)
+from Model.OrderModel import NewOrderModel, OrderModel
+from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
+                                 NewPresencesModel, PresenceModel)
+from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
+from Model.UserModel import ResetPasswordModel, UserModel
 
 app = FastAPI()
 
@@ -46,6 +46,13 @@ app.add_middleware(
     #Lista di Headers accettati (Accept, Accept-Language, Content-Language ...)
     allow_headers=["*"],
 )
+
+class dbcredentialModel(BaseModel):
+    endpoint: str
+    user: str
+    password: str
+    database: str
+
 
 #Endpoint - Account
 @app.get("/account", tags=["account"])
@@ -315,3 +322,20 @@ async def update_presence_type(typePresence: PresenceTypeModel):
 @app.post("/type/presence/delete/", tags=["Type Presence"])
 async def delete_presence_type(id_presence_type):
     return PresenceTypeDao.deletePresenceType(id_presence_type)
+
+@app.post("/utility/db", tags=["Utility"])
+async def change_db_credential(db: dbcredentialModel):
+    res = {
+            'endpoint' : db.endpoint,
+            'user' : db.user,
+            'password' : db.password,
+            'database' : db.database
+        }
+    with open('DB\DbLocalCredential.json', 'w') as f:
+        json.dump(res, f, indent=4)
+    return CallBackResponse.success('DB Credential Changed')
+
+
+
+
+

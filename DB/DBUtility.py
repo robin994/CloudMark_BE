@@ -11,7 +11,7 @@ class DBUtility:
         db = dict()
         db['endpoint'] = "localhost"
         db['user'] = "root"
-        db['password'] = ""
+        db['password'] = "root"
         db['database'] = "cloudmark"
         try: 
             with open('DB/DbLocalCredential.json') as f:

@@ -14,6 +14,7 @@ class InsertRecord:
         cursor.execute(query, multi=True)
         cursor.fetchall() 
         if connessione.is_connected:
+            cursor.close()
             connessione.close()
             
 
