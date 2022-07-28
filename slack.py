@@ -262,6 +262,10 @@ async def get_presence_by_primary_key(id_presence, id_employee):
 async def get_all_presence():
     return PresenceDao.getAllPresence()
 
+@app.get("/presence/all/first_name/last_name/", tags=["Presence"])
+async def get_all_presence_with_first_name_last_name():
+    return PresenceDao.getAllPresenceWithFirstNameLastName()
+
 @app.get("/presence/load_employee={id_employee}", tags=["Presence"])
 async def get_presences_by_employee(id_employee:str):
     return PresenceDao.getPresencesByEmployee(id_employee)
