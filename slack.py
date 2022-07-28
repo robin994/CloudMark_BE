@@ -106,6 +106,10 @@ async def update_business(business : BusinessModel):
 async def delete_business(id_business:str):
     return BusinessDao.deleteBusinessById(id_business)
 
+@app.post("/business/customer/", tags=["business"])
+async def get_all_business_by_customer_id(customer_uuid):
+    return BusinessDao.getBusinessByCustomerID(customer_uuid)    
+
 #Endpoint - Commessa
 
 @app.get("/orders", tags=["orders"])
