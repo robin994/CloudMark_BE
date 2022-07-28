@@ -28,6 +28,7 @@
       "name": "Python: FastAPI",
       "type": "python",
       "request": "launch",
+      "console": "integratedTerminal",
       "module": "uvicorn",
       "args": [
         "slack:app",

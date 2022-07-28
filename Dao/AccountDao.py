@@ -149,16 +149,19 @@ class AccountDao:
         session = ''
         cursor: MySQLCursor = connection.cursor()
         if checkPassword(User) is True:
-            cursor.execute(f"SELECT id_account, user, abilitato, id_tipo_account FROM account WHERE user = '{User.user}';")
+            cursor.execute(f"SELECT id_account, user, abilitato, a.id_tipo_account, nome_tipo_account, lista_funzioni_del_profilo FROM account a Join tipo_account ta on a.id_tipo_account = ta.id_tipo_account  WHERE user = '{User.user}';")
             record = cursor.fetchone()
             if(record is None):
-                return {"response":''}
+                return CallBackResponse.bad_request("No entity found")
             else:
+                print(record)
                 session = SessionModel(
                     id_account=record[0],
                     user=record[1],
-                    abilitato=record[2],
-                    tipo_account=record[3]
+                    abilitate=record[2],
+                    accountType=record[3],
+                    accountTypeName=record[4],
+                    accountListFunction=record[5]
                 )
             if connection.is_connected():
                 connection.close()
@@ -168,7 +171,7 @@ class AccountDao:
                 session.dict(), JWTPSW, algorithm="HS256")
             return CallBackResponse.success(session_encoded)
         else:
-            return CallBackResponse.bad_request("User o password errati")
+            return CallBackResponse.bad_request("User or password")
         
     @staticmethod
     def jwt_verify(token):
