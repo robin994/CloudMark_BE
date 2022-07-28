@@ -41,7 +41,7 @@ class PresenceDao:
         all_presence = list()
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        sql = """SELECT d.nome , d.cognome, p.data, tp.nome_tipo_presenza ,p.id_commessa,p.ore from presenza p join dipendente d on p.id_dipendente = d.id_dipendente join tipo_presenza tp on p.id_tipo_presenza = tp.id_tipo_presenza"""
+        sql = """SELECT d.nome , d.cognome, p.data, tp.nome_tipo_presenza ,a.nome,p.ore from presenza p join dipendente d on p.id_dipendente = d.id_dipendente join tipo_presenza tp on p.id_tipo_presenza = tp.id_tipo_presenza join commessa c  on p.id_commessa = c.id_commessa join azienda a on c.id_azienda = a.id_azienda"""
         cursor.execute(sql)
         records = cursor.fetchall()
         for row in records:
@@ -50,7 +50,7 @@ class PresenceDao:
                 last_name=row[1],
                 date_presence=row[2],
                 tipoPresenza=row[3],
-                id_order=row[4],
+                nome_azienda=row[4],
                 hours=row[5]
             )
             all_presence.append(presence)
