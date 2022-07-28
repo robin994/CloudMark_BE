@@ -40,6 +40,29 @@ class EmployeeDAO:
         return CallBackResponse.success(lista_employee)
     
     @staticmethod
+    def getAllEmployeesByEmptyKey():
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        lista_employee = list()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute("SELECT id_dipendente, nome, cognome, cf, iban, id_tipo_contratto, email, telefono FROM dipendente")
+        records = cursor.fetchall()
+        for row in records:
+            employee = EmployeeModel(
+                id_employee=row[0],
+                first_name=row[1],
+                last_name=row[2],
+                cf=row[3],
+                iban=row[4],
+                id_contractType=row[5],
+                email=row[6],
+                phoneNumber=row[7]
+            )
+            lista_employee.append(employee)
+        if connection.is_connected():
+            connection.close()
+        return CallBackResponse.success(lista_employee)
+    
+    @staticmethod
     def getEmployeesByID(id_employee):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
