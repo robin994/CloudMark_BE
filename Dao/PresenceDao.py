@@ -165,7 +165,7 @@ class PresenceDao:
         return CallBackResponse.success(lista_presence)
     
     @staticmethod
-    def insert_or_delete_presence(list_presence: NewPresencesModel):
+    def insert_or_update_presence(list_presence: NewPresencesModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         payload = list_presence.presences[0]

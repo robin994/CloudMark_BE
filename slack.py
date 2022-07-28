@@ -162,6 +162,10 @@ async def delete_customer(id_customer: str):
 async def update_customer_by_id(customer: CustomerModel):
     return CustomerDao.updateCustomerByID(customer)
 
+@app.post("/customer/accountID/", tags=["customer"])
+async def get_customer_name_by_account_id(accountID: str):
+    return CustomerDao.getCustomerNameByAccountId(accountID)
+
 # Endpoint - Employee
 
 @app.get("/employee", tags=["employee"])
@@ -278,9 +282,9 @@ async def update_presence(presence: PresenceModel):
 async def delete_presence(id_presence, id_employee):
     return PresenceDao.deletePresenceByPK(id_presence, id_employee)
 
-@app.post("/prova", tags=["Presence"])
-async def provino(payload: NewPresencesModel):
-    return PresenceDao.insert_or_delete_presence(payload)
+@app.post("/presence/insertUpdate", tags=["Presence"])
+async def insert_update_presence(payload: NewPresencesModel):
+    return PresenceDao.insert_or_update_presence(payload)
 
 # Endpoint - PresenceType
 

@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -17,3 +18,9 @@ class NewCustomerModel(BaseModel):
 
 class CustomerModel(NewCustomerModel):
     id_customer: str
+
+class CustomerHybridOrderDate(BaseModel):
+    customer_name: str
+    start_date: date
+    end_date: date
+    order_id: str

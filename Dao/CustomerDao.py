@@ -1,6 +1,8 @@
 from uuid import  uuid4
 from Dao.CallBackResponse import CallBackResponse
-from Model.CustomerModel import NewCustomerModel
+from Dao.EmployeeDAO import EmployeeDAO
+from Dao.OrderDao import OrderDao
+from Model.CustomerModel import NewCustomerModel, CustomerHybridOrderDate
 from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
 from mysql.connector.connection import MySQLConnection
@@ -146,3 +148,34 @@ class CustomerDao:
                 lista_customer[row[0]] = customer
 
         return CallBackResponse.success(lista_customer)
+
+    @staticmethod
+    def getCustomerNameByAccountId(accountID: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        list_of_customer_name_plus_date = list()
+        sql = """SELECT d.id_dipendente FROM dipendente d, account a, account_dipendente ad 
+                WHERE d.id_dipendente = ad.id_dipendente AND ad.id_account = a.id_account AND a.id_account = %s"""
+        val = (accountID, )
+        cursor.execute(sql, val)
+        id_dipendente = cursor.fetchone()[0]
+        sql2 = """SELECT cl.nome, c.data_inizio, c.data_fine, c.id_commessa
+                FROM commessa c, dipendente d, commessa_dipendente cd, cliente cl
+                WHERE c.id_commessa = cd.id_commessa AND cd.id_dipendente = cd.id_dipendente AND c.id_cliente = cl.id_cliente 
+                AND d.id_dipendente = %s"""
+        val2 = (id_dipendente, )
+        cursor.execute(sql2, val2)
+        records = cursor.fetchall()
+        for row in records: 
+            results = CustomerHybridOrderDate(
+                customer_name=row[0],
+                start_date=row[1],
+                end_date=row[2],
+                order_id=row[3]
+            )
+            list_of_customer_name_plus_date.append(results)
+        
+        if connection.is_connected():
+            connection.close()
+        
+        return CallBackResponse.success(list_of_customer_name_plus_date)
