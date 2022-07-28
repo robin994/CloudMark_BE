@@ -27,5 +27,5 @@ class PresenceFirstNameLastName(BaseModel):
     last_name: Optional[str]
     date_presence: Optional[date]
     tipoPresenza: Optional[str]
-    id_order: Optional[str]
+    nome_azienda: Optional[str]
     hours: Optional[int]
