@@ -150,21 +150,16 @@ class CustomerDao:
         return CallBackResponse.success(lista_customer)
 
     @staticmethod
-    def getCustomerNameByAccountId(accountID: str):
+    def getCustomerNameByEmployeeId(employeeID: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         list_of_customer_name_plus_date = list()
-        sql = """SELECT d.id_dipendente FROM dipendente d, account a, account_dipendente ad 
-                WHERE d.id_dipendente = ad.id_dipendente AND ad.id_account = a.id_account AND a.id_account = %s"""
-        val = (accountID, )
-        cursor.execute(sql, val)
-        id_dipendente = cursor.fetchone()[0]
-        sql2 = """SELECT cl.nome, c.data_inizio, c.data_fine, c.id_commessa
+        sql = """SELECT cl.nome, c.data_inizio, c.data_fine, c.id_commessa
                 FROM commessa c, dipendente d, commessa_dipendente cd, cliente cl
                 WHERE c.id_commessa = cd.id_commessa AND cd.id_dipendente = cd.id_dipendente AND c.id_cliente = cl.id_cliente 
                 AND d.id_dipendente = %s"""
-        val2 = (id_dipendente, )
-        cursor.execute(sql2, val2)
+        val = (employeeID, )
+        cursor.execute(sql, val)
         records = cursor.fetchall()
         for row in records: 
             results = CustomerHybridOrderDate(
