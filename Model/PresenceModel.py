@@ -21,3 +21,11 @@ class LoadPresenceModel(BaseModel):
     
 class NewPresencesModel(BaseModel):
     presences: List[NewPresenceModel]
+    
+class PresenceFirstNameLastName(BaseModel):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    date_presence: Optional[date]
+    tipoPresenza: Optional[str]
+    id_order: Optional[str]
+    hours: Optional[int]

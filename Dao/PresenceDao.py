@@ -1,7 +1,7 @@
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
-from Model.PresenceModel import NewPresenceModel, NewPresencesModel, PresenceModel
+from Model.PresenceModel import NewPresenceModel, NewPresencesModel, PresenceModel, PresenceFirstNameLastName
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -35,6 +35,28 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(presence)
+    
+    @staticmethod
+    def getAllPresenceWithFirstNameLastName():
+        all_presence = list()
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """SELECT d.nome , d.cognome, p.data, tp.nome_tipo_presenza ,p.id_commessa,p.ore from presenza p join dipendente d on p.id_dipendente = d.id_dipendente join tipo_presenza tp on p.id_tipo_presenza = tp.id_tipo_presenza"""
+        cursor.execute(sql)
+        records = cursor.fetchall()
+        for row in records:
+            presence = PresenceFirstNameLastName(
+                first_name=row[0],
+                last_name=row[1],
+                date_presence=row[2],
+                tipoPresenza=row[3],
+                id_order=row[4],
+                hours=row[5]
+            )
+            all_presence.append(presence)
+        if connection.is_connected():
+            connection.close()
+        return CallBackResponse.success(all_presence)
 
     @staticmethod
     def getAllPresence():
