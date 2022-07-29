@@ -23,6 +23,8 @@ class NewPresencesModel(BaseModel):
     presences: List[NewPresenceModel]
     
 class PresenceFirstNameLastName(BaseModel):
+    id_order : Optional[str]
+    id_type_presence : Optional[str]
     id_employee: Optional[str]
     first_name: Optional[str]
     last_name: Optional[str]
