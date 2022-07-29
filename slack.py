@@ -55,167 +55,167 @@ class dbcredentialModel(BaseModel):
 
 
 #Endpoint - Account
-@app.get("/account", tags=["account"])
+@app.get("/account", tags=["Account"])
 async def get_all_accounts():
     return AccountDao.getAllAccounts()
 
-@app.get("/account/{uuid}", tags=["account"])
+@app.get("/account/{uuid}", tags=["Account"])
 async def get_accounts_by_uuid(uuid):
     return AccountDao.getAccountByID(uuid)
 
-@app.post("/account/signin/", tags=["account"])
+@app.post("/account/signin/", tags=["Account"])
 async def create_account(account : NewAccountModel):
     return AccountDao.createAccount(account)
 
-@app.patch("/account/update/", tags=["account"])
+@app.patch("/account/update/", tags=["Account"])
 async def update_account(account : AccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
-@app.patch("/account/reset_passowrd", tags=["account"])
+@app.patch("/account/reset_passowrd", tags=["Account"])
 async def reset_password(password : ResetPasswordModel):
     return AccountDao.resetPassword(password)
 
-@app.post("/account/login", tags=["account"])
+@app.post("/account/login", tags=["Account"])
 async def get_session(user : UserModel):
     return AccountDao.getSession(user)
 
-@app.post("/account/delete/", tags=["account"])
+@app.post("/account/delete/", tags=["Account"])
 async def delete_account(id_account):
     return AccountDao.deleteAccountByID(id_account)
 
-@app.post("/account/verify_account", tags=["account"])
+@app.post("/account/verify_account", tags=["Account"])
 async def jwt_verify(token: str):
     return AccountDao.jwt_verify(token)
 
 # Endpoint - Business
 
-@app.get("/business", tags=["business"])
+@app.get("/business", tags=["Business"])
 async def get_all_business():
     return BusinessDao.getAllBusiness()
 
-@app.get("/business/{uuid}", tags=["business"])
+@app.get("/business/{uuid}", tags=["Business"])
 async def get_business_by_id(uuid):
     return BusinessDao.getBusinessByID(uuid)
 
-@app.post("/business/", tags=["business"])
+@app.post("/business/", tags=["Business"])
 async def filter_by_business(business : BusinessModel):
     return BusinessDao.filterByBusiness(business)
 
-@app.post("/business/create/", tags=["business"])
+@app.post("/business/create/", tags=["Business"])
 async def create_business(business : NewBusinessModel):
     return BusinessDao.createBusiness(business)  
 
-@app.post("/business/update/", tags=["business"])
+@app.post("/business/update/", tags=["Business"])
 async def update_business(business : BusinessModel):
     return BusinessDao.updateBusinessById(business)      
 
-@app.post("/business/delete/", tags=["business"])
+@app.post("/business/delete/", tags=["Business"])
 async def delete_business(id_business:str):
     return BusinessDao.deleteBusinessById(id_business)
 
-@app.post("/business/customer/", tags=["business"])
+@app.post("/business/customer/", tags=["Business"])
 async def get_all_business_by_customer_id(customer_uuid):
     return BusinessDao.getBusinessByCustomerID(customer_uuid)    
 
 #Endpoint - Commessa
 
-@app.get("/orders", tags=["orders"])
+@app.get("/orders", tags=["Orders"])
 async def get_all_orders():
     return OrderDao.getAllOrders()
 
-@app.get("/orders/{uuid}", tags=["orders"])
+@app.get("/orders/{uuid}", tags=["Orders"])
 async def get_order_by_id(uuid):
     return OrderDao.getOrderByID(uuid)
 
-@app.post("/orders/create/", tags=["orders"])
+@app.post("/orders/create/", tags=["Orders"])
 async def create_order(order : NewOrderModel):
     return OrderDao.createOrder(order)  
 
-@app.post("/orders/update/", tags=["orders"])
+@app.post("/orders/update/", tags=["Orders"])
 async def update_order(order : OrderModel):
     return OrderDao.updateOrderById(order)      
 
-@app.post("/orders/delete/", tags=["orders"])
+@app.post("/orders/delete/", tags=["Orders"])
 async def delete_order(id_order:str):
     return OrderDao.deleteOrderByID(id_order)
 
-@app.get("/orders/employee/{id_employee}", tags=["orders"])
+@app.get("/orders/employee/{id_employee}", tags=["Orders"])
 async def get_order_by_employee(id_employee):
     return OrderDao.getOrderByEmplyee(id_employee)
 
 # Endpoint - Customer
 
-@app.get("/customer", tags=["customer"])
+@app.get("/customer", tags=["Customer"])
 async def get_all_customer():
     return CustomerDao.getAllCustomers()
 
-@app.post("/customer/business/{business_uuid}", tags=["customer"])
+@app.post("/customer/business/{business_uuid}", tags=["Customer"])
 async def get_all_customer_by_business_id(business_uuid):
     return CustomerDao.getCustomerByBusinessID(business_uuid)    
 
-@app.post("/customer/{uuid}", tags=["customer"])
+@app.post("/customer/{uuid}", tags=["Customer"])
 async def get_by_id(uuid):
     return CustomerDao.getCustomerByID(uuid)  
 
-@app.post("/customer/create/", tags=["customer"])
+@app.post("/customer/create/", tags=["Customer"])
 async def create_customer(customer : NewCustomerModel):
     return CustomerDao.createCustomer(customer)
 
-@app.post("/customer/delete/", tags=["customer"])
+@app.post("/customer/delete/", tags=["Customer"])
 async def delete_customer(id_customer: str):
     return CustomerDao.deleteCustomerByID(id_customer)
 
-@app.post("/customer/update/", tags=["customer"])
+@app.post("/customer/update/", tags=["Customer"])
 async def update_customer_by_id(customer: CustomerModel):
     return CustomerDao.updateCustomerByID(customer)
 
-@app.get("/customer/{employeeID}", tags=["customer"])
+@app.get("/customer/{employeeID}", tags=["Customer"])
 async def get_customer_name_by_account_id(employeeID: str):
     return CustomerDao.getCustomerNameByAccountId(employeeID)
 
 # Endpoint - Employee
 
-@app.get("/employee", tags=["employee"])
+@app.get("/employee", tags=["Employee"])
 async def get_all_employees():
     return EmployeeDAO.getAllEmployees()
 
-@app.get("/employee/all", tags=["employee"])
+@app.get("/employee/all", tags=["Employee"])
 async def get_all_employees_by_empty_key():
     return EmployeeDAO.getAllEmployeesByEmptyKey()
 
-@app.post('/employee/', tags=["employee"])
+@app.post('/employee/', tags=["Employee"])
 async def filter_by_employee(employee : NewEmployeeModel, idAzienda: str):
     return EmployeeDAO.filterByEmployee(employee, idAzienda)
 
-@app.get("/employee/lastwork", tags=["employee"])
+@app.get("/employee/lastwork", tags=["Employee"])
 async def get_employees_by_last_work():
     return EmployeeDAO.getEmployeesByLastWork()
 
-@app.get("/employee/business/{id_business}", tags=["employee"])
+@app.get("/employee/business/{id_business}", tags=["Employee"])
 async def get_employees_by_business(id_business):
     return EmployeeDAO.getEmployeesByBusiness(id_business)
 
-@app.get("/employee/account/{id_account}", tags=["employee"])
+@app.get("/employee/account/{id_account}", tags=["Employee"])
 async def get_employees_by_account(id_account):
     return EmployeeDAO.getEmployeesByAccount(id_account)
 
-@app.get("/employee/{id_business}", tags=["employee"])
+@app.get("/employee/{id_business}", tags=["Employee"])
 async def get_employees_by_id(id_business):
     return EmployeeDAO.getEmployeesByID(id_business)
 
-@app.post('/employee/create/', tags=["employee"])
+@app.post('/employee/create/', tags=["Employee"])
 async def create_employee(employee : NewEmployeeModel):
     return EmployeeDAO.createEmployee(employee)
 
-@app.post('/employee/update/', tags=["employee"])
+@app.post('/employee/update/', tags=["Employee"])
 async def update_employee_by_id(employee : EmployeeModel):
     return EmployeeDAO.updateEmployeeByID(employee)
 
-@app.post('/employee/delete/', tags=["employee"])
+@app.post('/employee/delete/', tags=["Employee"])
 async def delete_employee_by_id(id_employee: str):
     return EmployeeDAO.deleteEmployeeByID(id_employee)
 
-@app.post('/employee/create/account', tags=["employee"])
+@app.post('/employee/create/account', tags=["Employee"])
 async def create_new_account_employee(payload : NewAccountEmployeeModel):
     return EmployeeDAO.createNewAccountEmployee(payload)
 
