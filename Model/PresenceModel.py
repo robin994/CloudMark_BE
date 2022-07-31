@@ -24,6 +24,7 @@ class NewPresencesModel(BaseModel):
     
 class PresenceFirstNameLastName(BaseModel):
     id_order : Optional[str]
+    id_business : Optional[str]
     id_type_presence : Optional[str]
     id_employee: Optional[str]
     first_name: Optional[str]
