@@ -226,15 +226,12 @@ class PresenceDao:
             hours=payload.hours,
         )
 
-        delete = """DELETE FROM presenza WHERE id_presenza = %s;"""
-        id_del = (payload.id_presence, )
         connection.commit()
         if(payload.id_employee):
             if PresenceDao.createPresence(presence, payload.id_presence).status == "ERROR":
                 if connection.is_connected():
                     connection.close()
                 return CallBackResponse.bad_request("Errore nella creazione")
-            cursor.execute(delete, id_del)
             if connection.is_connected():
                 connection.close()
 
