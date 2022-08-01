@@ -356,7 +356,7 @@ async def delete_presence(id_presence, id_employee):
 
 
 @app.post("/presence/insertUpdate", tags=["Presence"])
-async def insert_update_presence(payload: NewPresencesModel):
+async def insert_update_presence(payload: PresenceModel):
     return PresenceDao.insert_or_update_presence(payload)
 
 # Endpoint - PresenceType
