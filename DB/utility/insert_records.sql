@@ -21,6 +21,8 @@ INSERT INTO `dipendente` VALUES ('124e4567-e85b-1fd3-a456-333322233412','bruno',
 INSERT INTO `tipo_account`(id_tipo_account,nome_tipo_account, lista_funzioni_del_profilo) VALUES ('7e55494c-08f4-11ed-861d-0242ac120002','administrator','admin'),('7e554b54-08f4-11ed-861d-0242ac120002','dipendente','user');
 
 INSERT INTO `commessa` VALUES ('124e4567-e44f-1fd3-a456-330002223341', null, '123e4567-e89b-12d3-a456-426614174000', '124e4567-e85b-1fd3-a456-426614474000', '2022-01-01', '2022-03-30');
+INSERT INTO `commessa` VALUES ('124e4567-e85b-1fd3-a456-426614474000', null, '123e4567-e89b-12d3-a456-426614174000', '124e4567-e85b-1fd3-a456-426614474000', '2022-01-01', '2022-03-30');
+
 
 INSERT INTO `tipo_presenza`(id_tipo_presenza, nome_tipo_presenza, perc_maggiorazione_paga_oraria, paga_oraria) VALUES ('ca34d37e-600c-452e-a8e4-2efb53161812', 'orario standard', 0, NULL),('6dc55260-7150-4f76-8251-adc4c3fc15b4','assenza',0,NULL),('a8fd713d-36e8-440f-81e1-6e7314a3c417','festivo',30,NULL),('b867b283-38a0-4eb3-8df1-55ccb5f310df','malattia',0,NULL);
 
@@ -35,6 +37,7 @@ INSERT INTO `azienda_cliente` VALUES ('124e4567-e85b-1fd3-a456-426614474000','12
                                      ('12455557-444b-1333-a886-426699994000','15555555-e22b-1255-a466-427777174000');
 
 INSERT into `commessa_dipendente` VALUES ('124e4567-e44f-1fd3-a456-330002223341','124e4567-e85b-1fd3-a456-333322233412', 200);
+INSERT into `commessa_dipendente` VALUES ('124e4567-e85b-1fd3-a456-426614474000','63879535-c9ae-4e9b-b3d7-97b1265d8636', 200);
 
 
 INSERT INTO account (id_account,`user`,password,abilitato,id_tipo_account) VALUES

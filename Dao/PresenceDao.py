@@ -13,18 +13,18 @@ from Model.PresenceModel import LoadPresenceModel
 
 class PresenceDao:
     @staticmethod
-    def getPresenceByPrimaryKey(presenceId : str, employeeId : str):
+    def getPresenceByPrimaryKey(presenceId: str, employeeId: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         query = "SELECT id_presenza, id_dipendente, data, id_tipo_presenza, id_commessa, ore FROM presenza WHERE id_presenza = %s AND id_dipendente=%s;"
-        val = (str(presenceId),str(employeeId))
-        cursor.execute(query,val)
+        val = (str(presenceId), str(employeeId))
+        cursor.execute(query, val)
         record = cursor.fetchone()
         if(record is None):
             return CallBackResponse.bad_request(presence)
         else:
             presence = PresenceModel(
-                id_presence= record[0],
+                id_presence=record[0],
                 id_employee=record[1],
                 date_presence=record[2],
                 id_tipoPresenza=record[3],
@@ -35,7 +35,7 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(presence)
-    
+
     @staticmethod
     def getAllPresenceWithFirstNameLastName():
         all_presence = list()
@@ -61,8 +61,6 @@ class PresenceDao:
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success(all_presence)
-
-
 
     @staticmethod
     def getAllPresence():
@@ -91,21 +89,23 @@ class PresenceDao:
     def createPresence(presence: NewPresenceModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        query="SELECT id_presenza from presenza where id_dipendente = %s AND data = %s AND id_commessa = %s"
-        val = (presence.id_employee,presence.date_presence,presence.id_order)
-        cursor.execute(query,val)
+        query = "SELECT id_presenza from presenza where id_dipendente = %s AND data = %s AND id_commessa = %s"
+        val = (presence.id_employee, presence.date_presence, presence.id_order)
+        cursor.execute(query, val)
         record = cursor.fetchone()
-        uuid = ''
         if(record is None):
             uuid = uuid4()
-            cursor.execute(f"INSERT INTO presenza(id_presenza,id_dipendente, data, id_tipo_presenza, id_commessa, ore) VALUES ('{uuid}','{presence.id_employee}','{presence.date_presence}','{presence.id_tipoPresenza}','{presence.id_order}','{presence.hours}');")
+            cursor.execute(
+                f"INSERT INTO presenza(id_presenza,id_dipendente, data, id_tipo_presenza, id_commessa, ore) VALUES ('{uuid}','{presence.id_employee}','{presence.date_presence}','{presence.id_tipoPresenza}','{presence.id_order}','{presence.hours}');")
             connection.commit()
             if connection.is_connected():
-             connection.close()
-             CallBackResponse.success(uuid)
+                connection.close()
+                CallBackResponse.success(uuid)
+        else:
+            uuid = record[0]
         if connection.is_connected():
             connection.close()
-            
+
         return CallBackResponse.success(uuid)
 
     @staticmethod
@@ -118,7 +118,8 @@ class PresenceDao:
                    id_commessa = %s,
                    ore = %s
                    WHERE id_presenza = %s AND id_dipendente = %s;"""
-        val = (presence.date_presence,presence.id_tipoPresenza,presence.id_order,presence.hours,presence.id_presence,presence.id_employee)
+        val = (presence.date_presence, presence.id_tipoPresenza, presence.id_order,
+               presence.hours, presence.id_presence, presence.id_employee)
         cursor.execute(query, val)
         connection.commit()
         if connection.is_connected():
@@ -127,19 +128,19 @@ class PresenceDao:
         return CallBackResponse.success(presence)
 
     @staticmethod
-    def deletePresenceByPK(id_presence:str,id_employee:str):
+    def deletePresenceByPK(id_presence: str, id_employee: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         cursor.execute
         query = "DELETE FROM presenza WHERE presenza.id_presenza = %s AND presenza.id_dipendente = %s;"
-        val=(id_presence,id_employee)
-        cursor.execute(query,val)
+        val = (id_presence, id_employee)
+        cursor.execute(query, val)
         connection.commit()
         if connection.is_connected():
             connection.close()
 
         return CallBackResponse.success(id_presence)
-    
+
     @staticmethod
     def getMonthYearPresences(payload: LoadPresenceModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
@@ -165,9 +166,9 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(lista_presence)
-    
+
     @staticmethod
-    def getPresencesByEmployee(id_employee : str):
+    def getPresencesByEmployee(id_employee: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         lista_presence = list()
@@ -191,7 +192,7 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(lista_presence)
-    
+
     @staticmethod
     def insert_or_update_presence(list_presence: NewPresencesModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
@@ -199,7 +200,8 @@ class PresenceDao:
         payload = list_presence.presences[0]
         presence_employee_year_month = list()
         sql = """SELECT * FROM presenza WHERE id_dipendente = %s AND MONTH(data) = %s AND YEAR(data) = %s;"""
-        val = (payload.id_employee, str(payload.date_presence)[5:7], str(payload.date_presence)[0:4])
+        val = (payload.id_employee, str(payload.date_presence)
+               [5:7], str(payload.date_presence)[0:4])
         cursor.execute(sql, val)
         records = cursor.fetchall()
 
@@ -222,5 +224,5 @@ class PresenceDao:
                 PresenceDao.createPresence(elem)
             if connection.is_connected():
                 connection.close()
-            
+
             return CallBackResponse.success(list_presence.presences, description="Record inserted/updated")
