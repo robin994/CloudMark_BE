@@ -112,7 +112,7 @@ class PresenceDao:
             connection.commit()
             if connection.is_connected():
                 connection.close()
-            CallBackResponse.success(id_presence)
+            return CallBackResponse.success(id_presence)
         else:
             uuid = uuid4()
             cursor.execute(
@@ -209,7 +209,6 @@ class PresenceDao:
 
     @staticmethod
     def insert_or_update_presence(payload: PresenceModel):
-        print(payload)
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         sql = """SELECT * FROM presenza WHERE id_presenza = %s;"""
@@ -229,7 +228,8 @@ class PresenceDao:
 
         connection.commit()
         if(payload.id_employee):
-            if PresenceDao.createPresence(presence, payload.id_presence).status == "ERROR":
+            account = PresenceDao.createPresence(presence, payload.id_presence)
+            if account.status == "ERROR":
                 if connection.is_connected():
                     connection.close()
                 return CallBackResponse.bad_request("Errore nella creazione")
@@ -239,7 +239,7 @@ class PresenceDao:
         return CallBackResponse.success(presence, description="Record inserted/updated")
 
     @staticmethod
-    def insertPresences(payload: List[NewPresenceModel]):
+    def insertPresences(payload: List[NewPresenceModel]):    
         for presence in payload:
             PresenceDao.createPresence(presence)
         return CallBackResponse.success(payload)

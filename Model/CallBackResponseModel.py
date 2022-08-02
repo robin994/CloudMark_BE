@@ -7,5 +7,4 @@ class CallBackResponseModel(BaseModel):
     data: Optional[Any]
     length: Optional[int]
     description: Optional[str]
-    status: Optional[str]
-    
+    status: str

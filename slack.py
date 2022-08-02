@@ -361,7 +361,7 @@ async def insert_update_presence(payload: PresenceModel):
     return PresenceDao.insert_or_update_presence(payload)
 
 
-@app.post("/presence/inserPresences", tags=["Presence"])
+@app.post("/presence/insertPresences", tags=["Presence"])
 async def insert_presences(payload: List[NewPresenceModel]):
     return PresenceDao.insertPresences(payload)
 
