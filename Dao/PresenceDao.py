@@ -112,7 +112,7 @@ class PresenceDao:
             connection.commit()
             if connection.is_connected():
                 connection.close()
-            CallBackResponse.success(id_presence)
+            return CallBackResponse.success(id_presence)
         else:
             uuid = uuid4()
             cursor.execute(
@@ -228,7 +228,8 @@ class PresenceDao:
 
         connection.commit()
         if(payload.id_employee):
-            if PresenceDao.createPresence(presence, payload.id_presence).status == "ERROR":
+            account = PresenceDao.createPresence(presence, payload.id_presence)
+            if account.status == "ERROR":
                 if connection.is_connected():
                     connection.close()
                 return CallBackResponse.bad_request("Errore nella creazione")
