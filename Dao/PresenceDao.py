@@ -209,7 +209,6 @@ class PresenceDao:
 
     @staticmethod
     def insert_or_update_presence(payload: PresenceModel):
-        print(payload)
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         sql = """SELECT * FROM presenza WHERE id_presenza = %s;"""
@@ -239,7 +238,7 @@ class PresenceDao:
         return CallBackResponse.success(presence, description="Record inserted/updated")
 
     @staticmethod
-    def insertPresences(payload: List[NewPresenceModel]):
+    def insertPresences(payload: List[NewPresenceModel]):    
         for presence in payload:
             PresenceDao.createPresence(presence)
         return CallBackResponse.success(payload)
