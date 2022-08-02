@@ -1,3 +1,4 @@
+from typing import List
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
@@ -236,3 +237,9 @@ class PresenceDao:
                 connection.close()
 
         return CallBackResponse.success(presence, description="Record inserted/updated")
+
+    @staticmethod
+    def insertPresences(payload: List[NewPresenceModel]):
+        for presence in payload:
+            PresenceDao.createPresence(presence)
+        return CallBackResponse.success(payload)

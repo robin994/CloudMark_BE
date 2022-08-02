@@ -1,4 +1,5 @@
 import json
+from typing import List
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -358,6 +359,11 @@ async def delete_presence(id_presence, id_employee):
 @app.post("/presence/insertUpdate", tags=["Presence"])
 async def insert_update_presence(payload: PresenceModel):
     return PresenceDao.insert_or_update_presence(payload)
+
+
+@app.post("/presence/inserPresences", tags=["Presence"])
+async def insert_presences(payload: List[NewPresenceModel]):
+    return PresenceDao.insertPresences(payload)
 
 # Endpoint - PresenceType
 
