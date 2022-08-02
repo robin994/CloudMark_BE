@@ -1,16 +1,17 @@
-from ast import Call
 import logging
+from ast import Call
 from uuid import UUID, uuid4
 
 from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
-from Model.EmployeeModel import AccountEmployeeModel, EmployeeModel, NewEmployeeModel
+from Model.EmployeeModel import (AccountEmployeeModel, EmployeeModel,
+                                 NewAccountEmployeeModel, NewEmployeeModel)
 from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
+
 from Dao.AccountDao import AccountDao
 from Dao.CallBackResponse import CallBackResponse
-from Model.EmployeeModel import NewAccountEmployeeModel
 
 # testati e funzionanti
 

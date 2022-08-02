@@ -2,6 +2,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from Model.EmployeeModel import AccountEmployeeModel
+
 
 class UserModel(BaseModel):
     user: Optional[str]
@@ -9,15 +11,17 @@ class UserModel(BaseModel):
 
 
 class SessionModel(BaseModel):
-    id_account: Optional[str]
-    user: Optional[str]
-    abilitate: Optional[str]
-    accountType: Optional[str]
-    accountTypeName: Optional[str]
+    id_account: str
+    user: str
+    abilitate: str
+    accountType: str
+    accountTypeName: str
     accountListFunction: Optional[str]
+    id_employee: str
+    employee: object
+
 
 class ResetPasswordModel(BaseModel):
-    password_employee:Optional[str]
-    id_employee : Optional[str] 
-    session_admin : Optional[str]
-    
+    password_employee: Optional[str]
+    id_employee: Optional[str]
+    session_admin: Optional[str]
