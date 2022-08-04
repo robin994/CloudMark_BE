@@ -131,3 +131,23 @@ class OrderDao:
                 order_employee[row[0]] = order
         logging.debug(order_employee)
         return CallBackResponse.success(order_employee)
+
+    @staticmethod
+    def getOrdersByCustomerIDAndBusinessID(id_customer: str, id_business: str):
+        """ Get all orders related to the given id_customer """
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute("""SELECT id_commessa, descrizione, data_inizio, data_fine 
+                          FROM commessa WHERE id_cliente=%s and id_azienda=%s""", 
+                          (id_customer, id_business))
+        rows = cursor.fetchall()
+        rows_obj = [
+            {
+                "id_commessa": id_commessa,
+                "descrizione": descrizione,
+                "data_inizio": data_inizio,
+                "data_fine": data_fine
+            }
+            for (id_commessa, descrizione, data_inizio, data_fine) in rows
+        ]
+        return rows_obj
