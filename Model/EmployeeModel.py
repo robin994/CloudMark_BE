@@ -20,13 +20,23 @@ class NewEmployeeModel(BaseModel):
 class EmployeeModel(NewEmployeeModel):
     id_employee: str
 
+
 class NewAccountEmployeeModel(BaseModel):
-    new_employee : NewEmployeeModel
-    new_account : NewAccountModel
+    new_employee: NewEmployeeModel
+    new_account: NewAccountModel
     id_business: str
-    start_date : date
-    end_date : date
-    serial_num : int
+    start_date: date
+    end_date: Optional[date]
+    serial_num: Optional[int]
+
+
+class AccountEmployeeModel(BaseModel):
+    employee: EmployeeModel
+    account: AccountModel
+    id_business: str
+    start_date: date
+    end_date: Optional[date]
+    serial_num: Optional[int]
     
 class AccountEmployeeBusiness(BaseModel):
     employee: EmployeeModel

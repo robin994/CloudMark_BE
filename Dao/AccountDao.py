@@ -17,7 +17,7 @@ from mysql.connector.cursor import MySQLCursor
 
 
 class AccountDao:
-            
+
     @staticmethod
     def getAllAccounts():
         logging.info("Chiamata getAllAccounts")
@@ -32,7 +32,7 @@ class AccountDao:
                 id_account=row[0],
                 user=row[1],
                 abilitato=row[2],
-               id_tipo_account=row[3]
+                id_tipo_account=row[3]
             )
             lista_account[row[0]] = account
         if connection.is_connected():
@@ -48,7 +48,7 @@ class AccountDao:
         cursor: MySQLCursor = connection.cursor()
         query = "SELECT `id_account`, `user`, `abilitato`, `id_tipo_account` FROM account WHERE `id_account` = %s;"
         val = (str(id_account),)
-        cursor.execute(query,val)
+        cursor.execute(query, val)
         record = cursor.fetchone()
         if(record is None):
             return ""
@@ -57,12 +57,13 @@ class AccountDao:
                 id_account=record[0],
                 user=record[1],
                 abilitato=record[2],
-               id_tipo_account=record[3]
+                id_tipo_account=record[3]
             )
         if connection.is_connected():
             connection.close()
 
         return CallBackResponse.success(account)
+
     @staticmethod
     def createAccount(account: NewAccountModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
@@ -91,7 +92,8 @@ class AccountDao:
     def deleteAccountByID(id_account):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        cursor.execute(f"DELETE FROM `account` WHERE `id_account` = '{id_account}'")
+        cursor.execute(
+            f"DELETE FROM `account` WHERE `id_account` = '{id_account}'")
         connection.commit()
         if connection.is_connected():
             connection.close()
@@ -99,46 +101,46 @@ class AccountDao:
         return CallBackResponse.success(id_account)
 
     @staticmethod
-    def updateAccount(account: AccountModel, session_encoded: str):                 
+    def updateAccount(account: AccountModel, session_encoded: str):
         if AccountDao.jwt_verify(session_encoded):
-            connection : MySQLConnection = DBUtility.getLocalConnection()
-            cursor : MySQLCursor = connection.cursor()
+            connection: MySQLConnection = DBUtility.getLocalConnection()
+            cursor: MySQLCursor = connection.cursor()
             sql = "UPDATE `account` SET `user`=%s   WHERE `id_account`= %s;"
-            val = (account.user , account.id_account)
+            val = (account.user, account.id_account)
             account_updated = AccountDao.getAccountByID(account.id_account)
-            cursor.execute(sql ,val)
+            cursor.execute(sql, val)
             connection.commit()
             return CallBackResponse.success(account_updated)
-        
+
     @staticmethod
-    def resetPassword(rt : ResetPasswordModel):
+    def resetPassword(rt: ResetPasswordModel):
         if AccountDao.jwt_verify(rt.session_admin):
-            connection : MySQLConnection = DBUtility.getLocalConnection()         
-            cursor : MySQLCursor = connection.cursor()
+            connection: MySQLConnection = DBUtility.getLocalConnection()
+            cursor: MySQLCursor = connection.cursor()
             sql = """SELECT a.id_account 
                     from account a 
                     join account_dipendente ad on ad.id_account = a.id_account
                     join dipendente d on ad.id_dipendente= d.id_dipendente
                     where d.id_dipendente = %s"""
             val = (rt.id_employee,)
-            cursor.execute(sql,val)
+            cursor.execute(sql, val)
             record = cursor.fetchone()
             if (record is not None):
-               password_hashed = hashPassword(rt.password_employee)
-               salt_from_password_hashed = password_hashed[:32]
-               rt.password_employee = key_from_password_hashed = password_hashed[32:]
-               cursor : MySQLCursor = connection.cursor()
-               query = "UPDATE `account` SET `password`=%s where id_account = %s;"
-               val = (key_from_password_hashed,record[0],)
-               cursor.execute(query,val)
-               connection.commit()
-               sql = "UPDATE saltini SET salt = %s;"
-               val = (salt_from_password_hashed,)
-               cursor.execute(sql, val)
-               connection.commit()
-               return CallBackResponse.success(record[0])  
+                password_hashed = hashPassword(rt.password_employee)
+                salt_from_password_hashed = password_hashed[:32]
+                rt.password_employee = key_from_password_hashed = password_hashed[32:]
+                cursor: MySQLCursor = connection.cursor()
+                query = "UPDATE `account` SET `password`=%s where id_account = %s;"
+                val = (key_from_password_hashed, record[0],)
+                cursor.execute(query, val)
+                connection.commit()
+                sql = "UPDATE saltini SET salt = %s;"
+                val = (salt_from_password_hashed,)
+                cursor.execute(sql, val)
+                connection.commit()
+                return CallBackResponse.success(record[0])
             return CallBackResponse.bad_request("id utente non trovato")
-    
+
     @staticmethod
     def getSession(User: UserModel):
 
@@ -149,7 +151,13 @@ class AccountDao:
         session = ''
         cursor: MySQLCursor = connection.cursor()
         if checkPassword(User) is True:
-            cursor.execute(f"SELECT id_account, user, abilitato, a.id_tipo_account, nome_tipo_account, lista_funzioni_del_profilo FROM account a Join tipo_account ta on a.id_tipo_account = ta.id_tipo_account  WHERE user = '{User.user}';")
+            sql = """SELECT a.id_account, user, abilitato, a.id_tipo_account, nome_tipo_account, lista_funzioni_del_profilo, d.id_dipendente, d.nome,d.cognome,email,telefono
+            FROM account a Join tipo_account ta on a.id_tipo_account = ta.id_tipo_account
+            Join account_dipendente ad on ad.id_account = a.id_account 
+            JOIN dipendente d on d.id_dipendente = ad.id_dipendente
+            WHERE user = %s;"""
+            val = (User.user,)
+            cursor.execute(sql, val)
             record = cursor.fetchone()
             if(record is None):
                 return CallBackResponse.bad_request("No entity found")
@@ -161,7 +169,15 @@ class AccountDao:
                     abilitate=record[2],
                     accountType=record[3],
                     accountTypeName=record[4],
-                    accountListFunction=record[5]
+                    accountListFunction=record[5],
+                    id_employee=record[6],
+                    employee={
+                        'first_name': record[7],
+                        'last_name': record[8],
+                        'email': record[9],
+                        'phone_number': record[10],
+                    }
+
                 )
             if connection.is_connected():
                 connection.close()
@@ -172,7 +188,7 @@ class AccountDao:
             return CallBackResponse.success(session_encoded)
         else:
             return CallBackResponse.bad_request("User or password")
-        
+
     @staticmethod
     def jwt_verify(token):
         load_dotenv()
@@ -187,10 +203,11 @@ class AccountDao:
                 algorithms=['HS256'],
                 options=jwt_options
             )
-            return  CallBackResponse.success("True")
+            return CallBackResponse.success("True")
         except Exception as err:
             logging.error(err)
-            return  CallBackResponse.success("False")
+            return CallBackResponse.success("False")
+
 
 def checkPassword(User: UserModel):
     password_to_check = User.password
@@ -211,9 +228,10 @@ def checkPassword(User: UserModel):
     )
 
     if new_key == key:
-        return  True
+        return True
     else:
-        return  False
+        return False
+
 
 def hashPassword(password: str):
     salt = os.urandom(32)
