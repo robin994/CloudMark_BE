@@ -3,7 +3,8 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from Model.AccountModel import NewAccountModel
+from Model.AccountModel import AccountModel, NewAccountModel
+from Model.BusinessModel import BusinessStartEnd
 
 
 class NewEmployeeModel(BaseModel):
@@ -27,3 +28,7 @@ class NewAccountEmployeeModel(BaseModel):
     end_date : date
     serial_num : int
     
+class AccountEmployeeBusiness(BaseModel):
+    employee: EmployeeModel
+    account: AccountModel
+    business: BusinessStartEnd

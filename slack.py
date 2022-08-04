@@ -259,6 +259,10 @@ async def delete_employee_by_id(id_employee: str):
 async def create_new_account_employee(payload: NewAccountEmployeeModel):
     return EmployeeDAO.createNewAccountEmployee(payload)
 
+@app.get('/all/employees/account/business', tags=["Employee"])
+async def show_all_Employees_by_Account_and_Business():
+    return EmployeeDAO.getAllEmployeesAccountBusiness()
+
 # Endpoint - AccountType
 
 
