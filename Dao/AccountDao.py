@@ -151,11 +151,28 @@ class AccountDao:
         session = ''
         cursor: MySQLCursor = connection.cursor()
         if checkPassword(User) is True:
-            sql = """SELECT a.id_account, user, abilitato, a.id_tipo_account, nome_tipo_account, lista_funzioni_del_profilo, d.id_dipendente, d.nome,d.cognome,email,telefono
-            FROM account a Join tipo_account ta on a.id_tipo_account = ta.id_tipo_account
-            Join account_dipendente ad on ad.id_account = a.id_account 
-            JOIN dipendente d on d.id_dipendente = ad.id_dipendente
-            WHERE user = %s;"""
+            sql = """
+                SELECT 
+                    a.id_account, 
+                    user, 
+                    abilitato, 
+                    a.id_tipo_account, 
+                    nome_tipo_account, 
+                    lista_funzioni_del_profilo, 
+                    d.id_dipendente, 
+                    d.nome, 
+                    d.cognome, 
+                    d.email, 
+                    d.telefono,
+                    az.nome
+                FROM account a 
+                JOIN tipo_account ta ON a.id_tipo_account = ta.id_tipo_account
+                JOIN account_dipendente ad ON ad.id_account = a.id_account 
+                JOIN dipendente d ON d.id_dipendente = ad.id_dipendente
+                JOIN dipendente_azienda da ON d.id_dipendente = da.id_dipendente
+                JOIN azienda az ON az.id_azienda = da.id_azienda
+                WHERE user = %s;
+            """
             val = (User.user,)
             cursor.execute(sql, val)
             record = cursor.fetchone()
@@ -176,7 +193,8 @@ class AccountDao:
                         'last_name': record[8],
                         'email': record[9],
                         'phone_number': record[10],
-                    }
+                    },
+                    employer=record[11]
 
                 )
             if connection.is_connected():

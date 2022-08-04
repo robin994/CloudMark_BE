@@ -19,6 +19,7 @@ class SessionModel(BaseModel):
     accountListFunction: Optional[str]
     id_employee: str
     employee: object
+    employer: str
 
 
 class ResetPasswordModel(BaseModel):
