@@ -18,7 +18,10 @@ class SessionModel(BaseModel):
     accountTypeName: str
     accountListFunction: Optional[str]
     id_employee: str
-    employee: object
+    employee_first_name: str
+    employee_last_name: str
+    employee_email: str
+    employee_phone_number: str
     business_name: str
     business_p_iva: str
     business_address: str
