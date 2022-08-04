@@ -164,7 +164,15 @@ class AccountDao:
                     d.cognome, 
                     d.email, 
                     d.telefono,
-                    az.nome
+                    az.nome,
+                    az.p_iva,
+                    az.indirizzo,
+                    az.cap,
+                    az.iban,
+                    az.telefono,
+                    az.email,
+                    az.pec,
+                    az.fax
                 FROM account a 
                 JOIN tipo_account ta ON a.id_tipo_account = ta.id_tipo_account
                 JOIN account_dipendente ad ON ad.id_account = a.id_account 
@@ -194,8 +202,16 @@ class AccountDao:
                         'email': record[9],
                         'phone_number': record[10],
                     },
-                    employer=record[11]
-
+                    business_name=record[11],
+                    business_p_iva=record[12],
+                    business_address=record[13],
+                    business_cap=record[14],
+                    business_iban=record[15],
+                    business_phone=record[16],
+                    business_email=record[17],
+                    business_pec=record[18],
+                    business_fax=record[19]
+                    
                 )
             if connection.is_connected():
                 connection.close()

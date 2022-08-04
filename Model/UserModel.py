@@ -19,7 +19,15 @@ class SessionModel(BaseModel):
     accountListFunction: Optional[str]
     id_employee: str
     employee: object
-    employer: str
+    business_name: str
+    business_p_iva: str
+    business_address: str
+    business_cap: str
+    business_iban: str
+    business_phone: str
+    business_email: str
+    business_pec: str
+    business_fax: str
 
 
 class ResetPasswordModel(BaseModel):
