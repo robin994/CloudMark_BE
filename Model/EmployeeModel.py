@@ -4,6 +4,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from Model.AccountModel import AccountModel, NewAccountModel
+from Model.BusinessModel import BusinessStartEnd
 
 
 class NewEmployeeModel(BaseModel):
@@ -36,3 +37,8 @@ class AccountEmployeeModel(BaseModel):
     start_date: date
     end_date: Optional[date]
     serial_num: Optional[int]
+    
+class AccountEmployeeBusiness(BaseModel):
+    employee: EmployeeModel
+    account: AccountModel
+    business: BusinessStartEnd

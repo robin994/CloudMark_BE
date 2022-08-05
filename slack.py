@@ -21,7 +21,7 @@ from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
                                  NewEmployeeModel)
-from Model.OrderModel import NewOrderModel, OrderModel
+from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
                                  NewPresencesModel, PresenceModel)
 from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
@@ -165,6 +165,14 @@ async def delete_order(id_order: str):
 async def get_order_by_employee(id_employee):
     return OrderDao.getOrderByEmplyee(id_employee)
 
+@app.post("/orders/customer", tags=["Orders"])
+async def get_orders_by_customer_id_and_business_id(idcustomer_idbusiness: CustomerIDBusinessIDModel) -> dict:
+    """ Send all orders of a customer """
+    id_customer = idcustomer_idbusiness.id_customer
+    id_business = idcustomer_idbusiness.id_business
+    orders = OrderDao.getOrdersByCustomerIDAndBusinessID(id_customer, id_business)
+    return orders
+
 # Endpoint - Customer
 
 
@@ -258,6 +266,10 @@ async def delete_employee_by_id(id_employee: str):
 @app.post('/employee/create/account', tags=["Employee"])
 async def create_new_account_employee(payload: NewAccountEmployeeModel):
     return EmployeeDAO.createNewAccountEmployee(payload)
+
+@app.get('/all/employees/account/business', tags=["Employee"])
+async def show_all_Employees_by_Account_and_Business():
+    return EmployeeDAO.getAllEmployeesAccountBusiness()
 
 # Endpoint - AccountType
 

@@ -4,7 +4,8 @@ from uuid import UUID, uuid4
 
 from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
-from Model.EmployeeModel import (AccountEmployeeModel, EmployeeModel,
+from Model.BusinessModel import BusinessStartEnd
+from Model.EmployeeModel import (AccountEmployeeBusiness, AccountEmployeeModel, EmployeeModel,
                                  NewAccountEmployeeModel, NewEmployeeModel)
 from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
@@ -284,3 +285,48 @@ class EmployeeDAO:
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success(res_emp)
+ 
+
+    @staticmethod
+    def getAllEmployeesAccountBusiness():
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        employee_account_business = dict()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """SELECT *
+                FROM dipendente d
+                JOIN account_dipendente ad ON d.id_dipendente = ad.id_dipendente
+                JOIN account a on a.id_account = ad.id_account
+                JOIN dipendente_azienda da on da.id_dipendente = d.id_dipendente;"""
+        cursor.execute(sql)
+        records = cursor.fetchall()
+        if connection.is_connected():
+            connection.close()
+        if records is None:
+            return CallBackResponse.bad_request()
+        else:
+            for record in records:
+                employee = EmployeeModel(
+                    id_employee=record[0],
+                    first_name=record[1],
+                    last_name=record[2],
+                    cf=record[3],
+                    iban=record[4],
+                    id_contractType=record[5],
+                    email=record[6],
+                    phoneNumber=record[7]
+                )
+                account = AccountModel(
+                    id_account=record[10],
+                    user=record[11],
+                    password='',
+                    abilitato=record[13],
+                    id_tipo_account=record[14]
+                )
+                business = BusinessStartEnd(
+                    id_business=record[16],
+                    start_date=record[17],
+                    serial_num=record[18],
+                    end_date=record[19]
+                )
+                employee_account_business[record[0]] = AccountEmployeeBusiness(employee=employee, account=account, business=business)
+        return CallBackResponse.success(employee_account_business)

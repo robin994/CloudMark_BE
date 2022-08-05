@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -17,3 +18,9 @@ class NewBusinessModel(BaseModel):
 
 class BusinessModel(NewBusinessModel):
     id_business: Optional[str]
+
+class BusinessStartEnd(BaseModel):
+    id_business: str
+    start_date: Optional[date]
+    end_date: Optional[date]
+    serial_num: Optional[int]

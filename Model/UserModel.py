@@ -10,13 +10,16 @@ class UserModel(BaseModel):
     password: Optional[str]
 
 
-class SessionModel(BaseModel):
+class SuperModel(BaseModel):
     id_account: str
     user: str
     abilitate: str
     accountType: str
     accountTypeName: str
     accountListFunction: Optional[str]
+
+
+class SessionModel(SuperModel):
     id_employee: str
     employee_first_name: str
     employee_last_name: str
