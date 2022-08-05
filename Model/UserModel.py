@@ -34,6 +34,7 @@ class SessionModel(SuperModel):
     business_email: str
     business_pec: str
     business_fax: str
+    business_id: str
 
 
 class ResetPasswordModel(BaseModel):
