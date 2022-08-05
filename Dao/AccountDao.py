@@ -151,11 +151,36 @@ class AccountDao:
         session = ''
         cursor: MySQLCursor = connection.cursor()
         if checkPassword(User) is True:
-            sql = """SELECT a.id_account, user, abilitato, a.id_tipo_account, nome_tipo_account, lista_funzioni_del_profilo, d.id_dipendente, d.nome,d.cognome,email,telefono
-            FROM account a Join tipo_account ta on a.id_tipo_account = ta.id_tipo_account
-            Join account_dipendente ad on ad.id_account = a.id_account 
-            JOIN dipendente d on d.id_dipendente = ad.id_dipendente
-            WHERE user = %s;"""
+            sql = """
+                SELECT 
+                    a.id_account, 
+                    user, 
+                    abilitato, 
+                    a.id_tipo_account, 
+                    nome_tipo_account, 
+                    lista_funzioni_del_profilo, 
+                    d.id_dipendente, 
+                    d.nome, 
+                    d.cognome, 
+                    d.email, 
+                    d.telefono,
+                    az.nome,
+                    az.p_iva,
+                    az.indirizzo,
+                    az.cap,
+                    az.iban,
+                    az.telefono,
+                    az.email,
+                    az.pec,
+                    az.fax
+                FROM account a 
+                JOIN tipo_account ta ON a.id_tipo_account = ta.id_tipo_account
+                JOIN account_dipendente ad ON ad.id_account = a.id_account 
+                JOIN dipendente d ON d.id_dipendente = ad.id_dipendente
+                JOIN dipendente_azienda da ON d.id_dipendente = da.id_dipendente
+                JOIN azienda az ON az.id_azienda = da.id_azienda
+                WHERE user = %s;
+            """
             val = (User.user,)
             cursor.execute(sql, val)
             record = cursor.fetchone()
@@ -171,13 +196,20 @@ class AccountDao:
                     accountTypeName=record[4],
                     accountListFunction=record[5],
                     id_employee=record[6],
-                    employee={
-                        'first_name': record[7],
-                        'last_name': record[8],
-                        'email': record[9],
-                        'phone_number': record[10],
-                    }
-
+                    employee_first_name=record[7],
+                    employee_last_name=record[8],
+                    employee_email=record[9],
+                    employee_phone_number=record[10],
+                    business_name=record[11],
+                    business_p_iva=record[12],
+                    business_address=record[13],
+                    business_cap=record[14],
+                    business_iban=record[15],
+                    business_phone=record[16],
+                    business_email=record[17],
+                    business_pec=record[18],
+                    business_fax=record[19]
+                    
                 )
             if connection.is_connected():
                 connection.close()

@@ -16,3 +16,8 @@ class NewOrderModel(BaseModel):
 
 class OrderModel(NewOrderModel):
     id_order: str
+
+class CustomerIDBusinessIDModel(BaseModel):
+    id_customer: str
+    id_business: str
+    
