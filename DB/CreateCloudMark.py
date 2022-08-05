@@ -5,10 +5,10 @@ from mysql.connector.cursor import MySQLCursor
 import mysql.connector
 
 
-class CreateSchema:
+class CreateCloudMark:
     def main():
-        with open('api/DB/DbLocalCredential.json') as f:
-         db = json.load(f)
+        with open('DB/DbLocalCredential.json') as f:
+            db = json.load(f)
         connessione=None
         connessione = mysql.connector.connect(
              # Params
@@ -16,7 +16,7 @@ class CreateSchema:
             user = db['user'],
             password = db['password'],
             charset="utf8mb4")
-        with open("api/DB/utility/cloudmark_db_and_tables_creation.sql", 'r') as f:
+        with open("DB/utility/cloudmark_db_and_tables_creation.sql", 'r') as f:
             logging.warning("Sto Creando Il DB")
             cursor: MySQLCursor = connessione.cursor()
             sql_str = f.read()
@@ -26,4 +26,4 @@ class CreateSchema:
 
 
 if __name__ == "__main__":
-    CreateSchema.main()
+    CreateCloudMark.main()

@@ -274,11 +274,11 @@ class EmployeeDAO:
         cursor: MySQLCursor = connection.cursor()
 
         sql = """INSERT INTO account_dipendente (`id_account`, `id_dipendente`) VALUES(%s, %s)"""
-        val = (res_acc["data"], res_emp["data"],)
+        val = (str(res_acc.data), str(res_emp.data))
         cursor.execute(sql, val)
 
         sql = """INSERT INTO dipendente_azienda (`id_dipendente`, `id_azienda`, `data_inizio_rapporto`, `matricola`, `data_fine_rapporto`) VALUES(%s, %s,%s,%s,%s)"""
-        val = (res_emp["data"], payload.id_business,
+        val = (str(res_emp.data), payload.id_business,
                payload.start_date, payload.serial_num, payload.end_date)
         cursor.execute(sql, val)
         connection.commit()
