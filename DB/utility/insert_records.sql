@@ -18,7 +18,10 @@ INSERT INTO `dipendente` VALUES ('124e4567-e85b-1fd3-a456-333322233412','bruno',
                                 ('a8daffdf-d4d0-444b-9419-b1e64796a997','nicola','proibito','255','012','52fbe812-08f6-11ed-861d-0242ac120002','nicola@gmail.com','55555'),
                                 ('63879535-c9ae-4e9b-b3d7-97b1265d8636','destro','rinaldi','128','345','52fbe812-08f6-11ed-861d-0242ac120002','destro@gmail.com','aabbc');
 
-INSERT INTO `tipo_account`(id_tipo_account,nome_tipo_account, lista_funzioni_del_profilo) VALUES ('7e55494c-08f4-11ed-861d-0242ac120002','administrator','admin'),('7e554b54-08f4-11ed-861d-0242ac120002','dipendente','user');
+INSERT INTO `tipo_account`(id_tipo_account,nome_tipo_account, lista_funzioni_del_profilo) 
+VALUES ('7e55494c-08f4-11ed-861d-0242ac120002','administrator','admin'),
+       ('7e554b54-08f4-11ed-861d-0242ac120002','dipendente','user'),
+       ('2a29e2bc-125b-4050-acdd-f71dce1f8828','superuser','super');
 
 INSERT INTO `commessa` VALUES ('124e4567-e44f-1fd3-a456-330002223341', null, '123e4567-e89b-12d3-a456-426614174000', '124e4567-e85b-1fd3-a456-426614474000', '2022-01-01', '2022-03-30');
 INSERT INTO `commessa` VALUES ('124e4567-e85b-1fd3-a456-426614474000', null, '123e4567-e89b-12d3-a456-426614174000', '124e4567-e85b-1fd3-a456-426614474000', '2022-01-01', '2022-03-30');
@@ -43,7 +46,8 @@ INSERT into `commessa_dipendente` VALUES ('124e4567-e85b-1fd3-a456-426614474000'
 INSERT INTO account (id_account,`user`,password,abilitato,id_tipo_account) VALUES
 	 ('1614c896-ae46-42e4-b31a-ae395cd198cf','andrea',0xFC0CCB2C212AB587FEA3FC0737C38BA9B32C9517A482C3C6B2196764D564C312,0,'7e554b54-08f4-11ed-861d-0242ac120002'),
 	 ('28daa75b-7ea2-4f2c-b771-525a06cd7d9f','bruno',0xF2FA2BD38827B4D55F7B34DE56D73F80A08EC77A08634CC9D5E6AA2A784AEE0A,1,'7e55494c-08f4-11ed-861d-0242ac120002'),
-	 ('72d2b7fd-cd54-4714-85fd-441325f7247b','mario',0x7F7A8A9E8A31C2EA4CB68F451600DF2F79A220D02E251C841559FAA639082525,0,'7e554b54-08f4-11ed-861d-0242ac120002');
+	 ('72d2b7fd-cd54-4714-85fd-441325f7247b','mario',0x7F7A8A9E8A31C2EA4CB68F451600DF2F79A220D02E251C841559FAA639082525,0,'7e554b54-08f4-11ed-861d-0242ac120002')
+         
 
 INSERT INTO saltini (id_account,salt) VALUES
 	 ('1614c896-ae46-42e4-b31a-ae395cd198cf',0xA87B8C842114B10BF1AA6A267E59D97C9DC4720E2A9E841EADF879D1A7243E0A),

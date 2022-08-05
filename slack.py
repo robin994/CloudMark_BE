@@ -21,7 +21,7 @@ from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
                                  NewEmployeeModel)
-from Model.OrderModel import NewOrderModel, OrderModel
+from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
                                  NewPresencesModel, PresenceModel)
 from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
@@ -164,6 +164,14 @@ async def delete_order(id_order: str):
 @app.get("/orders/employee/{id_employee}", tags=["Orders"])
 async def get_order_by_employee(id_employee):
     return OrderDao.getOrderByEmplyee(id_employee)
+
+@app.post("/orders/customer", tags=["Orders"])
+async def get_orders_by_customer_id_and_business_id(idcustomer_idbusiness: CustomerIDBusinessIDModel) -> dict:
+    """ Send all orders of a customer """
+    id_customer = idcustomer_idbusiness.id_customer
+    id_business = idcustomer_idbusiness.id_business
+    orders = OrderDao.getOrdersByCustomerIDAndBusinessID(id_customer, id_business)
+    return orders
 
 # Endpoint - Customer
 

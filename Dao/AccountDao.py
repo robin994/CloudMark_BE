@@ -9,7 +9,7 @@ from Model.AccountModel import NewAccountModel
 from DB.DBUtility import DBUtility
 from dotenv import load_dotenv
 from Model.AccountModel import AccountModel
-from Model.UserModel import ResetPasswordModel, SessionModel, UserModel
+from Model.UserModel import ResetPasswordModel, SessionModel, SuperModel, UserModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -148,21 +148,68 @@ class AccountDao:
         JWTPSW = os.getenv("JWTPSW")
 
         connection: MySQLConnection = DBUtility.getLocalConnection()
-        session = ''
+        session = None
         cursor: MySQLCursor = connection.cursor()
         if checkPassword(User) is True:
-            sql = """SELECT a.id_account, user, abilitato, a.id_tipo_account, nome_tipo_account, lista_funzioni_del_profilo, d.id_dipendente, d.nome,d.cognome,email,telefono
-            FROM account a Join tipo_account ta on a.id_tipo_account = ta.id_tipo_account
-            Join account_dipendente ad on ad.id_account = a.id_account 
-            JOIN dipendente d on d.id_dipendente = ad.id_dipendente
-            WHERE user = %s;"""
+            sql = """SELECT 
+                    a.id_account, 
+                    user, 
+                    abilitato, 
+                    a.id_tipo_account, 
+                    nome_tipo_account, 
+                    lista_funzioni_del_profilo 
+                FROM account a 
+                JOIN tipo_account ta ON a.id_tipo_account = ta.id_tipo_account
+                where user = %s;"""
             val = (User.user,)
             cursor.execute(sql, val)
             record = cursor.fetchone()
-            if(record is None):
+            if record[4] == 'super':
+                session = SuperModel(
+                    id_account=record[0],
+                    user=record[1],
+                    abilitate=record[2],
+                    accountType=record[3],
+                    accountTypeName=record[4],
+                    accountListFunction=record[5],
+                )
+            sql = """
+                SELECT 
+                    a.id_account, 
+                    user, 
+                    abilitato, 
+                    a.id_tipo_account, 
+                    nome_tipo_account, 
+                    lista_funzioni_del_profilo, 
+                    d.id_dipendente, 
+                    d.nome, 
+                    d.cognome, 
+                    d.email, 
+                    d.telefono,
+                    az.nome,
+                    az.p_iva,
+                    az.indirizzo,
+                    az.cap,
+                    az.iban,
+                    az.telefono,
+                    az.email,
+                    az.pec,
+                    az.fax,
+                    az.id_azienda
+                FROM account a 
+                JOIN tipo_account ta ON a.id_tipo_account = ta.id_tipo_account
+                JOIN account_dipendente ad ON ad.id_account = a.id_account 
+                JOIN dipendente d ON d.id_dipendente = ad.id_dipendente
+                JOIN dipendente_azienda da ON d.id_dipendente = da.id_dipendente
+                JOIN azienda az ON az.id_azienda = da.id_azienda
+                WHERE user = %s;
+            """
+
+            cursor.execute(sql, val)
+            record = cursor.fetchone()
+            if(record is None and session is None):
                 return CallBackResponse.bad_request("No entity found")
-            else:
-                print(record)
+            elif session is None:
                 session = SessionModel(
                     id_account=record[0],
                     user=record[1],
@@ -171,17 +218,23 @@ class AccountDao:
                     accountTypeName=record[4],
                     accountListFunction=record[5],
                     id_employee=record[6],
-                    employee={
-                        'first_name': record[7],
-                        'last_name': record[8],
-                        'email': record[9],
-                        'phone_number': record[10],
-                    }
-
+                    employee_first_name=record[7],
+                    employee_last_name=record[8],
+                    employee_email=record[9],
+                    employee_phone_number=record[10],
+                    business_name=record[11],
+                    business_p_iva=record[12],
+                    business_address=record[13],
+                    business_cap=record[14],
+                    business_iban=record[15],
+                    business_phone=record[16],
+                    business_email=record[17],
+                    business_pec=record[18],
+                    business_fax=record[19],
+                    business_id=record[20]
                 )
             if connection.is_connected():
                 connection.close()
-            hashPassword(User.password)
 
             session_encoded = jwt.encode(
                 session.dict(), JWTPSW, algorithm="HS256")
