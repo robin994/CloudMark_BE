@@ -330,3 +330,44 @@ class EmployeeDAO:
                 )
                 employee_account_business[record[0]] = AccountEmployeeBusiness(employee=employee, account=account, business=business)
         return CallBackResponse.success(employee_account_business)
+
+    @staticmethod
+    def disableAccountByEmployeeID(id_employee: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql1 = """SELECT A.id_account FROM dipendente D, account_dipendente AD, account A WHERE A.id_account = AD.id_account AND AD.id_dipendente = D.id_dipendente AND D.id_dipendente = %s;"""
+        val1 = (id_employee, )
+        cursor.execute(sql1, val1)
+        id_account = cursor.fetchone()
+        if id_account is None:
+            return CallBackResponse.bad_request('Nessun account è associato a questo dipendente.')
+        else:    
+            sql2 = """UPDATE account SET abilitato = 0 WHERE id_account = %s;"""
+            val2 = (str(id_account[0]), )
+            cursor.execute(sql2, val2)
+            connection.commit()
+        
+        if connection.is_connected():
+            connection.close()
+        return CallBackResponse.success('OK', description="Account disabilitato con successo.")
+
+    @staticmethod
+    def enableAccountByEmployeeID(id_employee: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql1 = """SELECT A.id_account FROM dipendente D, account_dipendente AD, account A WHERE A.id_account = AD.id_account AND AD.id_dipendente = D.id_dipendente AND D.id_dipendente = %s;"""
+        val1 = (id_employee, )
+        cursor.execute(sql1, val1)
+        id_account = cursor.fetchone()
+        if id_account is None:
+            return CallBackResponse.bad_request('Nessun account è associato a questo dipendente.')
+        else:    
+            sql2 = """UPDATE account SET abilitato = 1 WHERE id_account = %s;"""
+            val2 = (str(id_account[0]), )
+            cursor.execute(sql2, val2)
+            connection.commit()
+        
+        if connection.is_connected():
+            connection.close()
+        return CallBackResponse.success('OK', description="Account abilitato con successo.")
+

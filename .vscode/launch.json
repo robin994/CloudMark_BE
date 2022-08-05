@@ -11,7 +11,7 @@
       "module": "CreateCloudMark",
       "justMyCode": true,
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+        "PYTHONPATH": "${workspaceFolder}/Dao;${workspaceFolder};${workspaceFolder}/DB"
       }
     },
     {
@@ -21,7 +21,7 @@
       "module": "InsertCloudMark",
       "justMyCode": true,
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+        "PYTHONPATH": "${workspaceFolder}/Dao;${workspaceFolder};${workspaceFolder}/DB"
       }
     },
     {
@@ -47,9 +47,23 @@
       "module": "test",
       "justMyCode": true,
       "env": {
-        "PYTHONPATH": "${workspaceFolder}/dao;${workspaceFolder}/api;${workspaceFolder}/api/DB"
+        "PYTHONPATH": "${workspaceFolder}/Dao;${workspaceFolder};${workspaceFolder}/DB"
+      }
+    },
+    {
+      "name": "Docker: Python - General",
+      "type": "docker",
+      "request": "launch",
+      "preLaunchTask": "docker-run: debug",
+      "python": {
+        "pathMappings": [
+          {
+            "localRoot": "${workspaceFolder}",
+            "remoteRoot": "/app"
+          }
+        ],
+        "projectType": "general"
       }
     }
   ]
 }
-

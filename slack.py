@@ -263,6 +263,14 @@ async def create_new_account_employee(payload: NewAccountEmployeeModel):
 async def show_all_Employees_by_Account_and_Business():
     return EmployeeDAO.getAllEmployeesAccountBusiness()
 
+@app.get('/employee/{id_employee}/disabled', tags=["Employee"])
+async def disable_account_by_Employee(id_employee: str):
+    return EmployeeDAO.disableAccountByEmployeeID(id_employee)
+
+@app.get('/employee/{id_employee}/enabled', tags=["Employee"])
+async def enable_account_by_employee(id_employee: str):
+    return EmployeeDAO.enableAccountByEmployeeID(id_employee)
+
 # Endpoint - AccountType
 
 
