@@ -304,4 +304,4 @@ class EmployeeDAO:
             lista.append(employee)
         if connection.is_connected():
             connection.close()
-        return lista
+        return CallBackResponse.success(lista)

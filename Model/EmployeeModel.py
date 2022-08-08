@@ -38,6 +38,7 @@ class AccountEmployeeModel(BaseModel):
     serial_num: Optional[int]
     
 class EmlpoyeeOrderModel(BaseModel):
+    id_employee : Optional[str]
     first_name : Optional[str]
     last_name : Optional[str]
     cf : Optional[str]
