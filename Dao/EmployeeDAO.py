@@ -5,7 +5,7 @@ from uuid import UUID, uuid4
 from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
 from Model.BusinessModel import BusinessStartEnd
-from Model.EmployeeModel import (AccountEmployeeBusiness, AccountEmployeeModel, EmployeeModel,
+from Model.EmployeeModel import (AccountEmployeeBusiness, AccountEmployeeModel, EmlpoyeeOrderModel, EmployeeModel,
                                  NewAccountEmployeeModel, NewEmployeeModel)
 from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
@@ -370,4 +370,27 @@ class EmployeeDAO:
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success('OK', description="Account abilitato con successo.")
+    
+    @staticmethod
+    def getEmployeeByIdOrder(id_order : str):
+        connection : MySQLConnection = DBUtility.getLocalConnection()
+        lista = list()
+        cursor : MySQLCursor = connection.cursor()
+        sql = """ select d.id_dipendente, d.nome, d.cognome,d.cf,c.id_commessa from dipendente d join commessa_dipendente cd on d.id_dipendente = cd.id_dipendente join commessa c on cd.id_commessa = c.id_commessa where c.id_commessa = %s"""
+        val = (id_order,)
+        cursor.execute(sql,val,)
+        records = cursor.fetchall()
+        for row in records:
+            employee = EmlpoyeeOrderModel(
+                id_employee = row[0],
+                first_name = row[1],
+                last_name = row[2],
+                cf = row[3],
+                id_order = row[4]
+            )
+            lista.append(employee)
+        if connection.is_connected():
+            connection.close()
+        return CallBackResponse.success(lista)
+
 
