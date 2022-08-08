@@ -36,3 +36,9 @@ class AccountEmployeeModel(BaseModel):
     start_date: date
     end_date: Optional[date]
     serial_num: Optional[int]
+    
+class EmlpoyeeOrderModel(BaseModel):
+    first_name : Optional[str]
+    last_name : Optional[str]
+    cf : Optional[str]
+    id_order: Optional[str]

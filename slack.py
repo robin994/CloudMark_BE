@@ -239,6 +239,10 @@ async def get_employees_by_account(id_account):
 async def get_employees_by_id(id_business):
     return EmployeeDAO.getEmployeesByID(id_business)
 
+@app.get("/employee/order/{id_order}", tags=["Employee"])
+async def get_employees_by_id_order(id_order):
+    return EmployeeDAO.getEmployeeByIdOrder(id_order)
+
 
 @app.post('/employee/create/', tags=["Employee"])
 async def create_employee(employee: NewEmployeeModel):
