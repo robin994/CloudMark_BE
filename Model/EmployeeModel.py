@@ -42,3 +42,10 @@ class AccountEmployeeBusiness(BaseModel):
     employee: EmployeeModel
     account: AccountModel
     business: BusinessStartEnd
+
+class EmlpoyeeOrderModel(BaseModel):
+    id_employee : Optional[str]
+    first_name : Optional[str]
+    last_name : Optional[str]
+    cf : Optional[str]
+    id_order: Optional[str]
