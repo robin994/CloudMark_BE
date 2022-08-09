@@ -165,12 +165,14 @@ async def delete_order(id_order: str):
 async def get_order_by_employee(id_employee):
     return OrderDao.getOrderByEmplyee(id_employee)
 
+
 @app.post("/orders/customer", tags=["Orders"])
 async def get_orders_by_customer_id_and_business_id(idcustomer_idbusiness: CustomerIDBusinessIDModel) -> dict:
     """ Send all orders of a customer """
     id_customer = idcustomer_idbusiness.id_customer
     id_business = idcustomer_idbusiness.id_business
-    orders = OrderDao.getOrdersByCustomerIDAndBusinessID(id_customer, id_business)
+    orders = OrderDao.getOrdersByCustomerIDAndBusinessID(
+        id_customer, id_business)
     return orders
 
 # Endpoint - Customer
@@ -207,8 +209,8 @@ async def update_customer_by_id(customer: CustomerModel):
 
 
 @app.get("/customer/{employeeID}", tags=["Customer"])
-async def get_customer_name_by_account_id(employeeID: str):
-    return CustomerDao.getCustomerNameByAccountId(employeeID)
+async def get_customer_name_by_employee_id(employeeID: str):
+    return CustomerDao.getCustomerNameByEmployeeId(employeeID)
 
 # Endpoint - Employee
 
@@ -247,6 +249,7 @@ async def get_employees_by_account(id_account):
 async def get_employees_by_id(id_business):
     return EmployeeDAO.getEmployeesByID(id_business)
 
+
 @app.get("/employee/order/{id_order}", tags=["Employee"])
 async def get_employees_by_id_order(id_order):
     return EmployeeDAO.getEmployeeByIdOrder(id_order)
@@ -271,13 +274,16 @@ async def delete_employee_by_id(id_employee: str):
 async def create_new_account_employee(payload: NewAccountEmployeeModel):
     return EmployeeDAO.createNewAccountEmployee(payload)
 
+
 @app.get('/all/employees/account/business', tags=["Employee"])
 async def show_all_Employees_by_Account_and_Business():
     return EmployeeDAO.getAllEmployeesAccountBusiness()
 
+
 @app.get('/employee/{id_employee}/disabled', tags=["Employee"])
 async def disable_account_by_Employee(id_employee: str):
     return EmployeeDAO.disableAccountByEmployeeID(id_employee)
+
 
 @app.get('/employee/{id_employee}/enabled', tags=["Employee"])
 async def enable_account_by_employee(id_employee: str):
