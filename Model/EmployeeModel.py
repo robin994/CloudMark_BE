@@ -46,6 +46,8 @@ class AccountEmployeeBusiness(BaseModel):
 class EmlpoyeeOrderModel(BaseModel):
     id_employee : Optional[str]
     first_name : Optional[str]
+    email : Optional[str]
+    phone_number : Optional[str]
     last_name : Optional[str]
     cf : Optional[str]
     id_order: Optional[str]

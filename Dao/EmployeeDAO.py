@@ -376,7 +376,7 @@ class EmployeeDAO:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         lista = list()
         cursor : MySQLCursor = connection.cursor()
-        sql = """ select d.id_dipendente, d.nome, d.cognome,d.cf,c.id_commessa from dipendente d join commessa_dipendente cd on d.id_dipendente = cd.id_dipendente join commessa c on cd.id_commessa = c.id_commessa where c.id_commessa = %s"""
+        sql = """ select d.id_dipendente, d.nome, d.cognome,d.cf,d.email,d.telefono,c.id_commessa from dipendente d join commessa_dipendente cd on d.id_dipendente = cd.id_dipendente join commessa c on cd.id_commessa = c.id_commessa where c.id_commessa = %s"""
         val = (id_order,)
         cursor.execute(sql,val,)
         records = cursor.fetchall()
@@ -386,7 +386,9 @@ class EmployeeDAO:
                 first_name = row[1],
                 last_name = row[2],
                 cf = row[3],
-                id_order = row[4]
+                email=row[4],
+                phone_number=row[5],
+                id_order = row[6]
             )
             lista.append(employee)
         if connection.is_connected():
