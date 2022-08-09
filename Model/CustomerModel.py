@@ -19,8 +19,11 @@ class NewCustomerModel(BaseModel):
 class CustomerModel(NewCustomerModel):
     id_customer: str
 
-class CustomerHybridOrderDate(BaseModel):
+
+class CustomerHybridOrder(BaseModel):
     customer_name: str
     start_date: date
     end_date: date
     order_id: str
+    rate: float
+    id_customer: str
