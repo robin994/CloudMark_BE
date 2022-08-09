@@ -14,7 +14,8 @@ from Dao.EmployeeDAO import EmployeeDAO
 from Dao.OrderDao import OrderDao
 from Dao.PresenceDao import PresenceDao
 from Dao.PresenceTypeDao import PresenceTypeDao
-from Model.AccountModel import AccountModel, NewAccountModel
+from Dao.OrderEmployee import OrderEmployee
+from Model.AccountModel import AccountModel, NewAccountModel, OtherAccountModel
 from Model.AccountType import AccountType, NewAccountType
 from Model.BusinessModel import BusinessModel, NewBusinessModel
 from Model.ContractType import ContractTypeModel, NewContractTypeModel
@@ -73,7 +74,7 @@ async def create_account(account: NewAccountModel):
 
 
 @app.patch("/account/update/", tags=["Account"])
-async def update_account(account: AccountModel, session: str):
+async def update_account(account: OtherAccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
 
@@ -415,3 +416,7 @@ async def update_presence_type(typePresence: PresenceTypeModel):
 @app.post("/type/presence/delete/", tags=["Type Presence"])
 async def delete_presence_type(id_presence_type):
     return PresenceTypeDao.deletePresenceType(id_presence_type)
+
+@app.get("/order/employee/rate/", tags=["Order Employee"])
+async def get_all_employee_by_customers_rate():
+    return OrderEmployee.getAllEmployeeByCustomersRate()

@@ -11,3 +11,9 @@ class NewAccountModel(BaseModel):
 
 class AccountModel(NewAccountModel):
     id_account: str
+
+class OtherAccountModel(BaseModel):
+    id_account: str
+    user: str
+    abilitato: int
+    id_tipo_account: str
