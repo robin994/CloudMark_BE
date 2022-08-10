@@ -22,7 +22,7 @@ from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
                                  NewEmployeeModel)
-from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel, graphPayloadModel
+from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel, UpdateOrderEmployeeModel, graphPayloadModel
 from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
                                  NewPresencesModel, PresenceModel)
@@ -443,3 +443,8 @@ async def create_new_order_employee(params: NewOrderEmployee):
 @app.post("/order/employee/delete/", tags=["Order Employee"])
 async def delete_order_employee(params: OrderEmployeeModel):
     return OrderEmployee.deleteOrderToEmployee(params)
+
+
+@app.post("/order/employee/delete/", tags=["Order Employee"])
+async def update_order_employee(params: UpdateOrderEmployeeModel):
+    return OrderEmployee.updateOrderToEmployee(params)
