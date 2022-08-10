@@ -1,3 +1,4 @@
+from datetime import date
 from typing import Optional
 from pydantic import BaseModel
 
@@ -10,8 +11,6 @@ class NewOrderEmployee(BaseModel):
 
 class graphPayloadModel(BaseModel):
     id_business: str
-    month: int
-    year: int
 
 
 class OrderEmployeeModel(BaseModel):
@@ -22,3 +21,11 @@ class OrderEmployeeModel(BaseModel):
 class UpdateOrderEmployeeModel(BaseModel):
     old_order: NewOrderEmployee
     new_order: NewOrderEmployee
+
+
+class OrderEmployJoinModel(NewOrderEmployee):
+    startingDate: date
+    endingDate: date
+    name_emp: str
+    surname_emp: str
+    customer_name: str

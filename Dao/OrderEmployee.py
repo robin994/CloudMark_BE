@@ -1,5 +1,6 @@
+from typing import List
 from mysql.connector.connection import MySQLConnection
-from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel, UpdateOrderEmployeeModel, graphPayloadModel
+from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployJoinModel, OrderEmployeeModel, UpdateOrderEmployeeModel, graphPayloadModel
 from Dao.CallBackResponse import CallBackResponse
 from mysql.connector.cursor import MySQLCursor
 from DB.DBUtility import DBUtility
@@ -32,23 +33,32 @@ class OrderEmployee:
         connection = DBUtility.getLocalConnection()
         order_employee_list = list()
         cursor: MySQLCursor = connection.cursor()
-        sql = """SELECT c.id_commessa, c.id_dipendente, SUM(c.rate) , da.data_inizio_rapporto, da.data_fine_rapporto
+        sql = """SELECT c.id_commessa, c.id_dipendente, c.rate, da.data_inizio_rapporto, da.data_fine_rapporto, d.nome, d.cognome, cl.nome
         FROM commessa_dipendente c
-        JOIN dipendente_azienda da on da.id_azienda = c.id_dipendente
-        GROUP BY FORMAT(date,'yy.MM')
+        JOIN dipendente_azienda da on da.id_dipendente = c.id_dipendente
+        JOIN dipendente d on d.id_dipendente = c.id_dipendente
+        JOIN commessa co on co.id_commessa = c.id_commessa
+        JOIN cliente cl on cl.id_cliente = co.id_cliente
         where da.id_azienda = %s"""
         val = (params.id_business,)
         cursor.execute(sql, val)
         records = cursor.fetchall()
         for record in records:
-            order_employee = NewOrderEmployee(
+            order_employee = OrderEmployJoinModel(
                 id_order=record[0],
                 id_employee=record[1],
                 rate=record[2],
+                startingDate=record[3],
+                endingDate=record[4],
+                name_emp=record[5],
+                surname_emp=record[6],
+                customer_name=record[7]
             )
             order_employee_list.append(order_employee)
+
         if connection.is_connected():
             connection.close()
+        return CallBackResponse.success(order_employee_list)
 
     @staticmethod
     def addOrderToEmployee(params: NewOrderEmployee):
