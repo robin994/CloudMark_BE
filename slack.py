@@ -22,6 +22,7 @@ from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
                                  NewEmployeeModel)
+from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel, graphPayloadModel
 from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
                                  NewPresencesModel, PresenceModel)
@@ -423,6 +424,22 @@ async def update_presence_type(typePresence: PresenceTypeModel):
 async def delete_presence_type(id_presence_type):
     return PresenceTypeDao.deletePresenceType(id_presence_type)
 
+
 @app.get("/order/employee/rate/", tags=["Order Employee"])
 async def get_all_employee_by_customers_rate():
     return OrderEmployee.getAllEmployeeByCustomersRate()
+
+
+@app.post("/order/employee/rate/", tags=["Order Employee"])
+async def get_all_employee_by_customers_rate(params: graphPayloadModel):
+    return OrderEmployee.getAllEmployeeByIdBusiness(params)
+
+
+@app.post("/order/employee/create/", tags=["Order Employee"])
+async def create_new_order_employee(params: NewOrderEmployee):
+    return OrderEmployee.addOrderToEmployee(params)
+
+
+@app.post("/order/employee/delete/", tags=["Order Employee"])
+async def delete_order_employee(params: OrderEmployeeModel):
+    return OrderEmployee.deleteOrderToEmployee(params)
