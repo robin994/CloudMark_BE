@@ -12,10 +12,10 @@ class DBUtility:
     def getLocalConnection():
 
         load_dotenv()
-        HOST = os.getenv("HOST")
-        USER = os.getenv("USER")
-        DB = os.getenv("DB")
-        PASSWORD = os.getenv("PASSWORD")
+        HOST = os.getenv("MYSQL_HOST")
+        USER = os.getenv("MYSQL_USER")
+        DB = os.getenv("MYSQL_DATABASE")
+        PASSWORD = os.getenv("MYSQL_PASSWORD")
 
         logging.info("creo la connessione")
         db = dict()
