@@ -21,8 +21,9 @@ from Model.BusinessModel import BusinessModel, NewBusinessModel
 from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
-                                 NewEmployeeModel)
-from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel
+                                 NewEmployeeModel, EmployeeBusinessModel)
+from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel, UpdateOrderEmployeeModel, graphPayloadModel
+from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel, OrderEmployeeModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
                                  NewPresencesModel, PresenceModel)
 from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
@@ -175,6 +176,10 @@ async def get_orders_by_customer_id_and_business_id(idcustomer_idbusiness: Custo
         id_customer, id_business)
     return orders
 
+@app.post("/orders/employee/relational", tags=["Orders"])
+async def add_employee_into_order(payload: OrderEmployeeModel):
+    return OrderDao.addEmployeeIntoOrder(payload)
+
 # Endpoint - Customer
 
 
@@ -288,6 +293,10 @@ async def disable_account_by_Employee(id_employee: str):
 @app.get('/employee/{id_employee}/enabled', tags=["Employee"])
 async def enable_account_by_employee(id_employee: str):
     return EmployeeDAO.enableAccountByEmployeeID(id_employee)
+
+@app.post('/employee/business/relational', tags=["Employee"])
+async def add_employee_to_business(payload: EmployeeBusinessModel):
+    return EmployeeDAO.insertEmployeeIntoBusiness(payload)
 
 # Endpoint - AccountType
 
@@ -422,6 +431,27 @@ async def update_presence_type(typePresence: PresenceTypeModel):
 async def delete_presence_type(id_presence_type):
     return PresenceTypeDao.deletePresenceType(id_presence_type)
 
+
 @app.get("/order/employee/rate/", tags=["Order Employee"])
 async def get_all_employee_by_customers_rate():
     return OrderEmployee.getAllEmployeeByCustomersRate()
+
+
+@app.post("/order/employee/rate/", tags=["Order Employee"])
+async def get_all_employee_by_customers_rate(params: graphPayloadModel):
+    return OrderEmployee.getAllEmployeeByIdBusiness(params)
+
+
+@app.post("/order/employee/create/", tags=["Order Employee"])
+async def create_new_order_employee(params: NewOrderEmployee):
+    return OrderEmployee.addOrderToEmployee(params)
+
+
+@app.post("/order/employee/delete/", tags=["Order Employee"])
+async def delete_order_employee(params: OrderEmployeeModel):
+    return OrderEmployee.deleteOrderToEmployee(params)
+
+
+@app.post("/order/employee/delete/", tags=["Order Employee"])
+async def update_order_employee(params: UpdateOrderEmployeeModel):
+    return OrderEmployee.updateOrderToEmployee(params)

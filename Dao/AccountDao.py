@@ -124,9 +124,11 @@ class AccountDao:
             print(session_encoded)
             connection: MySQLConnection = DBUtility.getLocalConnection()
             cursor: MySQLCursor = connection.cursor()
-            sql = "UPDATE `account` SET `user`=%s   WHERE `id_account`= %s;"
-            val = (account.user, account.id_account)
-            account_updated = AccountDao.getAccountByID(account.id_account).data
+            sql = "UPDATE `account` SET `user`=%s, abilitato=%s, id_tipo_acount=%s   WHERE `id_account`= %s;"
+            val = (account.user, account.abilitato,
+                   account.id_tipo_account, account.id_account)
+            account_updated = AccountDao.getAccountByID(
+                account.id_account).data
             cursor.execute(sql, val)
             connection.commit()
             return CallBackResponse.success(account_updated)
