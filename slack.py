@@ -21,7 +21,7 @@ from Model.BusinessModel import BusinessModel, NewBusinessModel
 from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
-                                 NewEmployeeModel)
+                                 NewEmployeeModel, EmployeeBusinessModel)
 from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel, UpdateOrderEmployeeModel, graphPayloadModel
 from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel, OrderEmployeeModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
@@ -70,11 +70,10 @@ async def get_accounts_by_uuid(uuid):
 
 
 @app.post("/account/signin/", tags=["Account"])
-async def create_account(account: NewAccountModel):
-    return AccountDao.createAccount(account)
+async def create_account(account: NewAccountModel, id_employee):
+    return AccountDao.createAccount(account, id_employee)
 
-
-@app.patch("/account/update/", tags=["Account"])
+@app.post("/account/update/", tags=["Account"])
 async def update_account(account: OtherAccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
@@ -302,6 +301,10 @@ async def check_employee_account(id_dipendente: dict):
         :returns: {"ok": "ok"} if it does, else {"ok": "not"} """
     id_dipendente: str = id_dipendente["id_dipendente"]
     return EmployeeDAO.checkAccountByEmployee(id_dipendente)
+
+@app.post('/employee/business/relational', tags=["Employee"])
+async def add_employee_to_business(payload: EmployeeBusinessModel):
+    return EmployeeDAO.insertEmployeeIntoBusiness(payload)
 
 # Endpoint - AccountType
 

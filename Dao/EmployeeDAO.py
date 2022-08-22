@@ -6,7 +6,7 @@ from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
 from Model.BusinessModel import BusinessStartEnd
 from Model.EmployeeModel import (AccountEmployeeBusiness, AccountEmployeeModel, EmlpoyeeOrderModel, EmployeeModel,
-                                 NewAccountEmployeeModel, NewEmployeeModel)
+                                 NewAccountEmployeeModel, NewEmployeeModel, EmployeeBusinessModel)
 from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
@@ -395,6 +395,18 @@ class EmployeeDAO:
             connection.close()
         return CallBackResponse.success(lista)
 
+    @staticmethod
+    def insertEmployeeIntoBusiness(payload: EmployeeBusinessModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """INSERT INTO dipendente_azienda VALUES (%s, %s, %s, %s, %s);"""
+        val = (payload.id_employee, payload.id_business, payload.start_date, payload.serial_num, payload.end_date)
+        cursor.execute(sql, val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+            
+        return CallBackResponse.success(payload)
     @staticmethod
     def checkAccountByEmployee(id_dipendente: str):
         """ Check if given employee id is related to an account id """
