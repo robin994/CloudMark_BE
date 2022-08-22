@@ -65,18 +65,19 @@ class AccountDao:
         return CallBackResponse.success(account)
 
     @staticmethod
-    def createAccount(account: NewAccountModel):
+    def createAccount(account: NewAccountModel, id_employee):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         password_hashed = hashPassword(account.password)
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
-        sql = "INSERT INTO account(id_account,user, abilitato, id_tipo_account, password) VALUES(%s, %s, %s, %s, %s)"
+        sql = "INSERT INTO account(id_account, user, abilitato, id_tipo_account, password) VALUES(%s, %s, %s, %s, %s)"
         uuid = uuid4()
         val = (str(uuid), account.user, account.abilitato,
                account.id_tipo_account, key_from_password_hashed)
         cursor.execute(sql, val)
         connection.commit()
+        
         cursor.execute(
             f"SELECT id_account from account where user = '{account.user}'")
         id_account = cursor.fetchone()
@@ -84,6 +85,23 @@ class AccountDao:
         val2 = (id_account[0], salt_from_password_hashed)
         cursor.execute(sql, val2)
         connection.commit()
+        
+        sql = """INSERT INTO account_dipendente (id_account, id_dipendente) VALUES (%s, %s)"""
+        val3 = (id_account[0], id_employee)
+        cursor.execute(sql, val3)
+        connection.commit()
+
+        sql = (
+            """SELECT id_account, id_dipendente 
+                FROM account_dipendente 
+                INNER JOIN account
+                ON id_account = %s
+                INNER JOIN dipendente
+                ON id_dipendente = %s;"""
+        )
+        val4 = (id_account[0], id_employee)
+        cursor.execute(sql, val4)
+        
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success(uuid)
@@ -103,6 +121,7 @@ class AccountDao:
     @staticmethod
     def updateAccount(account: OtherAccountModel, session_encoded: str):
         if AccountDao.jwt_verify(session_encoded):
+            print(session_encoded)
             connection: MySQLConnection = DBUtility.getLocalConnection()
             cursor: MySQLCursor = connection.cursor()
             sql = "UPDATE `account` SET `user`=%s   WHERE `id_account`= %s;"
