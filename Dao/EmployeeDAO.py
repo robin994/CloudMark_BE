@@ -395,4 +395,17 @@ class EmployeeDAO:
             connection.close()
         return CallBackResponse.success(lista)
 
-
+    @staticmethod
+    def checkAccountByEmployee(id_dipendente: str):
+        """ Check if given employee id is related to an account id """
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(
+            """ SELECT id_account FROM account_dipendente
+                WHERE id_dipendente=%s """, 
+            (id_dipendente,)
+            )
+        rows = cursor.fetchall()
+        if not rows:
+            return {"ok": "not"}
+        return {"ok": "ok"}
