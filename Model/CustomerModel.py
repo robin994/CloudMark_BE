@@ -14,6 +14,7 @@ class NewCustomerModel(BaseModel):
     email: Optional[str]
     pec: Optional[str]
     fax: Optional[str]
+    id_business: Optional[str]
 
 
 class CustomerModel(NewCustomerModel):

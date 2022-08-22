@@ -20,4 +20,8 @@ class OrderModel(NewOrderModel):
 class CustomerIDBusinessIDModel(BaseModel):
     id_customer: str
     id_business: str
-    
+
+class OrderEmployeeModel(BaseModel):
+    id_order: str
+    id_employee: str
+    rate: Optional[int]

@@ -2,7 +2,7 @@ import logging
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
-from Model.OrderModel import NewOrderModel, OrderModel
+from Model.OrderModel import NewOrderModel, OrderModel, OrderEmployeeModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -151,3 +151,16 @@ class OrderDao:
             for (id_commessa, descrizione, data_inizio, data_fine) in rows
         ]
         return rows_obj
+
+    @staticmethod
+    def addEmployeeIntoOrder(payload: OrderEmployeeModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """INSERT INTO commessa_dipendente VALUES (%s, %s, %s);"""
+        val = (payload.id_order, payload.id_employee, payload.rate)
+        cursor.execute(sql, val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success(payload)

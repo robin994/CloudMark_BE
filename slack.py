@@ -23,7 +23,7 @@ from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
                                  NewEmployeeModel)
 from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel, UpdateOrderEmployeeModel, graphPayloadModel
-from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel
+from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel, OrderEmployeeModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
                                  NewPresencesModel, PresenceModel)
 from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
@@ -176,6 +176,10 @@ async def get_orders_by_customer_id_and_business_id(idcustomer_idbusiness: Custo
     orders = OrderDao.getOrdersByCustomerIDAndBusinessID(
         id_customer, id_business)
     return orders
+
+@app.post("/orders/employee/relational", tags=["Orders"])
+async def add_employee_into_order(payload: OrderEmployeeModel):
+    return OrderDao.addEmployeeIntoOrder(payload)
 
 # Endpoint - Customer
 
