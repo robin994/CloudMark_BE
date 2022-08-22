@@ -295,6 +295,14 @@ async def disable_account_by_Employee(id_employee: str):
 async def enable_account_by_employee(id_employee: str):
     return EmployeeDAO.enableAccountByEmployeeID(id_employee)
 
+
+@app.post('/employee/checkAccount', tags=["Employee"])
+async def check_employee_account(id_dipendente: dict):
+    """ Check if employee have is related to at least an account 
+        :returns: {"ok": "ok"} if it does, else {"ok": "not"} """
+    id_dipendente: str = id_dipendente["id_dipendente"]
+    return EmployeeDAO.checkAccountByEmployee(id_dipendente)
+
 # Endpoint - AccountType
 
 
