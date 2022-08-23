@@ -92,12 +92,12 @@ class AccountDao:
         connection.commit()
 
         sql = (
-            """SELECT id_account, id_dipendente 
-                FROM account_dipendente 
+            """SELECT ad.id_account, ad.id_dipendente 
+                FROM account_dipendente ad
                 INNER JOIN account
-                ON id_account = %s
+                ON ad.id_account = %s
                 INNER JOIN dipendente
-                ON id_dipendente = %s;"""
+                ON ad.id_dipendente = %s;"""
         )
         val4 = (id_account[0], id_employee)
         cursor.execute(sql, val4)
