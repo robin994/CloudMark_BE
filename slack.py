@@ -146,6 +146,9 @@ async def get_all_orders():
 async def get_order_by_id(uuid):
     return OrderDao.getOrderByID(uuid)
 
+@app.post("/orders/business/{uuid}", tags=["Orders"])
+async def get_order_by_business_id(uuid):
+    return OrderDao.getOrdersByBusinessId(uuid)
 
 @app.post("/orders/create/", tags=["Orders"])
 async def create_order(order: NewOrderModel):
