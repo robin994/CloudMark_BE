@@ -460,6 +460,6 @@ async def delete_order_employee(params: OrderEmployeeModel):
     return OrderEmployee.deleteOrderToEmployee(params)
 
 
-@app.post("/order/employee/delete/", tags=["Order Employee"])
+@app.post("/order/employee/update/", tags=["Order Employee"])
 async def update_order_employee(params: UpdateOrderEmployeeModel):
     return OrderEmployee.updateOrderToEmployee(params)
