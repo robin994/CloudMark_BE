@@ -1,4 +1,4 @@
-from . import client, id_account, id_business, id_order, id_employee
+from . import client, id_account, id_business, id_order, id_employee_bruno
 
 
 def test_get_all_employees():
@@ -67,12 +67,12 @@ def test_show_all_Employees_by_Account_and_Business():
 
 
 def test_disable_account_by_Employee():
-    response = client.get(f"/employee/{id_employee}/disabled")
+    response = client.get(f"/employee/{id_employee_bruno}/disabled")
     assert response.status_code == 200
 
 
 def test_enable_account_by_employee():
-    response = client.get(f"/employee/{id_employee}/enabled")
+    response = client.get(f"/employee/{id_employee_bruno}/enabled")
     assert response.status_code == 200
 
 

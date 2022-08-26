@@ -1,4 +1,4 @@
-from . import client, id_order, id_employee
+from . import client, id_order, id_employee_bruno
 
 
 def test_get_all_orders():
@@ -27,7 +27,7 @@ def test_delete_order():
 
 
 def test_get_order_by_employee():
-    response = client.get(f"/orders/employee/{id_employee}")
+    response = client.get(f"/orders/employee/{id_employee_bruno}")
     assert response.status_code == 200
 
 

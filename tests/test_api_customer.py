@@ -1,4 +1,4 @@
-from . import client, id_business, id_customer, id_employee
+from . import client, id_business, id_customer, id_employee_bruno
 
 
 def test_get_all_customer():
@@ -32,5 +32,5 @@ def test_update_customer_by_id():
 
 
 def test_get_customer_name_by_employee_id():
-    response = client.get(f"/customer/{id_employee}")
+    response = client.get(f"/customer/{id_employee_bruno}")
     assert response.status_code == 200

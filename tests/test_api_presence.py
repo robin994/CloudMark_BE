@@ -1,8 +1,8 @@
-from . import client, id_presence, id_employee
+from . import client, id_presence, id_employee_bruno
 
 
 def test_get_presence_by_primary_key():
-    response = client.get(f"/presence/{id_presence}/{id_employee}")
+    response = client.get(f"/presence/{id_presence}/{id_employee_bruno}")
     assert response.status_code == 200
 
 
@@ -17,7 +17,7 @@ def test_get_all_presence_with_first_name_last_name():
 
 
 def test_get_presences_by_employee():
-    response = client.get(f"/presence/load_employee={id_employee}")
+    response = client.get(f"/presence/load_employee={id_employee_bruno}")
     assert response.status_code == 200
 
 
