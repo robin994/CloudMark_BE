@@ -77,9 +77,9 @@ class CustomerDao:
         sql = """INSERT INTO cliente(id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
         val = (str(uuid_create_customer), customer.name, customer.p_iva, customer.address,
                customer.cap, customer.iban, customer.phone, customer.email, customer.pec, customer.fax)
-        cursor.execute(sql, val)
+        cursor.execute(sql, val,)
         sql2 = """INSERT INTO azienda_cliente (id_azienda, id_cliente) VALUES (%s, %s);"""
-        val2 = (str(customer.id_business), str(uuid_create_customer))
+        val2 = (str(customer.id_business), str(uuid_create_customer),)
         cursor.execute(sql2, val2)
         connection.commit()
         customer_create[uuid_create_customer] = customer
