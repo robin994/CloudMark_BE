@@ -25,3 +25,4 @@ class OrderEmployeeModel(BaseModel):
     id_order: str
     id_employee: str
     rate: Optional[int]
+    

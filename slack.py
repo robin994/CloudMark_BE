@@ -1,6 +1,7 @@
 import json
 from typing import List
-from fastapi import FastAPI
+from urllib import request
+from fastapi import FastAPI,Query,Path
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -136,12 +137,9 @@ async def get_all_business_by_customer_id(customer_uuid):
 
 #Endpoint - Commessa
 
-
 @app.get("/orders", tags=["Orders"])
 async def get_all_orders():
     return OrderDao.getAllOrders()
-
-
 @app.get("/orders/{uuid}", tags=["Orders"])
 async def get_order_by_id(uuid):
     return OrderDao.getOrderByID(uuid)
@@ -283,9 +281,9 @@ async def create_new_account_employee(payload: NewAccountEmployeeModel):
     return EmployeeDAO.createNewAccountEmployee(payload)
 
 
-@app.get('/all/employees/account/business', tags=["Employee"])
-async def show_all_Employees_by_Account_and_Business():
-    return EmployeeDAO.getAllEmployeesAccountBusiness()
+@app.get('/all/employees/account/business/{id_business}', tags=["Employee"])
+async def show_all_Employees_by_Account_and_Business(id_business : str):
+    return EmployeeDAO.getAllEmployeesAccountBusiness(id_business)
 
 
 @app.get('/employee/{id_employee}/disabled', tags=["Employee"])
@@ -375,10 +373,13 @@ async def get_presence_by_primary_key(id_presence, id_employee):
 async def get_all_presence():
     return PresenceDao.getAllPresence()
 
+@app.get("/presences/business/{id_business}", tags=["Presence"])
+async def get_all_presences_by_business(id_business : str):
+    return PresenceDao.getPresencesByBusiness(id_business)
 
-@app.get("/presence/all/first_name/last_name/", tags=["Presence"])
-async def get_all_presence_with_first_name_last_name():
-    return PresenceDao.getAllPresenceWithFirstNameLastName()
+@app.get("/presence/all/first_name/last_name/{id_business}", tags=["Presence"])
+async def get_all_presence_with_first_name_last_name(id_business : str):
+    return PresenceDao.getAllPresenceWithFirstNameLastName(id_business)
 
 
 @app.get("/presence/load_employee={id_employee}", tags=["Presence"])
