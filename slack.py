@@ -71,8 +71,8 @@ async def get_accounts_by_uuid(uuid):
 
 
 @app.post("/account/signin/", tags=["Account"])
-async def create_account(account: NewAccountModel, id_employee):
-    return AccountDao.createAccount(account, id_employee)
+async def create_account(account: NewAccountModel):
+    return AccountDao.createAccount(account)
 
 @app.post("/account/update/", tags=["Account"])
 async def update_account(account: OtherAccountModel, session: str):
