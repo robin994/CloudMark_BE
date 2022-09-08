@@ -1,4 +1,5 @@
-from . import client, id_account, id_employee_bruno
+from . import client, id_account, id_employee_bruno, account_user_bruno, \
+              id_account_type, jwt_bruno
 
 
 def test_get_all_accounts():
@@ -17,8 +18,15 @@ def test_create_account():
 
 
 def test_update_account():
-    response = client.post("/account/update/")
-    assert response.status_code == 422
+    response = client.post("/account/update/",params={
+        "session": jwt_bruno
+        }, json={
+        "id_account": id_account,
+        "user": account_user_bruno,
+        "abilitato": 0,
+        "id_tipo_account": id_account_type
+    })
+    assert response.status_code == 200
 
 
 def test_reset_password():
@@ -39,10 +47,14 @@ def test_get_session():
 
 
 def test_delete_account():
-    response = client.post("/account/delete/")
-    assert response.status_code == 422
+    response = client.post("/account/delete/", params={
+        "id_account": id_account
+    })
+    assert response.status_code == 200
 
 
 def test_jwt_verify():
-    response = client.post("/account/verify_account")
-    assert response.status_code == 422
+    response = client.post("/account/verify_account", params={
+        "token": jwt_bruno
+    })
+    assert response.status_code == 200

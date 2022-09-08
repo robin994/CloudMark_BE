@@ -1,4 +1,4 @@
-from . import client, id_presence_type
+from . import client
 
 
 def test_get_all_presence_type():

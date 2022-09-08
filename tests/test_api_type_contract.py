@@ -1,4 +1,4 @@
-from . import client, id_contract
+from . import client
 
 
 def test_get_all_contract_type():
@@ -7,7 +7,7 @@ def test_get_all_contract_type():
 
 
 def test_get_contract_type_by_id():
-    response = client.post(f"/type/contract/{id_contract}")
+    response = client.post(f"/type/contract/{}")
     assert response.status_code == 200
 
 
