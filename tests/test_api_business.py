@@ -1,4 +1,6 @@
-from . import client, business_markup
+from . import client, business_markup, new_p_iva, placeholder_generic, \
+              placeholder_cap, placeholder_iban, placeholder_phone, \
+              placeholder_email, placeholder_pec, placeholder_fax
 
 business_name = business_markup["name"]
 business_p_iva = business_markup["p_iva"]
@@ -40,15 +42,15 @@ def test_filter_by_business():
 
 def test_create_business():
     response = client.post("/business/create/", json={
-        "name": business_name + 1,
-        "p_iva": business_p_iva + 1,
-        "address": business_address + 1,
-        "cap": business_cap + 1,
-        "iban": business_iban + 1,
-        "phone": business_phone + 1,
-        "email": business_email + 1,
-        "pec": business_pec + 1,
-        "fax": business_fax + 1
+        "name": placeholder_generic,
+        "p_iva": new_p_iva,
+        "address": placeholder_generic,
+        "cap": placeholder_cap,
+        "iban": placeholder_iban,
+        "phone": placeholder_phone,
+        "email": placeholder_email,
+        "pec": placeholder_pec,
+        "fax": placeholder_fax
     })
     assert response.status_code == 200
 

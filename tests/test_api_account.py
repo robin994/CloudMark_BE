@@ -1,5 +1,10 @@
-from . import client, id_account, id_employee_bruno, account_user_bruno, \
-              id_account_type, jwt_bruno
+from . import client, jwt_bruno, account_bruno, employee_bruno
+
+account_id = account_bruno["id_account"]
+account_user = account_bruno["user"]
+account_abilitato = account_bruno["abilitato"]
+account_id_tipo_account = account_bruno["id_tipo_account"]
+employee_id = employee_bruno["id_employee"]
 
 
 def test_get_all_accounts():
@@ -8,7 +13,7 @@ def test_get_all_accounts():
 
 
 def test_get_accounts_by_uuid():
-    response = client.get(f"/account/{id_account}")
+    response = client.get(f"/account/{account_id}")
     assert response.status_code == 200
 
 
@@ -18,13 +23,13 @@ def test_create_account():
 
 
 def test_update_account():
-    response = client.post("/account/update/",params={
+    response = client.post("/account/update/", params={
         "session": jwt_bruno
         }, json={
-        "id_account": id_account,
-        "user": account_user_bruno,
-        "abilitato": 0,
-        "id_tipo_account": id_account_type
+        "id_account": account_id,
+        "user": account_user,
+        "abilitato": account_abilitato,
+        "id_tipo_account": account_id_tipo_account
     })
     assert response.status_code == 200
 
@@ -32,7 +37,7 @@ def test_update_account():
 def test_reset_password():
     response = client.patch("/account/reset_passowrd", json={
         "password_employee": "pop",
-        "id_employee": id_employee_bruno,
+        "id_employee": employee_id,
         "session_admin": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZF9hY2NvdW50IjoiMjhkYWE3NWItN2VhMi00ZjJjLWI3NzEtNTI1YTA2Y2Q3ZDlmIiwidXNlciI6ImJydW5vIiwiYWJpbGl0YXRlIjoiMSIsImFjY291bnRUeXBlIjoiN2U1NTQ5NGMtMDhmNC0xMWVkLTg2MWQtMDI0MmFjMTIwMDAyIiwiYWNjb3VudFR5cGVOYW1lIjoiYWRtaW5pc3RyYXRvciIsImFjY291bnRMaXN0RnVuY3Rpb24iOiJhZG1pbiIsImlkX2VtcGxveWVlIjoiMTI0ZTQ1NjctZTg1Yi0xZmQzLWE0NTYtMzMzMzIyMjMzNDEyIiwiZW1wbG95ZWVfZmlyc3RfbmFtZSI6IkJydW5vIiwiZW1wbG95ZWVfbGFzdF9uYW1lIjoiQm9zcyIsImVtcGxveWVlX2VtYWlsIjoiYnJ1bm9AZW1haWwuY29tIiwiZW1wbG95ZWVfcGhvbmVfbnVtYmVyIjoiMDEyNDU2NzgwIiwiYnVzaW5lc3NfbmFtZSI6Im1hcmt1cCIsImJ1c2luZXNzX3BfaXZhIjoiMzIzNTU2NjA5MDYiLCJidXNpbmVzc19hZGRyZXNzIjoidmlhIGxvbWJhcmRpYSAxNSIsImJ1c2luZXNzX2NhcCI6IjAwMTgwIiwiYnVzaW5lc3NfaWJhbiI6IklUOTRMMDMwMDIwMzI4MDcyNjM0Njg0ODMyMSIsImJ1c2luZXNzX3Bob25lIjoiMDYxMjM0NTY3OCIsImJ1c2luZXNzX2VtYWlsIjoibWFya3VwQGdtYWlsLmNvbSIsImJ1c2luZXNzX3BlYyI6Im1pb25vbWVAcGVjYXppZW5kYS5pdCIsImJ1c2luZXNzX2ZheCI6IjA2MTIzNDU2NzgiLCJidXNpbmVzc19pZCI6IjEyNGU0NTY3LWU4NWItMWZkMy1hNDU2LTQyNjYxNDQ3NDAwMCJ9.QUtC-W-rBVkmDoyvu5VkyDv3OUzQma_C83rVkSsHFPc"
     })
     assert response.status_code == 200
@@ -48,7 +53,7 @@ def test_get_session():
 
 def test_delete_account():
     response = client.post("/account/delete/", params={
-        "id_account": id_account
+        "id_account": account_id
     })
     assert response.status_code == 200
 
