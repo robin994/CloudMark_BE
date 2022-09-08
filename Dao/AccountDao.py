@@ -164,7 +164,7 @@ class AccountDao:
             val = (User.user,)
             cursor.execute(sql, val)
             record = cursor.fetchone()
-            if record[4] == 'super':
+            if record[4] == 'superuser':
                 session = SuperModel(
                     id_account=record[0],
                     user=record[1],
