@@ -21,7 +21,7 @@ business_markup = {
     "fax": "0612345678",
     "id_business": "124e4567-e85b-1fd3-a456-426614474000"
 }
-orders_pippo = {
+order_pippo = {
     "description": None,
     "id_customer": "123e4567-e89b-12d3-a456-426614174000",
     "id_business": "124e4567-e85b-1fd3-a456-426614474000",
@@ -29,7 +29,7 @@ orders_pippo = {
     "endDate": "2022-03-30",
     "id_order": "124e4567-e44f-1fd3-a456-330002223341"
 }
-customers_pippo = {
+customer_pippo = {
     "name": "pippo",
     "p_iva": "11122233321",
     "address": "via antani 12",
@@ -70,7 +70,7 @@ presence_bruno = {
     "hours": 50,
     "id_presence": "221e4567-e85b-1fd3-a456-333000003412"
 }
-typt_presence_malattia = {
+type_presence_malattia = {
     "name": "malattia",
     "percentage_increase": 0,
     "hourly_pay": None,
@@ -81,11 +81,20 @@ order_employee = {
     "id_employee": "124e4567-e85b-1fd3-a456-333322233412",
     "rate": "200"
 }
-# id_account = "28daa75b-7ea2-4f2c-b771-525a06cd7d9f"
-# id_order = "124e4567-e44f-1fd3-a456-330002223341"
-# id_employee_bruno = "124e4567-e85b-1fd3-a456-333322233412"
-# id_customer = "123e4567-e89b-12d3-a456-426614174000"
-# id_account_type = "7e55494c-08f4-11ed-861d-0242ac120002"
-# id_contract = "198ef11d-cf73-4245-8469-2ddfa9979acf"
-# id_presence = "0adabf8e-dd83-4a4d-b2c8-9e3e0c2ab801"
-# id_presence_type = "ca34d37e-600c-452e-a8e4-2efb53161812"
+id_business = "124e4567-e85b-1fd3-a456-426614474000"
+id_account = "28daa75b-7ea2-4f2c-b771-525a06cd7d9f"
+id_order = "124e4567-e44f-1fd3-a456-330002223341"
+id_employee_bruno = "124e4567-e85b-1fd3-a456-333322233412"
+id_customer = "123e4567-e89b-12d3-a456-426614174000"
+id_account_type = "7e55494c-08f4-11ed-861d-0242ac120002"
+id_contract = "198ef11d-cf73-4245-8469-2ddfa9979acf"
+id_presence = "0adabf8e-dd83-4a4d-b2c8-9e3e0c2ab801"
+id_presence_type = "ca34d37e-600c-452e-a8e4-2efb53161812"
+new_p_iva = "19305681274"
+placeholder_generic = "pytest"
+placeholder_cap = "91827"
+placeholder_iban = "GH3520211109960500302123456"
+placeholder_phone = "3333334444"
+placeholder_email = "7357@pytest.com"
+placeholder_pec = "7357@pec.com"
+placeholder_fax = "5551234567"
