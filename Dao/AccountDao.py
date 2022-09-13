@@ -5,7 +5,7 @@ from uuid import uuid4
 
 import jwt
 from Dao.CallBackResponse import CallBackResponse
-from Model.AccountModel import NewAccountModel
+from Model.AccountModel import NewAccountModel, OtherAccountModel
 from DB.DBUtility import DBUtility
 from dotenv import load_dotenv
 from Model.AccountModel import AccountModel
@@ -61,7 +61,6 @@ class AccountDao:
             )
         if connection.is_connected():
             connection.close()
-
         return CallBackResponse.success(account)
 
     @staticmethod
@@ -101,13 +100,16 @@ class AccountDao:
         return CallBackResponse.success(id_account)
 
     @staticmethod
-    def updateAccount(account: AccountModel, session_encoded: str):
+    def updateAccount(account: OtherAccountModel, session_encoded: str):
         if AccountDao.jwt_verify(session_encoded):
+            print(session_encoded)
             connection: MySQLConnection = DBUtility.getLocalConnection()
             cursor: MySQLCursor = connection.cursor()
-            sql = "UPDATE `account` SET `user`=%s   WHERE `id_account`= %s;"
-            val = (account.user, account.id_account)
-            account_updated = AccountDao.getAccountByID(account.id_account)
+            sql = "UPDATE `account` SET `user`=%s, abilitato=%s, id_tipo_acount=%s   WHERE `id_account`= %s;"
+            val = (account.user, account.abilitato,
+                   account.id_tipo_account, account.id_account)
+            account_updated = AccountDao.getAccountByID(
+                account.id_account).data
             cursor.execute(sql, val)
             connection.commit()
             return CallBackResponse.success(account_updated)
@@ -143,10 +145,8 @@ class AccountDao:
 
     @staticmethod
     def getSession(User: UserModel):
-
         load_dotenv()
         JWTPSW = os.getenv("JWTPSW")
-
         connection: MySQLConnection = DBUtility.getLocalConnection()
         session = None
         cursor: MySQLCursor = connection.cursor()
@@ -164,7 +164,7 @@ class AccountDao:
             val = (User.user,)
             cursor.execute(sql, val)
             record = cursor.fetchone()
-            if record[4] == 'super':
+            if record[4] == 'superuser':
                 session = SuperModel(
                     id_account=record[0],
                     user=record[1],

@@ -11,8 +11,6 @@ from mysql.connector.cursor import MySQLCursor
 from Dao.CallBackResponse import CallBackResponse
 
 # testati e funzionanti
-
-
 class PresenceDao:
     @staticmethod
     def getPresenceByPrimaryKey(presenceId: str, employeeId: str):
@@ -37,20 +35,38 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(presence)
-
+    
     @staticmethod
-    def getAllPresenceWithFirstNameLastName():
+    def getPresencesByBusiness(businessId: str):
         all_presence = list()
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        sql = """SELECT d.id_dipendente, d.nome ,
-        d.cognome,tp.id_tipo_presenza,c.id_commessa, p.data,
-        tp.nome_tipo_presenza ,a.nome,p.ore,a.id_azienda , p.id_presenza
-        FROM presenza p JOIN dipendente d on p.id_dipendente = d.id_dipendente 
-        JOIN tipo_presenza tp ON p.id_tipo_presenza = tp.id_tipo_presenza 
-        JOIN commessa c  ON p.id_commessa = c.id_commessa 
-        JOIN azienda a ON c.id_azienda = a.id_azienda"""
-        cursor.execute(sql)
+        sql = "SELECT p.id_presenza, p.id_dipendente, p.data, p.id_tipo_presenza, p.id_commessa, p.ore FROM presenza p join dipendente_azienda da on p.id_dipendente = da.id_dipendente join azienda a on da.id_azienda = a.id_azienda WHERE a.id_azienda = %s;"
+        val = (str(businessId),)
+        cursor.execute(sql,val,)
+        records = cursor.fetchall()
+        for row in records:
+            presence = PresenceModel(
+                id_presence=row[0],
+                id_employee=row[1],
+                date_presence=row[2],
+                id_tipoPresenza=row[3],
+                id_order=row[4],
+                hours=row[5]
+            )
+            all_presence.append(presence)
+        if connection.is_connected():
+            connection.close()
+        return CallBackResponse.success(all_presence)
+
+    @staticmethod
+    def getAllPresenceWithFirstNameLastName(business_id : str):
+        all_presence = list()
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql = "SELECT d.id_dipendente, d.nome , d.cognome,tp.id_tipo_presenza,c.id_commessa, p.data, tp.nome_tipo_presenza ,a.nome,p.ore,a.id_azienda , p.id_presenza FROM presenza p JOIN dipendente d on p.id_dipendente = d.id_dipendente  JOIN tipo_presenza tp ON p.id_tipo_presenza = tp.id_tipo_presenza  JOIN commessa c  ON p.id_commessa = c.id_commessa  JOIN azienda a ON c.id_azienda = a.id_azienda where a.id_azienda = %s;"
+        val = (str(business_id),)
+        cursor.execute(sql,val,)
         records = cursor.fetchall()
         for row in records:
             presence = PresenceFirstNameLastName(
@@ -239,7 +255,7 @@ class PresenceDao:
         return CallBackResponse.success(presence, description="Record inserted/updated")
 
     @staticmethod
-    def insertPresences(payload: List[NewPresenceModel]):    
+    def insertPresences(payload: List[NewPresenceModel]):
         for presence in payload:
             PresenceDao.createPresence(presence)
         return CallBackResponse.success(payload)

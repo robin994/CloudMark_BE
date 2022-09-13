@@ -2,7 +2,7 @@ import logging
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
-from Model.OrderModel import NewOrderModel, OrderModel
+from Model.OrderModel import NewOrderModel, OrderModel, OrderEmployeeModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
 
@@ -58,6 +58,30 @@ class OrderDao:
             connection.close()
 
         return CallBackResponse.success(order)
+    
+    @staticmethod
+    def getOrdersByBusinessId(id_business: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        lista_orders = dict()
+        cursor: MySQLCursor = connection.cursor()
+        sql="SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine FROM commessa c where id_azienda = %s"
+        val = (id_business,)
+        cursor.execute(sql,val,)
+        records = cursor.fetchall()
+        for row in records:
+            order = OrderModel(
+                id_order=row[0],
+                description=row[1],
+                id_customer=row[2],
+                id_business=row[3],
+                startDate=row[4],
+                endDate=row[5]
+            )
+            lista_orders[row[0]] = order
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success(lista_orders)
 
     @staticmethod
     def createOrder(order: NewOrderModel):
@@ -151,3 +175,16 @@ class OrderDao:
             for (id_commessa, descrizione, data_inizio, data_fine) in rows
         ]
         return rows_obj
+
+    @staticmethod
+    def addEmployeeIntoOrder(payload: OrderEmployeeModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """INSERT INTO commessa_dipendente VALUES (%s, %s, %s);"""
+        val = (payload.id_order, payload.id_employee, payload.rate)
+        cursor.execute(sql, val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success(payload)

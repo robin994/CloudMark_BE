@@ -6,7 +6,7 @@ from DB.DBUtility import DBUtility
 from Model.AccountModel import AccountModel
 from Model.BusinessModel import BusinessStartEnd
 from Model.EmployeeModel import (AccountEmployeeBusiness, AccountEmployeeModel, EmlpoyeeOrderModel, EmployeeModel,
-                                 NewAccountEmployeeModel, NewEmployeeModel)
+                                 NewAccountEmployeeModel, NewEmployeeModel, EmployeeBusinessModel)
 from Model.LastWorkModel import LastWorkModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
@@ -269,15 +269,12 @@ class EmployeeDAO:
     def createNewAccountEmployee(payload: NewAccountEmployeeModel):
         res_acc = AccountDao.createAccount(payload.new_account)
         res_emp = EmployeeDAO.createEmployee(payload.new_employee)
-
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-
-        sql = """INSERT INTO account_dipendente (`id_account`, `id_dipendente`) VALUES(%s, %s)"""
+        sql = """INSERT INTO account_dipendente (id_account, id_dipendente) VALUES(%s, %s)"""
         val = (str(res_acc.data), str(res_emp.data))
         cursor.execute(sql, val)
-
-        sql = """INSERT INTO dipendente_azienda (`id_dipendente`, `id_azienda`, `data_inizio_rapporto`, `matricola`, `data_fine_rapporto`) VALUES(%s, %s,%s,%s,%s)"""
+        sql = """INSERT INTO dipendente_azienda (id_dipendente, id_azienda, data_inizio_rapporto, matricola, data_fine_rapporto) VALUES(%s, %s,%s,%s,%s)"""
         val = (str(res_emp.data), payload.id_business,
                payload.start_date, payload.serial_num, payload.end_date)
         cursor.execute(sql, val)
@@ -285,10 +282,9 @@ class EmployeeDAO:
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success(res_emp)
- 
 
     @staticmethod
-    def getAllEmployeesAccountBusiness():
+    def getAllEmployeesAccountBusiness(id_business : str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         employee_account_business = dict()
         cursor: MySQLCursor = connection.cursor()
@@ -296,8 +292,10 @@ class EmployeeDAO:
                 FROM dipendente d
                 JOIN account_dipendente ad ON d.id_dipendente = ad.id_dipendente
                 JOIN account a on a.id_account = ad.id_account
-                JOIN dipendente_azienda da on da.id_dipendente = d.id_dipendente;"""
-        cursor.execute(sql)
+                JOIN dipendente_azienda da on da.id_dipendente = d.id_dipendente
+                WHERE da.id_azienda = %s;"""
+        val = (id_business,)
+        cursor.execute(sql,val,)
         records = cursor.fetchall()
         if connection.is_connected():
             connection.close()
@@ -376,7 +374,7 @@ class EmployeeDAO:
         connection : MySQLConnection = DBUtility.getLocalConnection()
         lista = list()
         cursor : MySQLCursor = connection.cursor()
-        sql = """ select d.id_dipendente, d.nome, d.cognome,d.cf,c.id_commessa from dipendente d join commessa_dipendente cd on d.id_dipendente = cd.id_dipendente join commessa c on cd.id_commessa = c.id_commessa where c.id_commessa = %s"""
+        sql = """ select d.id_dipendente, d.nome, d.cognome,d.cf,d.email,d.telefono,c.id_commessa from dipendente d join commessa_dipendente cd on d.id_dipendente = cd.id_dipendente join commessa c on cd.id_commessa = c.id_commessa where c.id_commessa = %s"""
         val = (id_order,)
         cursor.execute(sql,val,)
         records = cursor.fetchall()
@@ -386,11 +384,38 @@ class EmployeeDAO:
                 first_name = row[1],
                 last_name = row[2],
                 cf = row[3],
-                id_order = row[4]
+                email=row[4],
+                phone_number=row[5],
+                id_order = row[6]
             )
             lista.append(employee)
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success(lista)
 
-
+    @staticmethod
+    def insertEmployeeIntoBusiness(payload: EmployeeBusinessModel):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql = """INSERT INTO dipendente_azienda VALUES (%s, %s, %s, %s, %s);"""
+        val = (payload.id_employee, payload.id_business, payload.start_date, payload.serial_num, payload.end_date)
+        cursor.execute(sql, val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+            
+        return CallBackResponse.success(payload)
+    @staticmethod
+    def checkAccountByEmployee(id_dipendente: str):
+        """ Check if given employee id is related to an account id """
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute(
+            """ SELECT id_account FROM account_dipendente
+                WHERE id_dipendente=%s """, 
+            (id_dipendente,)
+            )
+        rows = cursor.fetchall()
+        if not rows:
+            return {"ok": "not"}
+        return {"ok": "ok"}

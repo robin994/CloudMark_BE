@@ -1,6 +1,7 @@
 import json
 from typing import List
-from fastapi import FastAPI
+from urllib import request
+from fastapi import FastAPI,Query,Path
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -14,14 +15,16 @@ from Dao.EmployeeDAO import EmployeeDAO
 from Dao.OrderDao import OrderDao
 from Dao.PresenceDao import PresenceDao
 from Dao.PresenceTypeDao import PresenceTypeDao
-from Model.AccountModel import AccountModel, NewAccountModel
+from Dao.OrderEmployee import OrderEmployee
+from Model.AccountModel import AccountModel, NewAccountModel, OtherAccountModel
 from Model.AccountType import AccountType, NewAccountType
 from Model.BusinessModel import BusinessModel, NewBusinessModel
 from Model.ContractType import ContractTypeModel, NewContractTypeModel
 from Model.CustomerModel import CustomerModel, NewCustomerModel
 from Model.EmployeeModel import (EmployeeModel, NewAccountEmployeeModel,
-                                 NewEmployeeModel)
-from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel
+                                 NewEmployeeModel, EmployeeBusinessModel)
+from Model.OrderEmployeeModel import NewOrderEmployee, OrderEmployeeModel as oem, UpdateOrderEmployeeModel, graphPayloadModel
+from Model.OrderModel import NewOrderModel, OrderModel, CustomerIDBusinessIDModel, OrderEmployeeModel
 from Model.PresenceModel import (LoadPresenceModel, NewPresenceModel,
                                  NewPresencesModel, PresenceModel)
 from Model.PresenceTypeModel import NewPresenceTypeModel, PresenceTypeModel
@@ -71,9 +74,8 @@ async def get_accounts_by_uuid(uuid):
 async def create_account(account: NewAccountModel):
     return AccountDao.createAccount(account)
 
-
-@app.patch("/account/update/", tags=["Account"])
-async def update_account(account: AccountModel, session: str):
+@app.post("/account/update/", tags=["Account"])
+async def update_account(account: OtherAccountModel, session: str):
     return AccountDao.updateAccount(account, session)
 
 
@@ -135,16 +137,16 @@ async def get_all_business_by_customer_id(customer_uuid):
 
 #Endpoint - Commessa
 
-
 @app.get("/orders", tags=["Orders"])
 async def get_all_orders():
     return OrderDao.getAllOrders()
-
-
 @app.get("/orders/{uuid}", tags=["Orders"])
 async def get_order_by_id(uuid):
     return OrderDao.getOrderByID(uuid)
 
+@app.post("/orders/business/{uuid}", tags=["Orders"])
+async def get_order_by_business_id(uuid):
+    return OrderDao.getOrdersByBusinessId(uuid)
 
 @app.post("/orders/create/", tags=["Orders"])
 async def create_order(order: NewOrderModel):
@@ -165,13 +167,19 @@ async def delete_order(id_order: str):
 async def get_order_by_employee(id_employee):
     return OrderDao.getOrderByEmplyee(id_employee)
 
+
 @app.post("/orders/customer", tags=["Orders"])
 async def get_orders_by_customer_id_and_business_id(idcustomer_idbusiness: CustomerIDBusinessIDModel) -> dict:
     """ Send all orders of a customer """
     id_customer = idcustomer_idbusiness.id_customer
     id_business = idcustomer_idbusiness.id_business
-    orders = OrderDao.getOrdersByCustomerIDAndBusinessID(id_customer, id_business)
+    orders = OrderDao.getOrdersByCustomerIDAndBusinessID(
+        id_customer, id_business)
     return orders
+
+@app.post("/orders/employee/relational", tags=["Orders"])
+async def add_employee_into_order(payload: OrderEmployeeModel):
+    return OrderDao.addEmployeeIntoOrder(payload)
 
 # Endpoint - Customer
 
@@ -207,8 +215,8 @@ async def update_customer_by_id(customer: CustomerModel):
 
 
 @app.get("/customer/{employeeID}", tags=["Customer"])
-async def get_customer_name_by_account_id(employeeID: str):
-    return CustomerDao.getCustomerNameByAccountId(employeeID)
+async def get_customer_name_by_employee_id(employeeID: str):
+    return CustomerDao.getCustomerNameByEmployeeId(employeeID)
 
 # Endpoint - Employee
 
@@ -247,6 +255,7 @@ async def get_employees_by_account(id_account):
 async def get_employees_by_id(id_business):
     return EmployeeDAO.getEmployeesByID(id_business)
 
+
 @app.get("/employee/order/{id_order}", tags=["Employee"])
 async def get_employees_by_id_order(id_order):
     return EmployeeDAO.getEmployeeByIdOrder(id_order)
@@ -271,17 +280,32 @@ async def delete_employee_by_id(id_employee: str):
 async def create_new_account_employee(payload: NewAccountEmployeeModel):
     return EmployeeDAO.createNewAccountEmployee(payload)
 
-@app.get('/all/employees/account/business', tags=["Employee"])
-async def show_all_Employees_by_Account_and_Business():
-    return EmployeeDAO.getAllEmployeesAccountBusiness()
+
+@app.get('/all/employees/account/business/{id_business}', tags=["Employee"])
+async def show_all_Employees_by_Account_and_Business(id_business : str):
+    return EmployeeDAO.getAllEmployeesAccountBusiness(id_business)
+
 
 @app.get('/employee/{id_employee}/disabled', tags=["Employee"])
 async def disable_account_by_Employee(id_employee: str):
     return EmployeeDAO.disableAccountByEmployeeID(id_employee)
 
+
 @app.get('/employee/{id_employee}/enabled', tags=["Employee"])
 async def enable_account_by_employee(id_employee: str):
     return EmployeeDAO.enableAccountByEmployeeID(id_employee)
+
+
+@app.post('/employee/checkAccount', tags=["Employee"])
+async def check_employee_account(id_dipendente: dict):
+    """ Check if employee have is related to at least an account 
+        :returns: {"ok": "ok"} if it does, else {"ok": "not"} """
+    id_dipendente: str = id_dipendente["id_dipendente"]
+    return EmployeeDAO.checkAccountByEmployee(id_dipendente)
+
+@app.post('/employee/business/relational', tags=["Employee"])
+async def add_employee_to_business(payload: EmployeeBusinessModel):
+    return EmployeeDAO.insertEmployeeIntoBusiness(payload)
 
 # Endpoint - AccountType
 
@@ -349,10 +373,13 @@ async def get_presence_by_primary_key(id_presence, id_employee):
 async def get_all_presence():
     return PresenceDao.getAllPresence()
 
+@app.get("/presences/business/{id_business}", tags=["Presence"])
+async def get_all_presences_by_business(id_business : str):
+    return PresenceDao.getPresencesByBusiness(id_business)
 
-@app.get("/presence/all/first_name/last_name/", tags=["Presence"])
-async def get_all_presence_with_first_name_last_name():
-    return PresenceDao.getAllPresenceWithFirstNameLastName()
+@app.get("/presence/all/first_name/last_name/{id_business}", tags=["Presence"])
+async def get_all_presence_with_first_name_last_name(id_business : str):
+    return PresenceDao.getAllPresenceWithFirstNameLastName(id_business)
 
 
 @app.get("/presence/load_employee={id_employee}", tags=["Presence"])
@@ -415,3 +442,28 @@ async def update_presence_type(typePresence: PresenceTypeModel):
 @app.post("/type/presence/delete/", tags=["Type Presence"])
 async def delete_presence_type(id_presence_type):
     return PresenceTypeDao.deletePresenceType(id_presence_type)
+
+
+@app.get("/order/employee/rate/", tags=["Order Employee"])
+async def get_all_employee_by_customers_rate():
+    return OrderEmployee.getAllEmployeeByCustomersRate()
+
+
+@app.post("/order/employee/rate/", tags=["Order Employee"])
+async def get_all_employee_by_customers_rate(params: graphPayloadModel):
+    return OrderEmployee.getAllEmployeeByIdBusiness(params)
+
+
+@app.post("/order/employee/create/", tags=["Order Employee"])
+async def create_new_order_employee(params: NewOrderEmployee):
+    return OrderEmployee.addOrderToEmployee(params)
+
+
+@app.post("/order/employee/delete/", tags=["Order Employee"])
+async def delete_order_employee(params: oem):
+    return OrderEmployee.deleteOrderToEmployee(params)
+
+
+@app.post("/order/employee/update/", tags=["Order Employee"])
+async def update_order_employee(params: UpdateOrderEmployeeModel):
+    return OrderEmployee.updateOrderToEmployee(params)
