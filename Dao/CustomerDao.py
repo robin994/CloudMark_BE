@@ -89,9 +89,13 @@ class CustomerDao:
         return CallBackResponse.success(customer_create)
 
     @staticmethod
-    def deleteCustomerByID(id_customer: str):
+    def deleteCustomerByID(id_customer: str, id_business : str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
+        sql = "DELETE FROM `azienda_cliente` WHERE (`id_azienda` = %s) and (`id_cliente` = %s);"
+        val =(str(id_business), str(id_customer))
+        cursor.execute(sql,val)
+        connection.commit()
         sql = "DELETE FROM `cliente` WHERE `id_cliente` = %s"
         val = (str(id_customer),)
         cursor.execute(sql, val)

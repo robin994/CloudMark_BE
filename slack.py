@@ -205,8 +205,8 @@ async def create_customer(customer: NewCustomerModel):
 
 
 @app.post("/customer/delete/", tags=["Customer"])
-async def delete_customer(id_customer: str):
-    return CustomerDao.deleteCustomerByID(id_customer)
+async def delete_customer(id_customer: str, id_business : str):
+    return CustomerDao.deleteCustomerByID(id_customer,id_business)
 
 
 @app.post("/customer/update/", tags=["Customer"])
