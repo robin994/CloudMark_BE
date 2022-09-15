@@ -1,5 +1,6 @@
 from uuid import uuid4
 from Dao.CallBackResponse import CallBackResponse
+from Dao.OrderDao import OrderDao
 from Model.CustomerModel import CustomerHybridOrder, NewCustomerModel
 from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
@@ -95,11 +96,7 @@ class CustomerDao:
         sql = "DELETE FROM `azienda_cliente` WHERE (`id_azienda` = %s) and (`id_cliente` = %s);"
         val =(str(id_business), str(id_customer))
         cursor.execute(sql,val)
-        connection.commit()
-        sql = "DELETE FROM `cliente` WHERE `id_cliente` = %s"
-        val = (str(id_customer),)
-        cursor.execute(sql, val)
-        connection.commit()
+        connection.commit()     
         if connection.is_connected():
             connection.close()
 
