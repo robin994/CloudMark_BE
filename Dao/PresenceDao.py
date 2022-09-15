@@ -173,6 +173,20 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(id_presence)
+    
+    @staticmethod
+    def deletePresenceByOrder(id_order: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute
+        query = "DELETE FROM presenza WHERE presenza.id_commessa = %s ;"
+        val = (id_order, )
+        cursor.execute(query, val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success(id_order)
 
     @staticmethod
     def getMonthYearPresences(payload: LoadPresenceModel):
