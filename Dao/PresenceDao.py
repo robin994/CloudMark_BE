@@ -131,8 +131,11 @@ class PresenceDao:
             return CallBackResponse.success(id_presence)
         else:
             uuid = uuid4()
-            cursor.execute(
-                f"INSERT INTO presenza(id_presenza,id_dipendente, data, id_tipo_presenza, id_commessa, ore) VALUES ('{uuid}','{presence.id_employee}','{presence.date_presence}','{presence.id_tipoPresenza}','{presence.id_order}','{presence.hours}');")
+            sql = """INSERT 
+                INTO presenza(id_presenza,id_dipendente, data, id_tipo_presenza, id_commessa, ore) 
+                VALUES (%s, %s, %s, %s, %s);""" 
+            val = (uuid, presence.id_employee, presence.id_tipoPresenza, presence.id_order, presence.hours)
+            cursor.execute(sql, val)
             connection.commit()
             if connection.is_connected():
                 connection.close()
@@ -170,6 +173,20 @@ class PresenceDao:
             connection.close()
 
         return CallBackResponse.success(id_presence)
+    
+    @staticmethod
+    def deletePresenceByOrder(id_order: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        cursor.execute
+        query = "DELETE FROM presenza WHERE presenza.id_commessa = %s ;"
+        val = (id_order, )
+        cursor.execute(query, val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success(id_order)
 
     @staticmethod
     def getMonthYearPresences(payload: LoadPresenceModel):

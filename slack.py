@@ -144,6 +144,10 @@ async def get_all_orders():
 async def get_order_by_id(uuid):
     return OrderDao.getOrderByID(uuid)
 
+@app.get("/orders/customers/{id_customer}", tags=["Orders"])
+async def get_order_by_customers(id_customer):
+    return OrderDao.getAllOrdersByCustomer(id_customer)
+
 @app.post("/orders/business/{uuid}", tags=["Orders"])
 async def get_order_by_business_id(uuid):
     return OrderDao.getOrdersByBusinessId(uuid)
@@ -161,6 +165,10 @@ async def update_order(order: OrderModel):
 @app.post("/orders/delete/", tags=["Orders"])
 async def delete_order(id_order: str):
     return OrderDao.deleteOrderByID(id_order)
+
+@app.post("/orders/customer_delete/", tags=["Orders"])
+async def delete_order_by_customer(id_customer: str):
+    return OrderDao.deleteOrderByCustomer(id_customer)
 
 
 @app.get("/orders/employee/{id_employee}", tags=["Orders"])
@@ -205,8 +213,8 @@ async def create_customer(customer: NewCustomerModel):
 
 
 @app.post("/customer/delete/", tags=["Customer"])
-async def delete_customer(id_customer: str):
-    return CustomerDao.deleteCustomerByID(id_customer)
+async def delete_customer(id_customer: str, id_business : str):
+    return CustomerDao.deleteCustomerByID(id_customer,id_business)
 
 
 @app.post("/customer/update/", tags=["Customer"])
