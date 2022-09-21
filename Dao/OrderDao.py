@@ -2,6 +2,7 @@ import logging
 from uuid import uuid4
 
 from DB.DBUtility import DBUtility
+from Dao.PresenceDao import PresenceDao
 from Model.OrderModel import NewOrderModel, OrderModel, OrderEmployeeModel
 from mysql.connector.connection import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
@@ -34,6 +35,30 @@ class OrderDao:
             connection.close()
 
         return CallBackResponse.success(lista_orders)
+    
+    @staticmethod
+    def getAllOrdersByCustomer(id_customer:str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        lista_orders = dict()
+        cursor: MySQLCursor = connection.cursor()
+        sql="SELECT * FROM commessa c where c.id_cliente = %s"
+        val = (id_customer,)
+        cursor.execute(sql,val)
+        records = cursor.fetchall()
+        for row in records:
+            order = OrderModel(
+                id_order=row[0],
+                description=row[1],
+                id_customer=row[2],
+                id_business=row[3],
+                startDate=row[4],
+                endDate=row[5]
+            )
+            lista_orders[row[0]] = order
+        if connection.is_connected():
+            connection.close()
+
+        return lista_orders
 
     @staticmethod
     def getOrderByID(id_order: str):
@@ -58,6 +83,30 @@ class OrderDao:
             connection.close()
 
         return CallBackResponse.success(order)
+    
+    @staticmethod
+    def getOrdersByBusinessId(id_business: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        lista_orders = dict()
+        cursor: MySQLCursor = connection.cursor()
+        sql="SELECT c.id_commessa,c.descrizione,c.id_cliente,c.id_azienda,c.data_inizio,c.data_fine FROM commessa c where id_azienda = %s"
+        val = (id_business,)
+        cursor.execute(sql,val,)
+        records = cursor.fetchall()
+        for row in records:
+            order = OrderModel(
+                id_order=row[0],
+                description=row[1],
+                id_customer=row[2],
+                id_business=row[3],
+                startDate=row[4],
+                endDate=row[5]
+            )
+            lista_orders[row[0]] = order
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success(lista_orders)
 
     @staticmethod
     def createOrder(order: NewOrderModel):
@@ -94,6 +143,8 @@ class OrderDao:
     def deleteOrderByID(id_order: str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
+        OrderDao.deleteOrder_Employee(id_order)
+        PresenceDao.deletePresenceByOrder(id_order)
         sql = "DELETE FROM commessa WHERE id_commessa = %s"
         val = (id_order,)
         cursor.execute(sql, val)
@@ -104,6 +155,40 @@ class OrderDao:
         return CallBackResponse.success('')
     
     @staticmethod
+    def deleteOrder_Employee(id_order: str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        sql = "DELETE FROM commessa_dipendente cd WHERE cd.id_commessa = %s"
+        val = (id_order,)
+        cursor.execute(sql,val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success('')
+    
+    
+    @staticmethod
+    def deleteOrderByCustomer(id_customer : str):
+        connection: MySQLConnection = DBUtility.getLocalConnection()
+        cursor: MySQLCursor = connection.cursor()
+        orders = OrderDao.getAllOrdersByCustomer(id_customer)
+        for order in orders:
+          sql= "DELETE FROM commessa_dipendente WHERE id_commessa = %s"
+          val = (order,)
+          cursor.execute(sql,val)
+          
+        sql= "DELETE FROM commessa WHERE id_cliente = %s"
+        val = (id_customer,)
+        cursor.execute(sql,val)
+        connection.commit()
+        if connection.is_connected():
+            connection.close()
+
+        return CallBackResponse.success('')
+    
+    
+    @staticmethod
     def getOrderByEmplyee(id_employee):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         order_employee = dict()
@@ -111,7 +196,7 @@ class OrderDao:
         sql = """SELECT c.id_commessa, c.descrizione, c.id_cliente, c.id_azienda, c.data_inizio, c.data_fine
                 FROM commessa c, dipendente d, commessa_dipendente cd 
                 WHERE c.id_commessa = cd.id_commessa AND cd.id_dipendente = cd.id_dipendente AND d.id_dipendente = %s"""
-        val = ([id_employee])
+        val = ([id_employee],)
         cursor.execute(sql, val)
         records = cursor.fetchall()
         if connection.is_connected():

@@ -1,5 +1,6 @@
 from uuid import uuid4
 from Dao.CallBackResponse import CallBackResponse
+from Dao.OrderDao import OrderDao
 from Model.CustomerModel import CustomerHybridOrder, NewCustomerModel
 from DB.DBUtility import DBUtility
 from Model.CustomerModel import CustomerModel
@@ -77,9 +78,9 @@ class CustomerDao:
         sql = """INSERT INTO cliente(id_cliente, nome, p_iva, indirizzo, cap, iban, telefono, email, pec, fax) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
         val = (str(uuid_create_customer), customer.name, customer.p_iva, customer.address,
                customer.cap, customer.iban, customer.phone, customer.email, customer.pec, customer.fax)
-        cursor.execute(sql, val)
+        cursor.execute(sql, val,)
         sql2 = """INSERT INTO azienda_cliente (id_azienda, id_cliente) VALUES (%s, %s);"""
-        val2 = (str(customer.id_business), str(uuid_create_customer))
+        val2 = (str(customer.id_business), str(uuid_create_customer),)
         cursor.execute(sql2, val2)
         connection.commit()
         customer_create[uuid_create_customer] = customer
@@ -89,13 +90,13 @@ class CustomerDao:
         return CallBackResponse.success(customer_create)
 
     @staticmethod
-    def deleteCustomerByID(id_customer: str):
+    def deleteCustomerByID(id_customer: str, id_business : str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-        sql = "DELETE FROM `cliente` WHERE `id_cliente` = %s"
-        val = (str(id_customer),)
-        cursor.execute(sql, val)
-        connection.commit()
+        sql = "DELETE FROM `azienda_cliente` WHERE (`id_azienda` = %s) and (`id_cliente` = %s);"
+        val =(str(id_business), str(id_customer))
+        cursor.execute(sql,val)
+        connection.commit()     
         if connection.is_connected():
             connection.close()
 

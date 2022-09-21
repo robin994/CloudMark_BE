@@ -61,23 +61,21 @@ class AccountDao:
             )
         if connection.is_connected():
             connection.close()
-
         return CallBackResponse.success(account)
 
     @staticmethod
-    def createAccount(account: NewAccountModel, id_employee):
+    def createAccount(account: NewAccountModel):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
         password_hashed = hashPassword(account.password)
         salt_from_password_hashed = password_hashed[:32]
         account.password = key_from_password_hashed = password_hashed[32:]
-        sql = "INSERT INTO account(id_account, user, abilitato, id_tipo_account, password) VALUES(%s, %s, %s, %s, %s)"
+        sql = "INSERT INTO account(id_account,user, abilitato, id_tipo_account, password) VALUES(%s, %s, %s, %s, %s)"
         uuid = uuid4()
         val = (str(uuid), account.user, account.abilitato,
                account.id_tipo_account, key_from_password_hashed)
         cursor.execute(sql, val)
         connection.commit()
-        
         cursor.execute(
             f"SELECT id_account from account where user = '{account.user}'")
         id_account = cursor.fetchone()
@@ -85,23 +83,6 @@ class AccountDao:
         val2 = (id_account[0], salt_from_password_hashed)
         cursor.execute(sql, val2)
         connection.commit()
-        
-        sql = """INSERT INTO account_dipendente (id_account, id_dipendente) VALUES (%s, %s)"""
-        val3 = (id_account[0], id_employee)
-        cursor.execute(sql, val3)
-        connection.commit()
-
-        sql = (
-            """SELECT ad.id_account, ad.id_dipendente 
-                FROM account_dipendente ad
-                INNER JOIN account
-                ON ad.id_account = %s
-                INNER JOIN dipendente
-                ON ad.id_dipendente = %s;"""
-        )
-        val4 = (id_account[0], id_employee)
-        cursor.execute(sql, val4)
-        
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success(uuid)
@@ -164,10 +145,8 @@ class AccountDao:
 
     @staticmethod
     def getSession(User: UserModel):
-
         load_dotenv()
         JWTPSW = os.getenv("JWTPSW")
-
         connection: MySQLConnection = DBUtility.getLocalConnection()
         session = None
         cursor: MySQLCursor = connection.cursor()
@@ -185,7 +164,7 @@ class AccountDao:
             val = (User.user,)
             cursor.execute(sql, val)
             record = cursor.fetchone()
-            if record[4] == 'super':
+            if record[4] == 'superuser':
                 session = SuperModel(
                     id_account=record[0],
                     user=record[1],

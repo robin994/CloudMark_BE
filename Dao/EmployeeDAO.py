@@ -269,15 +269,12 @@ class EmployeeDAO:
     def createNewAccountEmployee(payload: NewAccountEmployeeModel):
         res_acc = AccountDao.createAccount(payload.new_account)
         res_emp = EmployeeDAO.createEmployee(payload.new_employee)
-
         connection: MySQLConnection = DBUtility.getLocalConnection()
         cursor: MySQLCursor = connection.cursor()
-
-        sql = """INSERT INTO account_dipendente (`id_account`, `id_dipendente`) VALUES(%s, %s)"""
+        sql = """INSERT INTO account_dipendente (id_account, id_dipendente) VALUES(%s, %s)"""
         val = (str(res_acc.data), str(res_emp.data))
         cursor.execute(sql, val)
-
-        sql = """INSERT INTO dipendente_azienda (`id_dipendente`, `id_azienda`, `data_inizio_rapporto`, `matricola`, `data_fine_rapporto`) VALUES(%s, %s,%s,%s,%s)"""
+        sql = """INSERT INTO dipendente_azienda (id_dipendente, id_azienda, data_inizio_rapporto, matricola, data_fine_rapporto) VALUES(%s, %s,%s,%s,%s)"""
         val = (str(res_emp.data), payload.id_business,
                payload.start_date, payload.serial_num, payload.end_date)
         cursor.execute(sql, val)
@@ -285,10 +282,9 @@ class EmployeeDAO:
         if connection.is_connected():
             connection.close()
         return CallBackResponse.success(res_emp)
- 
 
     @staticmethod
-    def getAllEmployeesAccountBusiness():
+    def getAllEmployeesAccountBusiness(id_business : str):
         connection: MySQLConnection = DBUtility.getLocalConnection()
         employee_account_business = dict()
         cursor: MySQLCursor = connection.cursor()
@@ -296,8 +292,10 @@ class EmployeeDAO:
                 FROM dipendente d
                 JOIN account_dipendente ad ON d.id_dipendente = ad.id_dipendente
                 JOIN account a on a.id_account = ad.id_account
-                JOIN dipendente_azienda da on da.id_dipendente = d.id_dipendente;"""
-        cursor.execute(sql)
+                JOIN dipendente_azienda da on da.id_dipendente = d.id_dipendente
+                WHERE da.id_azienda = %s;"""
+        val = (id_business,)
+        cursor.execute(sql,val,)
         records = cursor.fetchall()
         if connection.is_connected():
             connection.close()
